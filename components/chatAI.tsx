@@ -17,7 +17,8 @@ const sendMessageToOpenAI = async (
   userMessage: string,
   editor: Editor,
   editorValue: any,
-  topic: string
+  topic: string,
+  prompt?: string
 ) => {
   // 确保 userMessage 不超过 2000 个字符
   const trimmedMessage =
@@ -46,9 +47,8 @@ const sendMessageToOpenAI = async (
           3.忽略无关文献：对于与主题无关的论文，请不要包含在您的写作中。只关注对理解和阐述主题有实质性帮助的资料。
           4.来源明确：在文章中，清楚地指出每个引用的具体来源。引用的信息应准确无误，确保读者能够追溯到原始文献。
           5.使用中文回答,不超过三百字
-          举例：
-          在某个方面，某论文实现了以下突破...[1],在另一篇论文中，研究了...[2]
-          `,
+          论文写作举例：
+          在某个方面，某论文实现了以下突破...[1],在另一篇论文中，研究了...[2]`,
         },
         {
           role: "user",
@@ -62,7 +62,7 @@ const sendMessageToOpenAI = async (
 
   try {
     const response = await fetch(
-      "https://api.openai.com/v1/chat/completions",
+      process.env.NEXT_PUBLIC_AI_URL,
       requestOptions
     );
     const reader = response.body.getReader();
@@ -75,6 +75,35 @@ const sendMessageToOpenAI = async (
   } catch (error) {
     console.error("Error:", error);
   }
+};
+
+const getTopicFromAI = async (userMessage: string, prompt: string) => {
+  // 设置API请求参数
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+    },
+    body: JSON.stringify({
+      model: "gpt-3.5-turbo",
+      stream: false,
+      messages: [
+        {
+          role: "system",
+          content: prompt,
+        },
+        {
+          role: "user",
+          content: userMessage,
+        },
+      ],
+    }),
+  };
+  const response = await fetch(process.env.NEXT_PUBLIC_AI_URL, requestOptions);
+  const topic = response.body;
+  console.log("topic in AI", topic);
+  return topic;
 };
 
 async function processResult(reader, decoder, editor) {
@@ -124,7 +153,7 @@ async function processResult(reader, decoder, editor) {
   }
 }
 
-export default sendMessageToOpenAI;
+export { getTopicFromAI, sendMessageToOpenAI };
 
 // fetch("https://api.openai.com/v1/chat/completions", requestOptions)
 //     .then((response) => {

@@ -3,11 +3,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
+import { useLocalStorage } from "react-use";
 
 // 一些工具函数导入
 import getArxivPapers from "./GetArxiv";
 import getSemanticPapers from "./GetSemantic";
-import sendMessageToOpenAI from "./chatAI";
+import {getTopicFromAI,sendMessageToOpenAI} from "./chatAI";
 import {
   getTextBeforeCursor,
   updateBracketNumbersInDelta,
@@ -46,7 +47,23 @@ const QEditor = () => {
   const isMounted = useRef(false);
   const editor = useRef(null);
   // 选择论文来源
-  const [selectedSource, setSelectedSource] = useState("semanticScholar"); // 默认选项
+  const [selectedSource, setSelectedSource] = useLocalStorage(
+    "semanticScholar",
+    "semanticScholar"
+  ); // 默认选项
+  //更新参考文献的部分
+  const [references, setReferences] = useLocalStorage<Reference[]>(
+    "referencesKey",
+    []
+  );
+
+  const addReference = (newReference: Reference) => {
+    setReferences([...references, newReference]);
+  };
+
+  const removeReference = (index: number) => {
+    setReferences(references.filter((_, i) => i !== index));
+  };
 
   useEffect(() => {
     if (!isMounted.current) {
@@ -86,22 +103,6 @@ const QEditor = () => {
     }
   }, [quill]);
 
-  //更新参考文献的部分
-  const [references, setReferences] = useState<Reference[]>([]);
-
-  const addReference = (newReference: Reference) => {
-    setReferences([...references, newReference]);
-  };
-
-  const removeReference = (index: number) => {
-    setReferences(references.filter((_, i) => i !== index));
-  };
-  // function updateBracketNumbers(text) {
-  //   let currentNumber = 1;
-  //   const updatedText = text.replace(/\[\d+\]/g, () => `[${currentNumber++}]`);
-  //   return updatedText;
-  // }
-
   // 处理用户输入变化
   const handleInputChange = (event) => {
     setUserInput(event.target.value);
@@ -109,6 +110,13 @@ const QEditor = () => {
 
   async function paper2AI(topic: string) {
     try {
+      if (!topic) {
+        //使用ai提取当前要请求的论文主题
+        const prompt =
+          "作为主题提取助手，你可以帮我提取当前讨论的论文主题，我会输入论文内容，你提取出论文主题。返回格式为：主题词,主题词";
+        const userMessage = getTextBeforeCursor(quill, 2000);
+        topic = getTopicFromAI(userMessage, prompt);
+      }
       let rawData, dataString;
       if (selectedSource === "arxiv") {
         rawData = await getArxivPapers(topic);
@@ -128,7 +136,7 @@ const QEditor = () => {
         dataString = rawData
           .map((entry) => {
             addReference({
-              url: entry.paperId,
+              url: entry.url,
               title: entry.title,
               year: entry.published,
               author: entry.authors?.slice(0, 3).join(", "),

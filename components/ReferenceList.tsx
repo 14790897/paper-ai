@@ -28,7 +28,7 @@ function ReferenceList({
             title: newTitle,
             author: newAuthor,
             year: newYear,
-            publisher: newPublisher,
+            venue: newPublisher,
             url: newUrl,
           });
           setNewTitle("");
@@ -72,7 +72,8 @@ function ReferenceList({
       <ul>
         {references.map((reference, index) => (
           <li key={index}>
-            {reference.title} by {reference.author}
+            {/* 如果存在url，则输出(url) */}
+            {reference.author}. {reference.title}. {reference.year}. {reference.venue}. {reference.url && <>({reference.url})</>}
             <button onClick={() => removeReference(index)}>X</button>
           </li>
         ))}

@@ -12,6 +12,7 @@ interface Paper {
   year: number;
   authors: Author[];
   venue: string;
+  url: string;
 }
 
 async function getSemanticPapers(query: string, year: string, limit = 2) {
@@ -21,14 +22,14 @@ async function getSemanticPapers(query: string, year: string, limit = 2) {
     const url = `https://api.semanticscholar.org/graph/v1/paper/search`;
     const response = await axios.get(url, {
       headers: {
-        'x-api-key': 'hEQvK6ARe84dzDPcMnpzX4n9jfoqztkMfaftPWnb',
+        'x-api-key': process.env.NEXT_PUBLIC_SEMANTIC_API_KEY,
       },
       params: {
         query: query,
         offset: offset,
         limit: 2,
         year: year,
-        fields: "title,year,authors.name,abstract,venue",
+        fields: "title,year,authors.name,abstract,venue,url",
       },
     });
     // 提取并处理论文数据
