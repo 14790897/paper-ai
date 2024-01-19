@@ -41,7 +41,7 @@ async function getArxivPapers(
   sortBy = "submittedDate",
   sortOrder = "descending"
 ) {
-  const maxOffset = 100 - maxResults; // 假设总记录数为 100
+  const maxOffset = 30 - maxResults; // 假设总记录数为 100
   const start = getRandomOffset(maxOffset);
   const url = `http://export.arxiv.org/api/query?search_query=${query}&start=${start}&max_results=${maxResults}&sortBy=${sortBy}&sortOrder=${sortOrder}`;
 

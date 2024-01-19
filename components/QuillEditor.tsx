@@ -8,11 +8,12 @@ import { useLocalStorage } from "react-use";
 // 一些工具函数导入
 import getArxivPapers from "./GetArxiv";
 import getSemanticPapers from "./GetSemantic";
-import {getTopicFromAI,sendMessageToOpenAI} from "./chatAI";
+import { getTopicFromAI, sendMessageToOpenAI } from "./chatAI";
 import {
   getTextBeforeCursor,
   updateBracketNumbersInDelta,
   convertToSuperscript,
+  removeSpecialCharacters,
 } from "@/utils/others/quillutils";
 import ReferenceList from "./ReferenceList";
 //类型声明
@@ -113,35 +114,52 @@ const QEditor = () => {
       if (!topic) {
         //使用ai提取当前要请求的论文主题
         const prompt =
-          "作为主题提取助手，你可以帮我提取当前讨论的论文主题，我会输入论文内容，你提取出论文主题。返回格式为：主题词,主题词";
+          "As a topic extraction assistant, you can help me extract the current discussion of the paper topic, I will enter the content of the paper, you extract the paper topic , no more than two, Hyphenated query terms yield no matches (replace it with space to find matches) return format is: topic1 topic2";
         const userMessage = getTextBeforeCursor(quill, 2000);
-        topic = getTopicFromAI(userMessage, prompt);
+        topic = await getTopicFromAI(userMessage, prompt);
+        console.log("topic in AI before removeSpecialCharacters", topic);
+        topic = removeSpecialCharacters(topic);
+        topic = topic.split(" ").slice(0, 2).join(" ");
       }
+      console.log("topic in AI", topic);
       let rawData, dataString;
       if (selectedSource === "arxiv") {
         rawData = await getArxivPapers(topic);
+        // 将 rawData 转换为引用数组
+        const newReferences = rawData.map((entry) => ({
+          url: entry.id,
+          title: entry.title,
+          year: entry.published,
+          author: entry.author?.slice(0, 3).join(", "),
+        }));
+        // 更新引用列表状态
+        setReferences((prevReferences) => [
+          ...prevReferences,
+          ...newReferences,
+        ]);
         dataString = rawData
           .map((entry) => {
-            addReference({
-              url: entry.id,
-              title: entry.title,
-              year: entry.published,
-              author: entry.author?.slice(0, 3).join(", "),
-            });
             return `ID: ${entry.id}\nTime: ${entry.published}\nTitle: ${entry.title}\nSummary: ${entry.summary}\n\n`;
           })
           .join("");
       } else if (selectedSource === "semanticScholar") {
         rawData = await getSemanticPapers(topic, "2015-2023");
+        // 将 rawData 转换为引用数组
+        const newReferences = rawData.map((entry) => ({
+          url: entry.url,
+          title: entry.title,
+          year: entry.published,
+          author: entry.authors?.slice(0, 3).join(", "),
+          venue: entry.venue,
+          journal: entry.journal,
+        }));
+        // 更新引用列表状态
+        setReferences((prevReferences) => [
+          ...prevReferences,
+          ...newReferences,
+        ]);
         dataString = rawData
           .map((entry) => {
-            addReference({
-              url: entry.url,
-              title: entry.title,
-              year: entry.published,
-              author: entry.authors?.slice(0, 3).join(", "),
-              venue: entry.venue,
-            });
             return `Time: ${entry.year}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
           })
           .join("");
@@ -182,13 +200,13 @@ const QEditor = () => {
           Insert AI Text
         </button>*/}
         <button
-          onClick={() => insertPapers(userInput || "robot")}
+          onClick={() => insertPapers(userInput)}
           className="bg-indigo-500 hover:bg-indigo-700 text-black font-bold py-2 px-4 rounded"
         >
           Insert Papers
         </button>
         <button
-          onClick={() => paper2AI(userInput || "robot")}
+          onClick={() => paper2AI(userInput)}
           className="bg-red-500 hover:bg-red-700 text-black font-bold py-2 px-4 rounded"
         >
           Paper2AI
@@ -202,23 +220,24 @@ const QEditor = () => {
           {/* 其他来源网站 */}
         </select>
       </div>
-      <div
-        id="editor"
-        style={{
-          height: "500px",
-          width: "600px",
-          minHeight: "150px", // 注意驼峰命名法
-          maxHeight: "500px",
-          overflowY: "auto", // overflow-y -> overflowY
-          border: "1px solid #ccc",
-          padding: "10px",
-        }}
-      ></div>
-      <ReferenceList
-        references={references}
-        addReference={addReference}
-        removeReference={removeReference}
-      />
+      <div>
+        <div
+          id="editor"
+          style={{
+            width: "calc(100vw - 100px)", // 屏幕宽度减去 100px
+            minHeight: "150px", // 注意驼峰命名法
+            maxHeight: "500px",
+            overflowY: "auto", // overflow-y -> overflowY
+            border: "1px solid #ccc",
+            padding: "10px",
+          }}
+        ></div>
+        <ReferenceList
+          references={references}
+          addReference={addReference}
+          removeReference={removeReference}
+        />
+      </div>
     </div>
   );
 };

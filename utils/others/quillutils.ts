@@ -1,3 +1,5 @@
+import { Reference } from "@/utils/global";
+
 function getTextBeforeCursor(quill, length = 100) {
   const cursorPosition = quill.getSelection().index;
   const start = Math.max(0, cursorPosition - length); // 确保开始位置不是负数
@@ -52,10 +54,39 @@ function getRandomOffset(max: number) {
   return Math.floor(Math.random() * max);
 }
 
+function removeSpecialCharacters(str: string): string {
+  // 正则表达式匹配除了字母、空格和中文之外的所有字符
+  const regex = /[^\u4e00-\u9fa5a-zA-Z ]/g;
+  return str.replace(regex, '');
+}
+
+function copyToClipboard(text: string) {
+  navigator.clipboard.writeText(text).then(
+    () => console.log('文献引用复制到剪贴板'),
+    (err) => console.error('复制到剪贴板失败:', err)
+  );
+}
+
+function formatReferenceForCopy(reference: Reference): string {
+  let referenceStr = `${reference.author}. ${reference.title}. `;
+  if (reference.journal && reference.journal.name) {
+    referenceStr += `${reference.journal.name}, ${reference.year}, `;
+    if (reference.journal.volume) referenceStr += `${reference.journal.volume}`;
+    if (reference.journal.pages) referenceStr += `: ${reference.journal.pages}`;
+    referenceStr += '.';
+  } else {
+    referenceStr += `${reference.venue}, ${reference.year}.`;
+  }
+  return referenceStr;
+}
+
 export {
   getTextBeforeCursor,
   updateBracketNumbersInDelta,
   updateBracketNumbersInDeltaKeepSelection,
   convertToSuperscript,
-  getRandomOffset
+  getRandomOffset,
+  removeSpecialCharacters,
+  copyToClipboard,
+  formatReferenceForCopy,
 };
