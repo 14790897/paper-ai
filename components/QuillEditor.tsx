@@ -148,7 +148,7 @@ const QEditor = () => {
         const newReferences = rawData.map((entry) => ({
           url: entry.url,
           title: entry.title,
-          year: entry.published,
+          year: entry.year,
           author: entry.authors?.slice(0, 3).join(", "),
           venue: entry.venue,
           journal: entry.journal,
@@ -174,15 +174,15 @@ const QEditor = () => {
   }
 
   // 插入论文信息
-  const insertPapers = async (topic: string) => {
-    const rawData = await getArxivPapers(topic);
-    const dataString = rawData
-      .map((entry) => {
-        return `ID: ${entry.id}\nPublished: ${entry.published}\nTitle: ${entry.title}\nSummary: ${entry.summary}\n\n`;
-      })
-      .join("");
-    quill.insertText(quill.getLength(), dataString);
-  };
+  // const insertPapers = async (topic: string) => {
+  //   const rawData = await getArxivPapers(topic);
+  //   const dataString = rawData
+  //     .map((entry) => {
+  //       return `ID: ${entry.id}\nPublished: ${entry.published}\nTitle: ${entry.title}\nSummary: ${entry.summary}\n\n`;
+  //     })
+  //     .join("");
+  //   quill.insertText(quill.getLength(), dataString);
+  // };
 
   return (
     <div>
@@ -199,12 +199,12 @@ const QEditor = () => {
         >
           Insert AI Text
         </button>*/}
-        <button
+        {/* <button
           onClick={() => insertPapers(userInput)}
           className="bg-indigo-500 hover:bg-indigo-700 text-black font-bold py-2 px-4 rounded"
         >
           Insert Papers
-        </button>
+        </button> */}
         <button
           onClick={() => paper2AI(userInput)}
           className="bg-red-500 hover:bg-red-700 text-black font-bold py-2 px-4 rounded"
@@ -214,6 +214,7 @@ const QEditor = () => {
         <select
           value={selectedSource}
           onChange={(e) => setSelectedSource(e.target.value)}
+          className=" border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         >
           <option value="arxiv">arxiv</option>
           <option value="semanticScholar">semantic scholar</option>
@@ -236,6 +237,7 @@ const QEditor = () => {
           references={references}
           addReference={addReference}
           removeReference={removeReference}
+          setReferences={setReferences}
         />
       </div>
     </div>

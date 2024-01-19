@@ -4,17 +4,20 @@ import { Reference } from "@/utils/global";
 import {
   copyToClipboard,
   formatReferenceForCopy,
+  formatAllReferencesForCopy,
 } from "@/utils/others/quillutils";
 type ReferenceListProps = {
   references: Reference[];
   addReference: (reference: Reference) => void;
   removeReference: (index: number) => void;
+  setReferences
 };
 
 function ReferenceList({
   references,
   addReference,
   removeReference,
+  setReferences
 }: ReferenceListProps) {
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
@@ -80,14 +83,32 @@ function ReferenceList({
             placeholder="URL"
           />
         </div>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-          type="submit"
-        >
-          Add Reference
-        </button>
-      </form>
+        <div className="container mx-auto p-4">
+          <div className="flex justify-between items-center mb-4">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+              type="submit"
+            >
+              Add Reference
+            </button>
 
+            <button
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4"
+              onClick={() =>
+                copyToClipboard(formatAllReferencesForCopy(references))
+              }
+            >
+              复制所有引用
+            </button>
+            <button
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"
+              onClick={() => setReferences([])} // 设置引用列表为空数组
+            >
+              删除所有引用
+            </button>
+          </div>
+        </div>
+      </form>
       {/* 引用列表显示区域 */}
       <ul>
         {references.map((reference, index) => (
@@ -98,7 +119,7 @@ function ReferenceList({
             {/* 判断 journal 字段是否存在 */}
             {reference.journal && reference.journal.name ? (
               <span>
-                {reference.journal.name},{reference.year},
+                {reference.journal.name}[J],{reference.year},
                 {reference.journal.volume ? ` ${reference.journal.volume}` : ""}
                 {reference.journal.pages ? `: ${reference.journal.pages}` : ""}.
               </span>
