@@ -24,7 +24,7 @@ function ReferenceList({
 }: ReferenceListProps) {
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
-  const [newYear, setNewYear] = useState(2020);
+  const [newYear, setNewYear] = useState("");
   const [newPublisher, setNewPublisher] = useState("");
   const [newUrl, setNewUrl] = useState("");
 
@@ -76,7 +76,7 @@ function ReferenceList({
           // 清空表单
           setNewTitle("");
           setNewAuthor("");
-          setNewYear(2020);
+          setNewYear("");
           setNewPublisher("");
           setNewUrl("");
         }}
@@ -101,7 +101,7 @@ function ReferenceList({
             className="border p-2 rounded"
             type="text"
             value={newYear}
-            onChange={(e) => setNewYear(parseInt(e.target.value))}
+            onChange={(e) => setNewYear(e.target.value)}
             placeholder="Year"
           />
           <input
@@ -122,14 +122,14 @@ function ReferenceList({
         <div className="container mx-auto p-4">
           <div className="flex justify-between items-center mb-4">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "
               type="submit"
             >
               Add Reference
             </button>
 
             <button
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4"
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded "
               onClick={() =>
                 copyToClipboard(formatAllReferencesForCopy(references))
               }
@@ -137,7 +137,7 @@ function ReferenceList({
               复制所有引用
             </button>
             <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2"
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded "
               onClick={() => setReferences([])} // 设置引用列表为空数组
             >
               删除所有引用

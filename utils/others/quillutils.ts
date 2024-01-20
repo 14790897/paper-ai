@@ -1,6 +1,6 @@
 import { Reference } from "@/utils/global";
 
-function getTextBeforeCursor(quill, length = 100) {
+function getTextBeforeCursor(quill, length = 500) {
   const cursorPosition = quill.getSelection().index;
   const start = Math.max(0, cursorPosition - length); // 确保开始位置不是负数
   return quill.getText(start, cursorPosition - start);

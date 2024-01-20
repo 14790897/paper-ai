@@ -1,3 +1,5 @@
+import { string } from "slate";
+
 export type JournalInfo = {
   name: string;
   pages: string;
@@ -7,7 +9,7 @@ export type JournalInfo = {
 export type Reference = {
     title: string;
     author: string;
-    year: number;
+    year: number|string;
     url: string;
     venue?: string;
     journal?: JournalInfo;

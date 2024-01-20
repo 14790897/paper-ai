@@ -8,7 +8,7 @@ import { useLocalStorage } from "react-use";
 // 一些工具函数导入
 import getArxivPapers from "./GetArxiv";
 import getSemanticPapers from "./GetSemantic";
-import { getTopicFromAI, sendMessageToOpenAI } from "./chatAI";
+import { getTopicFromAI, sendMessageToOpenAI, getFromAI } from "./chatAI";
 import {
   getTextBeforeCursor,
   convertToSuperscript,
@@ -52,6 +52,8 @@ const QEditor = () => {
     "semanticScholar",
     "semanticScholar"
   ); // 默认选项
+  //选择语言模型
+  const [selectedModel, setSelectedModel] = useLocalStorage("gpt3.5", "gpt3.5"); // 默认选项
   //更新参考文献的部分
   const [references, setReferences] = useLocalStorage<Reference[]>(
     "referencesKey",
@@ -109,6 +111,13 @@ const QEditor = () => {
     setUserInput(event.target.value);
   };
 
+  // 处理AI写作
+  const handleAIWrite = async () => {
+    const prompt = "请帮助用户完成论文写作";
+    await sendMessageToOpenAI(userInput, quill, selectedModel, prompt);
+  };
+
+  // 处理paper2AI
   async function paper2AI(topic: string) {
     try {
       if (!topic) {
@@ -120,6 +129,10 @@ const QEditor = () => {
         console.log("topic in AI before removeSpecialCharacters", topic);
         topic = removeSpecialCharacters(topic);
         topic = topic.split(" ").slice(0, 2).join(" ");
+        //如果超过十个字符就截断
+        if (topic.length > 10) {
+          topic = topic.slice(0, 10);
+        }
       }
       console.log("topic in AI", topic);
       let rawData, dataString;
@@ -164,9 +177,18 @@ const QEditor = () => {
           })
           .join("");
       }
-      // 其他数据源的处理
-
-      sendMessageToOpenAI(dataString, quill, getTextBeforeCursor(quill), topic);
+      // 确保搜索到的论文不超过 3000 个字符
+      const trimmedMessage =
+        dataString.length > 3000 ? dataString.slice(0, 3000) : dataString;
+      //slate的方法
+      // const content = `需要完成的论文主题：${topic},  搜索到的论文内容:${trimmedMessage},之前已经完成的内容上下文：${extractText(
+      //   editorValue
+      // )}`;
+      const content = `之前已经完成的内容上下文：${getTextBeforeCursor(
+        quill,
+        500
+      )},搜索到的论文内容:${trimmedMessage},需要完成的论文主题：${topic},请根据搜索到的论文内容完成接下来的论文`;
+      sendMessageToOpenAI(content, quill, selectedModel);
     } catch (error) {
       console.error("Error fetching data:", error);
       // 错误处理
@@ -193,12 +215,12 @@ const QEditor = () => {
           onChange={handleInputChange}
           className="shadow appearance-none border rounded py-2 px-3 text-grey-darker"
         />
-        {/*<button
-          onClick={handleAIClick}
+        <button
+          onClick={handleAIWrite}
           className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
         >
-          Insert AI Text
-        </button>*/}
+          AI Write
+        </button>
         {/* <button
           onClick={() => insertPapers(userInput)}
           className="bg-indigo-500 hover:bg-indigo-700 text-black font-bold py-2 px-4 rounded"
@@ -220,8 +242,17 @@ const QEditor = () => {
           <option value="semanticScholar">semantic scholar</option>
           {/* 其他来源网站 */}
         </select>
+        <select
+          value={selectedModel}
+          onChange={(e) => setSelectedModel(e.target.value)}
+          className=" border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        >
+          <option value="gpt3.5">gpt3.5</option>
+          <option value="gpt4">gpt4</option>
+          {/* 其他来源网站 */}
+        </select>
         <button
-          onClick={() =>formatTextInEditor(quill)} // 假设 updateIndex 是处理更新操作的函数
+          onClick={() => formatTextInEditor(quill)} // 假设 updateIndex 是处理更新操作的函数
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           更新索引
