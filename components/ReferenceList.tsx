@@ -130,6 +130,7 @@ function ReferenceList({
 
             <button
               className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded "
+              type="button"
               onClick={() =>
                 copyToClipboard(formatAllReferencesForCopy(references))
               }
@@ -138,6 +139,7 @@ function ReferenceList({
             </button>
             <button
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded "
+              type="button"
               onClick={() => setReferences([])} // 设置引用列表为空数组
             >
               删除所有引用
