@@ -11,9 +11,9 @@ import getSemanticPapers from "./GetSemantic";
 import { getTopicFromAI, sendMessageToOpenAI } from "./chatAI";
 import {
   getTextBeforeCursor,
-  updateBracketNumbersInDelta,
   convertToSuperscript,
   removeSpecialCharacters,
+  formatTextInEditor,
 } from "@/utils/others/quillutils";
 import ReferenceList from "./ReferenceList";
 //类型声明
@@ -220,6 +220,12 @@ const QEditor = () => {
           <option value="semanticScholar">semantic scholar</option>
           {/* 其他来源网站 */}
         </select>
+        <button
+          onClick={() =>formatTextInEditor(quill)} // 假设 updateIndex 是处理更新操作的函数
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          更新索引
+        </button>
       </div>
       <div>
         <div
@@ -238,6 +244,7 @@ const QEditor = () => {
           addReference={addReference}
           removeReference={removeReference}
           setReferences={setReferences}
+          editor={quill}
         />
       </div>
     </div>

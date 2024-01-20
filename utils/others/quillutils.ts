@@ -22,10 +22,66 @@ function updateBracketNumbersInDelta(delta) {
   return { ops: updatedOps };
 }
 
+function deleteUpdateBracketNumbers(delta, indexToRemove: number, quill) {
+  const updatedOps = delta.ops.map((op) => {
+    if (typeof op.insert === "string") {
+      // 如果文本包含要删除的索引，删除它
+      const indexStr = `[${indexToRemove + 1}]`;
+      const indexPos = op.insert.indexOf(indexStr);
+      if (indexPos !== -1) {
+        const before = op.insert.slice(0, indexPos);
+        const after = op.insert.slice(indexPos + indexStr.length);
+        op.insert = before + after;
+      }
+    }
+    return op;
+  });
+
+  return { ops: updatedOps };
+}
+// function deleteUpdateBracketNumbers(delta, indexToRemove:number, quill) {
+//   let currentNumber = 1;
+
+//   const updatedOps = delta.ops.map((op, i) => {
+//     if (typeof op.insert === "string") {
+//       // 如果文本包含要删除的索引，删除它
+//       if (op.insert.includes(`[${indexToRemove + 1}]`)) {
+//         const start = delta.index + i;
+//         const end = start + op.insert.length;
+//         quill.deleteText(start, end);
+//         return op;
+//       }
+
+//       // 否则，更新括号中的数字
+//       return {
+//         ...op,
+//         insert: op.insert.replace(/\[\d+\]/g, () => `[${currentNumber++}]`),
+//       };
+//     }
+//     return op;
+//   });
+
+//   return { ops: updatedOps };
+// }
+
 function updateBracketNumbersInDeltaKeepSelection(quill) {
   const selection = quill.getSelection();
   const delta = quill.getContents();
   const updatedDelta = updateBracketNumbersInDelta(delta);
+  quill.setContents(updatedDelta);
+  if (selection) {
+    quill.setSelection(selection.index, selection.length);
+  }
+}
+
+export function delteIndexUpdateBracketNumbersInDeltaKeepSelection(
+  quill,
+  index: number
+) {
+  const selection = quill.getSelection();
+  const delta = quill.getContents();
+  let updatedDelta = deleteUpdateBracketNumbers(delta, index, quill);
+  updatedDelta = updateBracketNumbersInDelta(updatedDelta);
   quill.setContents(updatedDelta);
   if (selection) {
     quill.setSelection(selection.index, selection.length);
@@ -86,6 +142,11 @@ function formatAllReferencesForCopy(references: Reference[]): string {
         `[${index + 1}] ${formatReferenceForCopy(reference)}`
     )
     .join("\n");
+}
+
+export function formatTextInEditor(editor) {
+  convertToSuperscript(editor);
+  updateBracketNumbersInDeltaKeepSelection(editor);
 }
 
 export {
