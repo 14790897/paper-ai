@@ -43,6 +43,8 @@ const QEditor = () => {
   const [quill, setQuill] = useState(null);
   //询问ai，用户输入
   const [userInput, setUserInput] = useState("");
+  //quill编辑器鼠标位置
+  const [cursorPosition, setCursorPosition] = useState(null);
 
   // 初始化 Quill 编辑器
   const isMounted = useRef(false);
@@ -85,6 +87,16 @@ const QEditor = () => {
 
       isMounted.current = true;
       setQuill(editor.current);
+
+      // 监听selection-change事件
+      editor.current.on('selection-change', function(range) {
+        if (range) {
+          // console.log('User has made a new selection', range);
+          setCursorPosition(range.index);  // 更新光标位置
+        } else {
+          console.log('No selection or cursor in the editor.');
+        }
+      });
     }
   }, []);
 
@@ -113,12 +125,16 @@ const QEditor = () => {
 
   // 处理AI写作
   const handleAIWrite = async () => {
+    quill.setSelection(cursorPosition, 0); // 将光标移动到原来的位置
+
     const prompt = "请帮助用户完成论文写作";
     await sendMessageToOpenAI(userInput, quill, selectedModel, prompt);
   };
 
   // 处理paper2AI
   async function paper2AI(topic: string) {
+    quill.setSelection(cursorPosition, 0); // 将光标移动到原来的位置
+
     try {
       if (!topic) {
         //使用ai提取当前要请求的论文主题
