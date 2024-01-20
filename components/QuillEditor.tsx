@@ -59,7 +59,7 @@ const QEditor = () => {
   //更新参考文献的部分
   const [references, setReferences] = useLocalStorage<Reference[]>(
     "referencesKey",
-    []
+    undefined
   );
 
   const addReference = (newReference: Reference) => {
@@ -73,9 +73,9 @@ const QEditor = () => {
   useEffect(() => {
     if (!isMounted.current) {
       editor.current = new Quill("#editor", {
-        // modules: {
-        //   toolbar: toolbarOptions
-        // },
+        modules: {
+          toolbar: toolbarOptions,
+        },
         theme: "snow",
       });
       // 检查 localStorage 中是否有保存的内容
@@ -89,12 +89,12 @@ const QEditor = () => {
       setQuill(editor.current);
 
       // 监听selection-change事件
-      editor.current.on('selection-change', function(range) {
+      editor.current.on("selection-change", function (range) {
         if (range) {
           // console.log('User has made a new selection', range);
-          setCursorPosition(range.index);  // 更新光标位置
+          setCursorPosition(range.index); // 更新光标位置
         } else {
-          console.log('No selection or cursor in the editor.');
+          console.log("No selection or cursor in the editor.");
         }
       });
     }
@@ -224,16 +224,17 @@ const QEditor = () => {
 
   return (
     <div>
-      <div id="Qtoolbar" className="space-y-2">
+      <div id="Qtoolbar" className="space-y-2 flex justify-between">
         <input
           type="text"
           value={userInput}
           onChange={handleInputChange}
-          className="shadow appearance-none border rounded py-2 px-3 text-grey-darker"
+          className="flex-grow shadow appearance-none border rounded py-2 px-3 mr-2 text-grey-darker"
+          placeholder="点击AI Write就是正常的对话交流，点击Paper2AI会根据输入的主题词去寻找对应论文" // 这是你的提示
         />
         <button
           onClick={handleAIWrite}
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 mr-2 rounded"
         >
           AI Write
         </button>
@@ -245,7 +246,7 @@ const QEditor = () => {
         </button> */}
         <button
           onClick={() => paper2AI(userInput)}
-          className="bg-red-500 hover:bg-red-700 text-black font-bold py-2 px-4 rounded"
+          className="bg-red-500 hover:bg-red-700 text-black font-bold py-2 px-4 mr-2 rounded"
         >
           Paper2AI
         </button>
@@ -267,6 +268,8 @@ const QEditor = () => {
           <option value="gpt4">gpt4</option>
           {/* 其他来源网站 */}
         </select>
+        {/* 用户输入自己的API key */}
+
         <button
           onClick={() => formatTextInEditor(quill)} // 假设 updateIndex 是处理更新操作的函数
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

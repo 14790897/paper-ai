@@ -147,7 +147,8 @@ function ReferenceList({
       </form>
       {/* 引用列表显示区域 */}
       <ul>
-        {references.map(
+      {references &&
+        references.map(
           (reference, index) =>
             reference && (
               <li key={index} className="mb-3 p-2 border-b">
