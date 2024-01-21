@@ -5,10 +5,11 @@ import ConnectSupabaseSteps from "@/components/ConnectSupabaseSteps";
 import SignUpUserSteps from "@/components/SignUpUserSteps";
 import Header from "@/components/Header";
 import { cookies } from "next/headers";
-import QEditor from "../components/QuillEditor";
-import TinyEditor from "../components/TinyEditor";
-import SEditor from "../components/SlateEditor";
-
+import QEditor from "@/components/QuillEditor";
+import QuillWrapper from "./QuillWrapper";
+// import TinyEditor from "../components/TinyEditor";
+// import SEditor from "../components/SlateEditor";
+import SettingsLink from "@/components/SettingsLink";
 export default async function Index() {
   const cookieStore = cookies();
 
@@ -31,21 +32,21 @@ export default async function Index() {
         <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
           <DeployButton />
           {isSupabaseConnected && <AuthButton />}
+          <SettingsLink />
         </div>
       </nav>
 
-      <QEditor />
+      <QuillWrapper />
 
       <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
         <p>
-          Powered by{" "}
           <a
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
+            href="https://github.com/14790897/paper-ai"
             target="_blank"
             className="font-bold hover:underline"
             rel="noreferrer"
           >
-            Supabase
+            give me a star in GitHub
           </a>
         </p>
       </footer>

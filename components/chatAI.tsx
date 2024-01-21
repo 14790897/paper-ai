@@ -12,22 +12,37 @@ interface ChatData {
     };
   }>;
 }
+function isValidApiKey(apiKey: string) {
+  return apiKey && apiKey.trim() !== "";
+}
 
 const sendMessageToOpenAI = async (
   content: string,
   editor: Editor,
   selectedModel: "gpt3.5",
+  apiKey: string,
   prompt?: string
 ) => {
+  // console.log("apiKey", apiKey);
+  // console.log("isValidApiKey(apiKey)", isValidApiKey(apiKey).toString());
+  // console.log(
+  //   " token的值",
+  //   "Bearer " +
+  //     (isValidApiKey(apiKey) ? apiKey : process.env.NEXT_PUBLIC_OPENAI_API_KEY)
+  // );
   //识别应该使用的模型
-  let model = selectedModel === "gpt3.5" ? "gpt-3.5-turbo" : "gpt4";
-  
+  let model = selectedModel === "gpt3.5" ? "gpt-3.5-turbo" : "gpt-4";
+
   // 设置API请求参数
   const requestOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+      Authorization:
+        "Bearer " +
+        (isValidApiKey(apiKey)
+          ? apiKey
+          : process.env.NEXT_PUBLIC_OPENAI_API_KEY),
     },
     body: JSON.stringify({
       model: model,
@@ -35,7 +50,9 @@ const sendMessageToOpenAI = async (
       messages: [
         {
           role: "system",
-          content: prompt || `作为论文写作助手，您的主要任务是根据用户提供的研究主题和上下文，以及相关的研究论文，来撰写和完善学术论文。在撰写过程中，请注意以下要点：
+          content:
+            prompt ||
+            `作为论文写作助手，您的主要任务是根据用户提供的研究主题和上下文，以及相关的研究论文，来撰写和完善学术论文。在撰写过程中，请注意以下要点：
           1.学术格式：请采用标准的学术论文格式进行写作，包括清晰的段落结构、逻辑严谨的论点展开，以及恰当的专业术语使用。
           2.文献引用：只引用与主题紧密相关的论文。在引用文献时，文末应使用方括号内的数字来标注引用来源，如 [1]。请确保每个引用在文章中都有其对应的编号，*无需在文章末尾提供参考文献列表*。
           3.忽略无关文献：对于与主题无关的论文，请不要包含在您的写作中。只关注对理解和阐述主题有实质性帮助的资料。
@@ -69,16 +86,25 @@ const sendMessageToOpenAI = async (
     updateBracketNumbersInDeltaKeepSelection(editor);
   } catch (error) {
     console.error("Error:", error);
+    throw error;
   }
 };
 
-const getTopicFromAI = async (userMessage: string, prompt: string) => {
+const getTopicFromAI = async (
+  userMessage: string,
+  prompt: string,
+  apiKey: string
+) => {
   // 设置API请求参数
   const requestOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+      Authorization:
+        "Bearer " +
+        (isValidApiKey(apiKey)
+          ? apiKey
+          : process.env.NEXT_PUBLIC_OPENAI_API_KEY),
     },
     body: JSON.stringify({
       model: "gpt-3.5-turbo",
@@ -97,8 +123,8 @@ const getTopicFromAI = async (userMessage: string, prompt: string) => {
   };
   const response = await fetch(process.env.NEXT_PUBLIC_AI_URL, requestOptions);
   const data = await response.json();
-  const topic = data.choices[0].message.content
-  return topic; // 获取并返回回复  
+  const topic = data.choices[0].message.content;
+  return topic; // 获取并返回回复
 };
 
 // 给getTopicFromAI函数创建别名

@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { useLocalStorage } from "react-use";
+import Link from "next/link";
 
 // 一些工具函数导入
 import getArxivPapers from "./GetArxiv";
@@ -16,6 +17,10 @@ import {
   formatTextInEditor,
 } from "@/utils/others/quillutils";
 import ReferenceList from "./ReferenceList";
+//redux
+import { useAppDispatch, useAppSelector } from "@/app/store";
+
+
 //类型声明
 import { Reference } from "@/utils/global";
 
@@ -40,9 +45,11 @@ const toolbarOptions = [
 ];
 
 const QEditor = () => {
+  //读取redux中的API key
+  const apiKey = useAppSelector((state: any) => state.auth.apiKey);
   const [quill, setQuill] = useState(null);
   //询问ai，用户输入
-  const [userInput, setUserInput] = useState("");
+  const [userInput, setUserInput] = useState("你好");
   //quill编辑器鼠标位置
   const [cursorPosition, setCursorPosition] = useState(null);
 
@@ -128,7 +135,7 @@ const QEditor = () => {
     quill.setSelection(cursorPosition, 0); // 将光标移动到原来的位置
 
     const prompt = "请帮助用户完成论文写作";
-    await sendMessageToOpenAI(userInput, quill, selectedModel, prompt);
+    await sendMessageToOpenAI(userInput, quill, selectedModel, apiKey, prompt);
   };
 
   // 处理paper2AI
@@ -141,7 +148,7 @@ const QEditor = () => {
         const prompt =
           "As a topic extraction assistant, you can help me extract the current discussion of the paper topic, I will enter the content of the paper, you extract the paper topic , no more than two, Hyphenated query terms yield no matches (replace it with space to find matches) return format is: topic1 topic2";
         const userMessage = getTextBeforeCursor(quill, 2000);
-        topic = await getTopicFromAI(userMessage, prompt);
+        topic = await getTopicFromAI(userMessage, prompt, apiKey);
         console.log("topic in AI before removeSpecialCharacters", topic);
         topic = removeSpecialCharacters(topic);
         topic = topic.split(" ").slice(0, 2).join(" ");
@@ -154,6 +161,7 @@ const QEditor = () => {
       let rawData, dataString;
       if (selectedSource === "arxiv") {
         rawData = await getArxivPapers(topic);
+        console.log("arxiv rawdata:", rawData)
         // 将 rawData 转换为引用数组
         const newReferences = rawData.map((entry) => ({
           url: entry.id,
@@ -200,11 +208,11 @@ const QEditor = () => {
       // const content = `需要完成的论文主题：${topic},  搜索到的论文内容:${trimmedMessage},之前已经完成的内容上下文：${extractText(
       //   editorValue
       // )}`;
-      const content = `之前已经完成的内容上下文：${getTextBeforeCursor(
+      const content = `之前用户已经完成的内容上下文：${getTextBeforeCursor(
         quill,
         500
-      )},搜索到的论文内容:${trimmedMessage},需要完成的论文主题：${topic},请根据搜索到的论文内容完成接下来的论文`;
-      sendMessageToOpenAI(content, quill, selectedModel);
+      )},搜索到的论文内容:${trimmedMessage},需要完成的论文主题：${topic},请根据搜索到的论文内容完成用户的论文`;
+      sendMessageToOpenAI(content, quill, selectedModel, apiKey);
     } catch (error) {
       console.error("Error fetching data:", error);
       // 错误处理
@@ -282,7 +290,7 @@ const QEditor = () => {
           id="editor"
           style={{
             width: "calc(100vw - 100px)", // 屏幕宽度减去 100px
-            minHeight: "150px", // 注意驼峰命名法
+            minHeight: "250px", // 注意驼峰命名法
             maxHeight: "500px",
             overflowY: "auto", // overflow-y -> overflowY
             border: "1px solid #ccc",
