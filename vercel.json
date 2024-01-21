@@ -1,0 +1,6 @@
+{
+  "env": {
+    "NEXT_PUBLIC_OPENAI_API_KEY": "default_value",
+    "NEXT_PUBLIC_SEMANTIC_API_KEY": "default_value"
+  }
+}

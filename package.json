@@ -42,6 +42,7 @@
     "@types/node": "^20.3.1",
     "@types/react": "^18.2.48",
     "@types/react-dom": "18.2.5",
+    "@types/redux-logger": "^3.0.12",
     "encoding": "^0.1.13"
   }
 }
