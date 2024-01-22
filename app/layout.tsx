@@ -1,20 +1,21 @@
-import { GeistSans } from 'geist/font/sans'
-import './globals.css'
+import { GeistSans } from "geist/font/sans";
+import "./globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : 'http://localhost:3000'
+  : "http://localhost:3000";
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'paper ai 使用真实文献让AI完成论文',
-  description: '写论文最高效的方式',
-}
+  title: "paper ai 使用真实文献让AI完成论文",
+  description: "写论文最高效的方式",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" className={GeistSans.className}>
@@ -23,6 +24,7 @@ export default function RootLayout({
           {children}
         </main>
       </body>
+      <GoogleAnalytics gaId="G-05DHTG9XQ5" />
     </html>
-  )
+  );
 }
