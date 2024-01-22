@@ -55,7 +55,10 @@ export default async function handler(
     // 转发请求到上游服务器
     const response = await fetch(url, newRequest);
 
-    res.status(response.status).send(response);
+    // 读取响应的数据
+    const data = await response.text();
+
+    res.status(response.status).send(data);
   } catch (error) {
     // 错误处理
     console.error(error);

@@ -1,34 +1,28 @@
 // Settings.tsx
-import { useState, FormEvent } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { setApiKey } from "@/app/store/slices/authSlice";
 
 const Settings = () => {
   const dispatch = useAppDispatch();
-  const apiKey = useAppSelector((state: any) => state.auth.apiKey);
-  console.log(apiKey);
-
-  // const handleSubmit = (event: FormEvent) => {
-  //   event.preventDefault();
-  //   // 在这里，你可以将apiKey保存到你想要的地方，例如发送到服务器，或保存到localStorage
-  //   dispatch(setApiKey(apiKey));
-
-  //   console.log(apiKey);
-  // };
+  const apiKey = useAppSelector((state) => state.auth.apiKey);
 
   return (
-    <div>
-      {/* <form onSubmit={handleSubmit}> */}
-      <label>
-        API Key:
+    <div className="max-w-md mx-auto p-4">
+      <div className="mb-4">
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="api-key"
+        >
+          API Key:
+        </label>
         <input
+          id="api-key"
           type="text"
           value={apiKey}
           onChange={(event) => dispatch(setApiKey(event.target.value))}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
-      </label>
-      {/* <button type="submit">Save</button>
-      </form> */}
+      </div>
     </div>
   );
 };
