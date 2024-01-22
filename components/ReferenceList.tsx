@@ -122,14 +122,14 @@ function ReferenceList({
         <div className="container mx-auto p-4">
           <div className="flex justify-between items-center mb-4">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "
+              className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded "
               type="submit"
             >
               添加自定义引用
             </button>
 
             <button
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded "
+              className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded "
               type="button"
               onClick={() =>
                 copyToClipboard(formatAllReferencesForCopy(references))
@@ -149,43 +149,43 @@ function ReferenceList({
       </form>
       {/* 引用列表显示区域 */}
       <ul>
-      {references &&
-        references.map(
-          (reference, index) =>
-            reference && (
-              <li key={index} className="mb-3 p-2 border-b">
-                {/* 显示序号 */}
-                <span className="font-bold mr-2">[{index + 1}].</span>
-                {reference.author}. {reference.title}.{" "}
-                {/* 判断 journal 字段是否存在 */}
-                {reference.journal && reference.journal.name ? (
-                  <span>
-                    {reference.journal.name}[J],{reference.year},
-                    {reference.journal.volume
-                      ? ` ${reference.journal.volume}`
-                      : ""}
-                    {reference.journal.pages
-                      ? `: ${reference.journal.pages}`
-                      : ""}
-                    .
-                  </span>
-                ) : (
-                  <span>
-                    {reference.venue}, {reference.year}.
-                  </span>
-                )}
-                {reference.url && (
-                  <a
-                    href={reference.url}
-                    className="text-blue-500 hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {" "}
-                    ({reference.url})
-                  </a>
-                )}
-                {/* <button
+        {references &&
+          references.map(
+            (reference, index) =>
+              reference && (
+                <li key={index} className="mb-3 p-2 border-b">
+                  {/* 显示序号 */}
+                  <span className="font-bold mr-2">[{index + 1}].</span>
+                  {reference.author}. {reference.title}.{" "}
+                  {/* 判断 journal 字段是否存在 */}
+                  {reference.journal && reference.journal.name ? (
+                    <span>
+                      {reference.journal.name}[J],{reference.year},
+                      {reference.journal.volume
+                        ? ` ${reference.journal.volume}`
+                        : ""}
+                      {reference.journal.pages
+                        ? `: ${reference.journal.pages}`
+                        : ""}
+                      .
+                    </span>
+                  ) : (
+                    <span>
+                      {reference.venue}, {reference.year}.
+                    </span>
+                  )}
+                  {reference.url && (
+                    <a
+                      href={reference.url}
+                      className="text-blue-500 hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {" "}
+                      ({reference.url})
+                    </a>
+                  )}
+                  {/* <button
                   className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
                   onClick={() => moveReferenceUp(index)}
                 >
@@ -197,23 +197,23 @@ function ReferenceList({
                 >
                   ↓
                 </button> */}
-                <button
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
-                  onClick={() =>
-                    copyToClipboard(formatReferenceForCopy(reference))
-                  }
-                >
-                  复制
-                </button>
-                <button
-                  className="text-red-500 hover:text-red-700 ml-4"
-                  onClick={() => removeReferenceUpdateIndex(index)}
-                >
-                  X
-                </button>
-              </li>
-            )
-        )}
+                  <button
+                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
+                    onClick={() =>
+                      copyToClipboard(formatReferenceForCopy(reference))
+                    }
+                  >
+                    复制
+                  </button>
+                  <button
+                    className="text-red-500 hover:text-red-700 ml-4"
+                    onClick={() => removeReferenceUpdateIndex(index)}
+                  >
+                    X
+                  </button>
+                </li>
+              )
+          )}
       </ul>
     </div>
   );

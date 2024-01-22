@@ -242,7 +242,7 @@ const QEditor = () => {
         />
         <button
           onClick={handleAIWrite}
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 mr-2 rounded"
+          className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 mr-2 rounded"
         >
           AI Write
         </button>
@@ -254,7 +254,7 @@ const QEditor = () => {
         </button> */}
         <button
           onClick={() => paper2AI(userInput)}
-          className="bg-red-500 hover:bg-red-700 text-black font-bold py-2 px-4 mr-2 rounded"
+          className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 mr-2 rounded"
         >
           Paper2AI
         </button>
@@ -280,7 +280,7 @@ const QEditor = () => {
 
         <button
           onClick={() => formatTextInEditor(quill)} // 假设 updateIndex 是处理更新操作的函数
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
         >
           更新索引
         </button>
