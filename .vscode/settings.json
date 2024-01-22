@@ -14,5 +14,6 @@
             "username": "root",
             "password": "123456"
         }
-    ]
+    ],
+    "commentTranslate.targetLanguage": "zh-CN"
 }

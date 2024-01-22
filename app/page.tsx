@@ -10,6 +10,8 @@ import QuillWrapper from "./QuillWrapper";
 // import TinyEditor from "../components/TinyEditor";
 // import SEditor from "../components/SlateEditor";
 import SettingsLink from "@/components/SettingsLink";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+import Error from "@/app/global-error";
 export default async function Index() {
   const cookieStore = cookies();
 
@@ -35,8 +37,9 @@ export default async function Index() {
           <SettingsLink />
         </div>
       </nav>
-
+      {/* <ErrorBoundary fallback={<Error />}> */}
       <QuillWrapper />
+      {/* </ErrorBoundary> */}
 
       <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
         <p>
