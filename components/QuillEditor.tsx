@@ -20,7 +20,6 @@ import ReferenceList from "./ReferenceList";
 //redux
 import { useAppDispatch, useAppSelector } from "@/app/store";
 
-
 //类型声明
 import { Reference } from "@/utils/global";
 
@@ -49,7 +48,7 @@ const QEditor = () => {
   const apiKey = useAppSelector((state: any) => state.auth.apiKey);
   const [quill, setQuill] = useState(null);
   //询问ai，用户输入
-  const [userInput, setUserInput] = useState("你好");
+  const [userInput, setUserInput] = useState("");
   //quill编辑器鼠标位置
   const [cursorPosition, setCursorPosition] = useState(null);
 
@@ -161,7 +160,7 @@ const QEditor = () => {
       let rawData, dataString;
       if (selectedSource === "arxiv") {
         rawData = await getArxivPapers(topic);
-        console.log("arxiv rawdata:", rawData)
+        console.log("arxiv rawdata:", rawData);
         // 将 rawData 转换为引用数组
         const newReferences = rawData.map((entry) => ({
           url: entry.id,

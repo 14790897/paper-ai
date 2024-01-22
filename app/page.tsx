@@ -11,7 +11,7 @@ import QuillWrapper from "./QuillWrapper";
 // import SEditor from "../components/SlateEditor";
 import SettingsLink from "@/components/SettingsLink";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
-import Error from "@/app/global-error";
+// import Error from "@/app/global-error";
 export default async function Index() {
   const cookieStore = cookies();
 
