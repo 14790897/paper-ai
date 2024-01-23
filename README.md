@@ -1,10 +1,12 @@
+[English Documentation](./README_en.md)
+  
 <a href="https://paperai.life>
   <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://paperai.life/opengraph-image.png">
   <h1 align="center">paper-ai</h1>
 </a>
 
 <p align="center">
- The fastest way to write a paper with true references
+ 使用真实文献最快速完成论文的方法
 </p>
 
 <p align="center">
@@ -17,7 +19,7 @@
 </p>
 <br/>
 
-- [English Documentation](./README_en.md)
+
 
 ## 功能
 
@@ -37,7 +39,7 @@
 
 ## 部署到 Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/14790897/paper-ai&project-name=paper-ai&repository-name=paper-ai&demo-title=paper-ai&demo-description=This%20starter%20configures%20Supabase%20Auth%20to%20use%20cookies%2C%20making%20the%20user's%20session%20available%20through%20the%20entire%20Next. js%20app%20-%20Client%20Components%2C%20Server%20Components%2C%20Route%20Handlers%2C%20Server%20Actions%20and%20Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase. vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fpaperai.life%2Fopengraph-image.png)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/14790897/paper-ai&project-name=paper-ai&repository-name=paper-ai&demo-title=paper-ai&demo-description=This%20starter%20configures%20Supabase%20Auth%20to%20use%20cookies%2C%20making%20the%20user's%20session%20available%20throughout%20the%20entire%20Next.js%20app%20-%20Client%20Components%2C%20Server%20Components%2C%20Route%20Handlers%2C%20Server%20Actions%20and%20Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fpaperai.life%2Fopengraph-image.png)
 
 上述操作还会将 repo 克隆到 GitHub。
 
