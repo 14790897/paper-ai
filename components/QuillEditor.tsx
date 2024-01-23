@@ -19,7 +19,10 @@ import {
 import ReferenceList from "./ReferenceList";
 //redux
 import { useAppDispatch, useAppSelector } from "@/app/store";
-import { addReferencesRedux } from "@/app/store/slices/authSlice";
+import {
+  addReferencesRedux,
+  setEditorContent,
+} from "@/app/store/slices/authSlice";
 //类型声明
 import { Reference } from "@/utils/global";
 
@@ -71,6 +74,7 @@ const QEditor = () => {
   //redux
   const dispatch = useAppDispatch();
   const references = useAppSelector((state) => state.auth.referencesRedux);
+  const editorContent = useAppSelector((state) => state.auth.editorContent); // 从 Redux store 中获取编辑器内容
 
   const addReference = (newReference: Reference) => {
     setReferences((prevReferences) => [...prevReferences, newReference]);
@@ -91,10 +95,14 @@ const QEditor = () => {
         theme: "snow",
       });
       // 检查 localStorage 中是否有保存的内容
-      const savedContent = localStorage.getItem("quillContent");
-      if (savedContent) {
-        // 设置编辑器的内容
-        editor.current.root.innerHTML = savedContent;
+      // const savedContent = localStorage.getItem("quillContent");
+      // if (savedContent) {
+      //   // 设置编辑器的内容
+      //   editor.current.root.innerHTML = savedContent;
+      // }
+      // 设置编辑器的内容
+      if (editorContent) {
+        editor.current.root.innerHTML = editorContent;
       }
 
       isMounted.current = true;
@@ -121,14 +129,16 @@ const QEditor = () => {
           const content = quill.root.innerHTML; // 或 quill.getText()，或 quill.getContents()
 
           // 保存到 localStorage
-          localStorage.setItem("quillContent", content);
+          // localStorage.setItem("quillContent", content);
+          dispatch(setEditorContent(content)); // 更新 Redux store
+
           setTimeout(() => {
             convertToSuperscript(quill);
           }, 0); // 延迟 0 毫秒，即将函数放入事件队列的下一个循环中执行,不然就会因为在改变文字触发整个函数时修改文本内容造成无法找到光标位置
         }
       });
     }
-  }, [quill]);
+  }, [quill, dispatch]);
 
   // 处理用户输入变化
   const handleInputChange = (event) => {

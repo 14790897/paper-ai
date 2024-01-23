@@ -3,11 +3,13 @@ import { Reference } from "@/utils/global";
 export interface APIState {
   apiKey: string;
   referencesRedux: Reference[];
+  editorContent: string;
 }
 
 const initialState: APIState = {
   apiKey: "",
   referencesRedux: [],
+  editorContent: "",
 };
 
 export const authSlice = createSlice({
@@ -31,6 +33,9 @@ export const authSlice = createSlice({
     clearReferencesRedux: (state) => {
       state.referencesRedux = [];
     },
+    setEditorContent: (state, action: PayloadAction<string>) => {
+      state.editorContent = action.payload;
+    },
   },
 });
 
@@ -41,6 +46,7 @@ export const {
   addReferencesRedux,
   removeReferenceRedux,
   clearReferencesRedux,
+  setEditorContent,
 } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
