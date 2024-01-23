@@ -7,19 +7,27 @@ import {
   formatAllReferencesForCopy,
   delteIndexUpdateBracketNumbersInDeltaKeepSelection,
 } from "@/utils/others/quillutils";
+//redux
+import { useAppDispatch, useAppSelector } from "@/app/store";
+import {
+  addReferenceRedux,
+  removeReferenceRedux,
+  clearReferencesRedux,
+} from "@/app/store/slices/authSlice";
+
 type ReferenceListProps = {
-  references: Reference[];
-  addReference: (reference: Reference) => void;
-  removeReference: (index: number) => void;
-  setReferences: any;
+  // references: Reference[];
+  // addReference: (reference: Reference) => void;
+  // removeReference: (index: number) => void;
+  // setReferences: any;
   editor: any;
 };
 
 function ReferenceList({
-  references,
-  addReference,
-  removeReference,
-  setReferences,
+  // references,
+  // addReference,
+  // removeReference,
+  // setReferences,
   editor,
 }: ReferenceListProps) {
   const [newTitle, setNewTitle] = useState("");
@@ -27,6 +35,9 @@ function ReferenceList({
   const [newYear, setNewYear] = useState("");
   const [newPublisher, setNewPublisher] = useState("");
   const [newUrl, setNewUrl] = useState("");
+  //redux
+  const dispatch = useAppDispatch();
+  const references = useAppSelector((state) => state.auth.referencesRedux);
 
   function moveReferenceUp(index: number) {
     setReferences((prevReferences) => {
@@ -57,16 +68,29 @@ function ReferenceList({
   }
 
   function removeReferenceUpdateIndex(index: number) {
-    removeReference(index);
+    // removeReference(index);
+    handleRemoveReference(index);
     delteIndexUpdateBracketNumbersInDeltaKeepSelection(editor, index);
   }
+
+  const handleAddReference = (newReference: Reference) => {
+    dispatch(addReferenceRedux(newReference));
+  };
+
+  const handleRemoveReference = (index: number) => {
+    dispatch(removeReferenceRedux(index));
+  };
+
+  const handleClearReferences = () => {
+    dispatch(clearReferencesRedux());
+  };
   return (
     <div className="container mx-auto p-4">
       {/* 表单区域 */}
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          addReference({
+          handleAddReference({
             title: newTitle,
             author: newAuthor,
             year: newYear,
@@ -140,7 +164,8 @@ function ReferenceList({
             <button
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded "
               type="button"
-              onClick={() => setReferences([])} // 设置引用列表为空数组
+              // onClick={() => setReferences([])} // 设置引用列表为空数组
+              onClick={() => handleClearReferences()}
             >
               删除所有引用
             </button>

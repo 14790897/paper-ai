@@ -57,7 +57,7 @@ const sendMessageToOpenAI = async (
           2.文献引用：只引用与主题紧密相关的论文。在引用文献时，文末应使用方括号内的数字来标注引用来源，如 [1]。请确保每个引用在文章中都有其对应的编号，*无需在文章末尾提供参考文献列表*。
           3.忽略无关文献：对于与主题无关的论文，请不要包含在您的写作中。只关注对理解和阐述主题有实质性帮助的资料。
           4.来源明确：在文章中，清楚地指出每个引用的具体来源。引用的信息应准确无误，确保读者能够追溯到原始文献。
-          5.使用中文回答,不超过三百字
+          5.使用用户所说的语言完成回答,不超过三百字
           6.只能对给出的文献进行引用，坚决不能虚构文献。
           返回格式举例：
           在某个方面，某论文实现了以下突破...[1],在另一篇论文中，研究了...[2]`,
@@ -72,11 +72,13 @@ const sendMessageToOpenAI = async (
   console.log("请求的内容\n", content);
   // 发送API请求
 
+  let response;
+
   try {
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_AI_URL,
-      requestOptions
-    );
+    response = await fetch(process.env.NEXT_PUBLIC_AI_URL, requestOptions);
+    if (!response.ok) {
+      throw new Error("Server responded with an error");
+    }
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
 
@@ -86,6 +88,12 @@ const sendMessageToOpenAI = async (
     updateBracketNumbersInDeltaKeepSelection(editor);
   } catch (error) {
     console.error("Error:", error);
+    // 如果有响应，返回响应的原始内容
+    if (response) {
+      const rawResponse = await response.text();
+      throw new Error(`Error: ${error.message}, Response: ${rawResponse}`);
+    }
+    // 如果没有响应，只抛出错误
     throw error;
   }
 };

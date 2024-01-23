@@ -9,7 +9,7 @@ import Link from "next/link";
 // 一些工具函数导入
 import getArxivPapers from "./GetArxiv";
 import getSemanticPapers from "./GetSemantic";
-import { getTopicFromAI, sendMessageToOpenAI, getFromAI } from "./chatAI";
+import { getTopicFromAI, sendMessageToOpenAI } from "./chatAI";
 import {
   getTextBeforeCursor,
   convertToSuperscript,
@@ -19,7 +19,7 @@ import {
 import ReferenceList from "./ReferenceList";
 //redux
 import { useAppDispatch, useAppSelector } from "@/app/store";
-
+import { addReferencesRedux } from "@/app/store/slices/authSlice";
 //类型声明
 import { Reference } from "@/utils/global";
 
@@ -63,17 +63,23 @@ const QEditor = () => {
   //选择语言模型
   const [selectedModel, setSelectedModel] = useLocalStorage("gpt3.5", "gpt3.5"); // 默认选项
   //更新参考文献的部分
-  const [references, setReferences] = useLocalStorage<Reference[]>(
-    "referencesKey",
-    undefined
-  );
+  // const [references, setReferences] = useLocalStorage<Reference[]>(
+  //   "referencesKey",
+  //   undefined
+  // );
+  //redux
+  //redux
+  const dispatch = useAppDispatch();
+  const references = useAppSelector((state) => state.auth.referencesRedux);
 
   const addReference = (newReference: Reference) => {
-    setReferences([...references, newReference]);
+    setReferences((prevReferences) => [...prevReferences, newReference]);
   };
 
   const removeReference = (index: number) => {
-    setReferences(references.filter((_, i) => i !== index));
+    setReferences((prevReferences) =>
+      prevReferences.filter((_, i) => i !== index)
+    );
   };
 
   useEffect(() => {
@@ -133,7 +139,7 @@ const QEditor = () => {
   const handleAIWrite = async () => {
     quill.setSelection(cursorPosition, 0); // 将光标移动到原来的位置
 
-    const prompt = "请帮助用户完成论文写作";
+    const prompt = "请帮助用户完成论文写作，使用用户所说的语言完成";
     await sendMessageToOpenAI(userInput, quill, selectedModel, apiKey, prompt);
   };
 
@@ -169,10 +175,12 @@ const QEditor = () => {
           author: entry.author?.slice(0, 3).join(", "),
         }));
         // 更新引用列表状态
-        setReferences((prevReferences) => [
-          ...prevReferences,
-          ...newReferences,
-        ]);
+        // setReferences((prevReferences) => [
+        //   ...prevReferences,
+        //   ...newReferences,
+        // ]);
+        dispatch(addReferencesRedux(newReferences));
+
         dataString = rawData
           .map((entry) => {
             return `ID: ${entry.id}\nTime: ${entry.published}\nTitle: ${entry.title}\nSummary: ${entry.summary}\n\n`;
@@ -190,10 +198,12 @@ const QEditor = () => {
           journal: entry.journal,
         }));
         // 更新引用列表状态
-        setReferences((prevReferences) => [
-          ...prevReferences,
-          ...newReferences,
-        ]);
+        // setReferences((prevReferences) => [
+        //   ...prevReferences,
+        //   ...newReferences,
+        // ]);
+        dispatch(addReferencesRedux(newReferences));
+
         dataString = rawData
           .map((entry) => {
             return `Time: ${entry.year}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
@@ -214,7 +224,8 @@ const QEditor = () => {
       sendMessageToOpenAI(content, quill, selectedModel, apiKey);
     } catch (error) {
       console.error("Error fetching data:", error);
-      // 错误处理
+      // 在处理错误后，再次抛出这个错误
+      throw error;
     }
   }
 
@@ -297,10 +308,10 @@ const QEditor = () => {
           }}
         ></div>
         <ReferenceList
-          references={references}
-          addReference={addReference}
-          removeReference={removeReference}
-          setReferences={setReferences}
+          // references={references}
+          // addReference={addReference}
+          // removeReference={removeReference}
+          // setReferences={setReferences}
           editor={quill}
         />
       </div>
