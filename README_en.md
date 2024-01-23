@@ -1,4 +1,4 @@
-<a href="https://paperai.life>
+<a href="https://paperai.life">
   <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://paperai.life/opengraph-image.png">
   <h1 align="center">paper-ai</h1>
 </a>
