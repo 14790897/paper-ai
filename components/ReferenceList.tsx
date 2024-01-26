@@ -183,17 +183,8 @@ function ReferenceList({
                   <span className="font-bold mr-2">[{index + 1}].</span>
                   {reference.author}. {reference.title}.{" "}
                   {/* 判断 journal 字段是否存在 */}
-                  {reference.journal && reference.journal.name ? (
-                    <span>
-                      {reference.journal.name}[J],{reference.year},
-                      {reference.journal.volume
-                        ? ` ${reference.journal.volume}`
-                        : ""}
-                      {reference.journal.pages
-                        ? `: ${reference.journal.pages}`
-                        : ""}
-                      .
-                    </span>
+                  {reference.journal ? (
+                    <span>reference.journal. </span>
                   ) : (
                     <span>
                       {reference.venue}, {reference.year}.

@@ -183,7 +183,7 @@ const QEditor = () => {
           url: entry.id,
           title: entry.title,
           year: entry.published,
-          author: entry.author?.slice(0, 3).join(", "),
+          author: entry.authors?.slice(0, 3).join(", "),
         }));
         dispatch(addReferencesRedux(newReferences));
 
@@ -201,15 +201,13 @@ const QEditor = () => {
           year: entry.year,
           author: entry.authors?.slice(0, 3).join(", "),
           venue: entry.venue,
-          journal: entry.journal,
+          journalReference: entry.journal
+            ? `${entry.journal.name}[J], ${entry.year}${
+                entry.journal.volume ? `, ${entry.journal.volume}` : ""
+              }${entry.journal.pages ? `: ${entry.journal.pages}` : ""}`
+            : "",
         }));
-        // 更新引用列表状态
-        // setReferences((prevReferences) => [
-        //   ...prevReferences,
-        //   ...newReferences,
-        // ]);
         dispatch(addReferencesRedux(newReferences));
-
         dataString = rawData
           .map((entry) => {
             return `Time: ${entry.year}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
@@ -221,8 +219,10 @@ const QEditor = () => {
           id: entry.id, // 文章的 PubMed ID
           title: entry.title, // 文章的标题
           abstract: entry.abstract, // 文章的摘要
-          authors: entry.authors.join(", "), // 文章的作者列表，假设为字符串数组
-          publishedDate: entry.publishedDate, // 文章的发表日期
+          author: entry.authors.join(", "), // 文章的作者列表，假设为字符串数组
+          year: entry.year, // 文章的发表日期
+          venue: entry.journal, // 文章的发表杂志
+          url: entry.url, // 文章的 URL
           source: "PubMed", // 指示这些引用来自 PubMed
         }));
 

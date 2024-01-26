@@ -3,13 +3,6 @@ import { getRandomOffset } from "@/utils/others/quillutils";
 const xml2js = require("xml2js");
 
 // 定义文章详细信息的 TypeScript 接口
-interface ArticleDetail {
-  id: string;
-  title: string;
-  abstract: string;
-  authors: string[];
-  publishedDate: string;
-}
 
 // 定义PubMed文章ID为字符串类型
 type PubMedID = string;
@@ -29,11 +22,11 @@ async function getPubMedPapers(query: string, year: number, limit = 2) {
     const response = await axios.get(url, { responseType: "text" });
     console.log(response.data);
     // 解析XML数据
-    const parser = new xml2js.Parser();
+    const parser = new xml2js.Parser({ explicitArray: false });
     const result = await parser.parseStringPromise(response.data);
 
     // 提取PubMed文章ID
-    const idList = result.eSearchResult.IdList[0].Id.map((id) => id);
+    const idList = result.eSearchResult.IdList.Id;
     console.log(idList);
     // 可以进一步使用这些ID来获取文章详情，例如使用esummary或efetch
     // 这里只返回了ID列表，你可能需要根据实际需要进行调整
@@ -54,27 +47,79 @@ async function getPubMedPaperDetails(idList: IDList) {
     const response = await axios.get(url);
     const data = response.data; // 这里获取的数据是XML格式，需要解析
     // 解析XML数据
-    const parser = new xml2js.Parser({ explicitArray: false });
+    const parser = new xml2js.Parser({
+      explicitArray: false,
+      ignoreAttrs: true, // 忽略XML属性
+      charkey: "text", // 字符数据的键
+      trim: true, // 去除文本前后空格
+    });
     let result = await parser.parseStringPromise(data);
-    console.log(result);
 
+    console.log(result);
     // 提取并处理文章详细信息
     const articles = result.PubmedArticleSet.PubmedArticle.map((article) => {
-      const articleDetails = article.MedlineCitation.Article;
+      const medlineCitation = article.MedlineCitation;
+      const articleDetails = medlineCitation.Article;
+
+      const abstractTexts = articleDetails.Abstract.AbstractText;
+
+      let abstract;
+      // 检查 abstractTexts 是否是一个数组
+      if (Array.isArray(abstractTexts)) {
+        // 如果是数组，遍历数组并连接每个元素的文本
+        abstract = abstractTexts
+          .map((text) => (typeof text === "object" ? text._ : text))
+          .join(" ");
+      } else if (typeof abstractTexts === "string") {
+        // 如果 abstractTexts 直接就是字符串
+        abstract = abstractTexts;
+      } else if (typeof abstractTexts === "object") {
+        // 将对象中的文本内容连接起来
+        abstract = Object.values(abstractTexts).reduce((acc, val) => {
+          return (
+            acc + (typeof val === "object" && val.text ? val.text : val) + " "
+          );
+        }, "");
+      } else {
+        // 如果 abstractTexts 既不是数组也不是字符串，可能设置为默认值或进行错误处理
+        abstract = ""; // 或者根据需要设置一个默认的提示文本
+      }
+
+      const authors =
+        articleDetails.AuthorList &&
+        Array.isArray(articleDetails.AuthorList.Author)
+          ? articleDetails.AuthorList.Author.map((author) => {
+              const names = [];
+              if (author.ForeName) names.push(author.ForeName);
+              if (author.LastName) names.push(author.LastName);
+              return names.join(" ");
+            })
+          : ["Unknown Author"];
+      const journalTitle = articleDetails.Journal.Title; // 提取出版者信息（杂志标题）
+
+      let publishedDate = "No date available";
+      // 尝试从 ArticleDate 获取发表日期
+      if (articleDetails.ArticleDate) {
+        publishedDate = `${articleDetails.ArticleDate.Year}-${articleDetails.ArticleDate.Month}-${articleDetails.ArticleDate.Day}`;
+      }
+      // 如果 ArticleDate 不存在，尝试从 JournalIssue/PubDate 获取
+      else if (articleDetails.Journal.JournalIssue.PubDate) {
+        publishedDate = `${articleDetails.Journal.JournalIssue.PubDate.Year}-${
+          articleDetails.Journal.JournalIssue.PubDate.Month || ""
+        }`;
+      }
+
+      // 构建文章的 PubMed URL
+      const articleUrl = `https://pubmed.ncbi.nlm.nih.gov/${medlineCitation.PMID._}/`;
       return {
-        id: article.MedlineCitation.PMID,
+        id: medlineCitation.PMID._,
         title: articleDetails.ArticleTitle,
-        abstract: articleDetails.Abstract
-          ? articleDetails.Abstract.AbstractText
-          : "",
-        authors: articleDetails.AuthorList
-          ? articleDetails.AuthorList.Author.map(
-              (author) => `${author.ForeName} ${author.LastName}`
-            )
-          : [],
-        publishedDate: articleDetails.ArticleDate
-          ? articleDetails.ArticleDate.Date
-          : "",
+        abstract: abstract,
+        authors: authors,
+        url: articleUrl,
+        year: publishedDate,
+        journal: journalTitle,
+        // 其他需要的字段可以继续添加
       };
     });
 
@@ -90,7 +135,8 @@ async function fetchPubMedData(query: string, year: number, limit: number) {
   const idList = await getPubMedPapers(query, year, limit);
   if (idList && idList.length > 0) {
     const paperDetails = await getPubMedPaperDetails(idList);
-    console.log(paperDetails); // 处理或显示文章详情
+    console.log("fetchPubMedData", paperDetails); // 处理或显示文章详情
+    return paperDetails;
   }
 }
 
