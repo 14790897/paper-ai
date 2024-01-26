@@ -9,6 +9,7 @@ import Link from "next/link";
 // 一些工具函数导入
 import getArxivPapers from "./GetArxiv";
 import getSemanticPapers from "./GetSemantic";
+import { fetchPubMedData } from "./GetPubMed ";
 import { getTopicFromAI, sendMessageToOpenAI } from "./chatAI";
 import {
   getTextBeforeCursor,
@@ -51,7 +52,7 @@ const QEditor = () => {
   const apiKey = useAppSelector((state: any) => state.auth.apiKey);
   const [quill, setQuill] = useState(null);
   //询问ai，用户输入
-  const [userInput, setUserInput] = useState("");
+  const [userInput, setUserInput] = useState("robot");
   //quill编辑器鼠标位置
   const [cursorPosition, setCursorPosition] = useState(null);
 
@@ -184,11 +185,6 @@ const QEditor = () => {
           year: entry.published,
           author: entry.author?.slice(0, 3).join(", "),
         }));
-        // 更新引用列表状态
-        // setReferences((prevReferences) => [
-        //   ...prevReferences,
-        //   ...newReferences,
-        // ]);
         dispatch(addReferencesRedux(newReferences));
 
         dataString = rawData
@@ -219,7 +215,28 @@ const QEditor = () => {
             return `Time: ${entry.year}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
           })
           .join("");
+      } else if (selectedSource === "pubmed") {
+        rawData = await fetchPubMedData(topic, 2020, 2);
+        const newReferences = rawData.map((entry) => ({
+          id: entry.id, // 文章的 PubMed ID
+          title: entry.title, // 文章的标题
+          abstract: entry.abstract, // 文章的摘要
+          authors: entry.authors.join(", "), // 文章的作者列表，假设为字符串数组
+          publishedDate: entry.publishedDate, // 文章的发表日期
+          source: "PubMed", // 指示这些引用来自 PubMed
+        }));
+
+        // 打印或进一步处理 newReferences
+        console.log(newReferences);
+        dispatch(addReferencesRedux(newReferences));
+
+        dataString = rawData
+          .map((entry) => {
+            return `Time: ${entry.year}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
+          })
+          .join("");
       }
+
       // 确保搜索到的论文不超过 3000 个字符
       const trimmedMessage =
         dataString.length > 3000 ? dataString.slice(0, 3000) : dataString;
@@ -285,6 +302,7 @@ const QEditor = () => {
         >
           <option value="arxiv">arxiv</option>
           <option value="semanticScholar">semantic scholar</option>
+          <option value="pubmed">pubmed</option>
           {/* 其他来源网站 */}
         </select>
         <select

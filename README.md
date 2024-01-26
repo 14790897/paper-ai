@@ -14,8 +14,6 @@
   <a href="#演示"><strong>演示</strong></a> ·
   <a href="#部署到 Vercel"><strong>部署到 Vercel</strong></a> ·
   <a href="#克隆并在本地运行"><strong>克隆并在本地运行y</strong></a> ·
-  <!-- <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a> -->
 </p>
 <br/>
 
