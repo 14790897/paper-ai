@@ -50,6 +50,7 @@ const toolbarOptions = [
 const QEditor = () => {
   //读取redux中的API key
   const apiKey = useAppSelector((state: any) => state.auth.apiKey);
+  const upsreamUrl = useAppSelector((state: any) => state.auth.upsreamUrl);
   const [quill, setQuill] = useState(null);
   //询问ai，用户输入
   const [userInput, setUserInput] = useState("robot");
@@ -151,7 +152,14 @@ const QEditor = () => {
     quill.setSelection(cursorPosition, 0); // 将光标移动到原来的位置
 
     const prompt = "请帮助用户完成论文写作，使用用户所说的语言完成";
-    await sendMessageToOpenAI(userInput, quill, selectedModel, apiKey, prompt);
+    await sendMessageToOpenAI(
+      userInput,
+      quill,
+      selectedModel,
+      apiKey,
+      upsreamUrl,
+      prompt
+    );
   };
 
   // 处理paper2AI
@@ -248,7 +256,7 @@ const QEditor = () => {
         quill,
         500
       )},搜索到的论文内容:${trimmedMessage},需要完成的论文主题：${topic},请根据搜索到的论文内容完成用户的论文`;
-      sendMessageToOpenAI(content, quill, selectedModel, apiKey);
+      sendMessageToOpenAI(content, quill, selectedModel, apiKey, upsreamUrl);
     } catch (error) {
       console.error("Error fetching data:", error);
       // 在处理错误后，再次抛出这个错误

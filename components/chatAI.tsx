@@ -5,6 +5,8 @@ import {
   updateBracketNumbersInDeltaKeepSelection,
   convertToSuperscript,
 } from "@/utils/others/quillutils";
+//redux不能在普通函数使用
+
 interface ChatData {
   choices: Array<{
     delta: {
@@ -21,6 +23,7 @@ const sendMessageToOpenAI = async (
   editor: Editor,
   selectedModel: "gpt3.5",
   apiKey: string,
+  upsreamUrl: string,
   prompt?: string
 ) => {
   // console.log("apiKey", apiKey);
@@ -32,12 +35,13 @@ const sendMessageToOpenAI = async (
   // );
   //识别应该使用的模型
   let model = selectedModel === "gpt3.5" ? "gpt-3.5-turbo" : "gpt-4";
-
+  console.log("upsreamUrl", upsreamUrl);
   // 设置API请求参数
   const requestOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Upstream-Url": upsreamUrl,
       Authorization:
         "Bearer " +
         (isValidApiKey(apiKey)

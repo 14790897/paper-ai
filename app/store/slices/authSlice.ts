@@ -4,12 +4,14 @@ export interface APIState {
   apiKey: string;
   referencesRedux: Reference[];
   editorContent: string;
+  upsreamUrl: string;
 }
 
 const initialState: APIState = {
   apiKey: "",
   referencesRedux: [],
   editorContent: "",
+  upsreamUrl: "https://api.liuweiqing.top", //https://api.openai.com
 };
 
 export const authSlice = createSlice({
@@ -18,6 +20,9 @@ export const authSlice = createSlice({
   reducers: {
     setApiKey: (state, action: PayloadAction<string>) => {
       state.apiKey = action.payload;
+    },
+    setUpsreamUrl: (state, action: PayloadAction<string>) => {
+      state.upsreamUrl = action.payload;
     },
     addReferenceRedux: (state, action: PayloadAction<Reference>) => {
       state.referencesRedux.push(action.payload);
@@ -42,6 +47,7 @@ export const authSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   setApiKey,
+  setUpsreamUrl,
   addReferenceRedux,
   addReferencesRedux,
   removeReferenceRedux,

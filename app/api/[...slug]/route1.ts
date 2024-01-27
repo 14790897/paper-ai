@@ -3,12 +3,12 @@
 import axios from "axios";
 import https from "https";
 
-export default async function handler(req, res) {
+export async function POST(req: Request) {
   const upstreamUrl = "https://api.liuweiqing.top";
 
   try {
     // 创建新 URL
-    const url = upstreamUrl + req.url.replace("/api/proxy", "");
+    const url = upstreamUrl + new URL(req.url).pathname.replace("/api", "");
 
     // 创建新请求
     const newRequest = {
@@ -23,19 +23,25 @@ export default async function handler(req, res) {
     // 使用axios.post方法转发请求到上游服务器
     const response = await axios.post(url, newRequest.data, {
       headers: newRequest.headers,
-      httpsAgent: agent, // 使用新的https.Agent
+      // httpsAgent: agent, // 使用新的https.Agent
     });
 
     // 将响应数据发送回客户端
-    res.status(response.status).send(response.data);
+    return new Response(response.data, {
+      status: response.status,
+    });
   } catch (error) {
     // 错误处理
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    return new Response(
+      { error: "Internal Server Error in NEXT" },
+      {
+        status: 500,
+      }
+    );
   }
 }
 
-// pages/api/proxy.js
 // import type { NextApiRequest, NextApiResponse } from "next";
 
 // export default async function handler(

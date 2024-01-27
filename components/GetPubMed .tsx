@@ -41,11 +41,23 @@ async function getPubMedPapers(query: string, year: number, limit = 2) {
 async function getPubMedPaperDetails(idList: IDList) {
   try {
     const ids = idList.join(","); // 将ID列表转换为逗号分隔的字符串
-    const baseURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi";
+    // const baseURL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi";
+    const baseURL = process.env.NEXT_PUBLIC_PAPER_URL; //通过API接口进行转发
     const url = `${baseURL}?db=pubmed&id=${ids}&rettype=abstract&retmode=xml`;
+    console.log(url);
+    const response = await fetch(url, {
+      headers: {
+        "Upstream-Url":
+          "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
+        "Accept-Encoding": "identity",
+      },
+    });
 
-    const response = await axios.get(url);
-    const data = response.data; // 这里获取的数据是XML格式，需要解析
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.text(); // 获取响应文本
     // 解析XML数据
     const parser = new xml2js.Parser({
       explicitArray: false,
