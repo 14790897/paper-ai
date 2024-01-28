@@ -142,49 +142,92 @@ const getTopicFromAI = async (
 // 给getTopicFromAI函数创建别名
 // export const getFromAI = sendMessageToOpenAI;
 
-async function processResult(reader, decoder, editor) {
-  let chunk = "";
+// async function processResult(reader, decoder, editor) {
+//   let chunk = "";
 
+//   while (true) {
+//     const { done, value } = await reader.read();
+//     if (done) {
+//       console.log("Stream finished");
+//       break;
+//     }
+//     chunk += decoder.decode(value, { stream: true });
+
+//     // 分割数据块为单独的数据对象
+//     const dataObjects = chunk
+//       .split("\n")
+//       .filter(Boolean)
+//       .map((line) => {
+//         try {
+//           line = line.substring(6); // 移除前面的 "data: "
+//           if (line === "[DONE]") {
+//             console.log("stream finished");
+//             return null;
+//           }
+//           return JSON.parse(line);
+//         } catch (error) {
+//           console.error("Failed to parse line:", line);
+//           console.error("Error:", error);
+//           return null;
+//         }
+//       })
+//       .filter(Boolean);
+
+//     if (dataObjects.length > 0) {
+//       // 处理每个数据对象
+//       dataObjects.forEach((dataObject) => {
+//         const content = dataObject.choices[0].delta.content;
+//         if (content) {
+//           // 在当前光标位置插入文本
+//           // Transforms.insertText(editor, content); //slate
+//           editor.insertText(editor.getSelection().index, content); //quill
+//           // console.log("成功插入：", content);
+//         }
+//       });
+//       chunk = ""; // 清空chunk以便读取新的数据
+//     }
+//   }
+// }
+
+async function processResult(reader, decoder, editor) {
+  let buffer = "";
   while (true) {
     const { done, value } = await reader.read();
     if (done) {
       console.log("Stream finished");
       break;
     }
-    chunk += decoder.decode(value, { stream: true });
+    buffer += decoder.decode(value, { stream: true });
+    console.log("buffer", buffer);
+    // 处理缓冲区中的所有完整的 JSON 对象
+    let boundary;
+    while ((boundary = buffer.indexOf("}\n")) !== -1) {
+      // 找到一个完整的 JSON 对象的边界
+      let jsonStr = buffer.substring(0, boundary + 1);
+      buffer = buffer.substring(boundary + 2);
+      console.log("jsonStr", jsonStr);
 
-    // 分割数据块为单独的数据对象
-    const dataObjects = chunk
-      .split("\n")
-      .filter(Boolean)
-      .map((line) => {
-        try {
-          line = line.substring(6); // 移除前面的 "data: "
-          if (line === "[DONE]") {
-            console.log("stream finished");
-            return null;
+      // 尝试解析 JSON 对象
+      try {
+        // 如果 jsonStr 以 "data: " 开头，就移除这个前缀
+        jsonStr = jsonStr.substring(6);
+        let dataObject = JSON.parse(jsonStr);
+        console.log("dataObject", dataObject);
+        // 处理 dataObject 中的 content
+        if (dataObject.choices && dataObject.choices.length > 0) {
+          let content =
+            dataObject.choices[0].message?.content ||
+            dataObject.choices[0].delta?.content;
+          if (content) {
+            // 在当前光标位置插入文本
+            editor.insertText(editor.getSelection().index, content);
+            console.log("成功插入：", content);
           }
-          return JSON.parse(line);
-        } catch (error) {
-          console.error("Failed to parse line:", line);
-          console.error("Error:", error);
-          return null;
         }
-      })
-      .filter(Boolean);
-
-    if (dataObjects.length > 0) {
-      // 处理每个数据对象
-      dataObjects.forEach((dataObject) => {
-        const content = dataObject.choices[0].delta.content;
-        if (content) {
-          // 在当前光标位置插入文本
-          // Transforms.insertText(editor, content); //slate
-          editor.insertText(editor.getSelection().index, content); //quill
-          // console.log("成功插入：", content);
-        }
-      });
-      chunk = ""; // 清空chunk以便读取新的数据
+      } catch (error) {
+        console.error("Failed to parse JSON object:", jsonStr);
+        console.error("Error:", error);
+      }
     }
   }
 }
