@@ -16,9 +16,8 @@ async function getPubMedPapers(query: string, year: number, limit = 2) {
       "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi";
     const db = "pubmed"; // 设定搜索的数据库为PubMed
     const retMax = limit; // 检索的最大记录数
-    const retStart = getRandomOffset(10 - limit); // 假设每页最多10条，根据需要随机偏移
-
-    const url = `${baseURL}?db=${db}&term=${query}[Title/Abstract]+AND+${year}[Date+-+Publication]&retMax=${retMax}&retStart=${retStart}&api_key=${process.env.NEXT_PUBLIC_PUBMED_API_KEY}`;
+    const retStart = getRandomOffset(30 - limit); // 假设每页最多30条，根据需要随机偏移
+    const url = `${baseURL}?db=${db}&term=${query}[Title/Abstract]+AND+2018:3000[Date - Publication]&retMax=${retMax}&retStart=${retStart}&api_key=${process.env.NEXT_PUBLIC_PUBMED_API_KEY}`;
     const response = await axios.get(url, { responseType: "text" });
     console.log(response.data);
     // 解析XML数据
