@@ -9,7 +9,7 @@ import logger from "redux-logger";
 const authPersistConfig = {
   key: "chatapi",
   storage: storage,
-  whitelist: ["apiKey", "referencesRedux", "editorContent"],
+  whitelist: ["apiKey", "referencesRedux", "editorContent", "upsreamUrl"],
 };
 
 const rootReducer = combineReducers({
