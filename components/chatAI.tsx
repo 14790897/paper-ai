@@ -41,7 +41,7 @@ const sendMessageToOpenAI = async (
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Upstream-Url": upsreamUrl,
+      // "Upstream-Url": upsreamUrl,
       Authorization:
         "Bearer " +
         (isValidApiKey(apiKey)
@@ -79,7 +79,10 @@ const sendMessageToOpenAI = async (
   let response;
 
   try {
-    response = await fetch(process.env.NEXT_PUBLIC_AI_URL, requestOptions);
+    response = await fetch(
+      upsreamUrl || process.env.NEXT_PUBLIC_AI_URL,
+      requestOptions
+    );
     if (!response.ok) {
       throw new Error("Server responded with an error");
     }
@@ -154,33 +157,40 @@ async function processResult(reader, decoder, editor) {
     console.log("buffer", buffer);
     // 处理缓冲区中的所有完整的 JSON 对象
     let boundary;
-    while ((boundary = buffer.indexOf("}\n")) !== -1) {
-      // 找到一个完整的 JSON 对象的边界
-      let jsonStr = buffer.substring(0, boundary + 1);
-      buffer = buffer.substring(boundary + 2);
-      console.log("jsonStr", jsonStr);
+    try {
+      while ((boundary = buffer.indexOf("}\n")) !== -1) {
+        // 找到一个完整的 JSON 对象的边界
+        let jsonStr = buffer.substring(0, boundary + 1);
+        buffer = buffer.substring(boundary + 2);
+        console.log("jsonStr", jsonStr);
 
-      // 尝试解析 JSON 对象
-      try {
-        // 如果 jsonStr 以 "data: " 开头，就移除这个前缀
-        jsonStr = jsonStr.substring(6);
-        let dataObject = JSON.parse(jsonStr);
-        console.log("dataObject", dataObject);
-        // 处理 dataObject 中的 content
-        if (dataObject.choices && dataObject.choices.length > 0) {
-          let content =
-            dataObject.choices[0].message?.content ||
-            dataObject.choices[0].delta?.content;
-          if (content) {
-            // 在当前光标位置插入文本
-            editor.insertText(editor.getSelection().index, content);
-            console.log("成功插入：", content);
+        // 尝试解析 JSON 对象
+        try {
+          // 如果 jsonStr 以 "data: " 开头，就移除这个前缀
+          // 移除字符串首尾的空白字符
+          jsonStr = jsonStr.trim();
+          jsonStr = jsonStr.substring(6);
+          let dataObject = JSON.parse(jsonStr);
+          console.log("dataObject", dataObject);
+          // 处理 dataObject 中的 content
+          if (dataObject.choices && dataObject.choices.length > 0) {
+            let content =
+              dataObject.choices[0].message?.content ||
+              dataObject.choices[0].delta?.content;
+            if (content) {
+              // 在当前光标位置插入文本
+              editor.insertText(editor.getSelection().index, content);
+              console.log("成功插入：", content);
+            }
           }
+        } catch (error) {
+          console.error("Failed to parse JSON object:", jsonStr);
+          console.error("Error:", error);
+          break;
         }
-      } catch (error) {
-        console.error("Failed to parse JSON object:", jsonStr);
-        console.error("Error:", error);
       }
+    } catch (error) {
+      break;
     }
   }
 }
