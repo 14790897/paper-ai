@@ -114,6 +114,8 @@ export async function GET(req: Request) {
   }
 }
 
-module.exports = {
+const nextConfig = {
   trailingSlash: true,
 };
+
+export default nextConfig;
