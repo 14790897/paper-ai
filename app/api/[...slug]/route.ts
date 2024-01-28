@@ -113,3 +113,7 @@ export async function GET(req: Request) {
     );
   }
 }
+
+module.exports = {
+  trailingSlash: true,
+};
