@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     // 创建新请求的headers对象
     const headers = new Headers(req.headers);
     // 移除或替换可能引起问题的头部
-    // headers.delete("Host");
+    headers.delete("Host");
     headers.delete("Content-Length");
     headers.delete("Upstream-Url"); // 也删除上游 URL 头部，以免发送到上游服务器
 
