@@ -55,7 +55,7 @@ export async function POST(req: Request) {
     // 将响应数据发送回客户端
     return new Response(response.body, {
       status: response.status,
-      headers: response.headers,
+      headers: headers,
     });
   } catch (error) {
     // 错误处理
