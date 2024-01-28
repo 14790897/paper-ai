@@ -80,7 +80,7 @@ const sendMessageToOpenAI = async (
 
   try {
     response = await fetch(
-      upsreamUrl || process.env.NEXT_PUBLIC_AI_URL,
+      (upsreamUrl || process.env.NEXT_PUBLIC_AI_URL) + "/v1/chat/completions",
       requestOptions
     );
     if (!response.ok) {
