@@ -8,10 +8,10 @@ export interface APIState {
 }
 
 const initialState: APIState = {
-  apiKey: "",
+  apiKey: "sk-aiHrrRLYUUelHstX69E9484509254dBf92061d6744FfFaD1",
   referencesRedux: [],
   editorContent: "",
-  upsreamUrl: "https://api.liuweiqing.top", //https://api.openai.com
+  upsreamUrl: "https://one.caifree.com", //https://api.openai.com
 };
 
 export const authSlice = createSlice({
