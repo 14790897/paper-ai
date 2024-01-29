@@ -17,20 +17,11 @@ import {
 } from "@/app/store/slices/authSlice";
 
 type ReferenceListProps = {
-  // references: Reference[];
-  // addReference: (reference: Reference) => void;
-  // removeReference: (index: number) => void;
-  // setReferences: any;
   editor: any;
 };
 
-function ReferenceList({
-  // references,
-  // addReference,
-  // removeReference,
-  // setReferences,
-  editor,
-}: ReferenceListProps) {
+function ReferenceList({ editor }: ReferenceListProps) {
+  // console.log("editor in ReferenceList", editor);
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newYear, setNewYear] = useState("");

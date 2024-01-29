@@ -17,6 +17,8 @@ import {
   removeSpecialCharacters,
   formatTextInEditor,
 } from "@/utils/others/quillutils";
+//组件
+import ExportDocx from "./Export";
 import ReferenceList from "./ReferenceList";
 //redux
 import { useAppDispatch, useAppSelector } from "@/app/store";
@@ -67,27 +69,11 @@ const QEditor = () => {
   ); // 默认选项
   //选择语言模型
   const [selectedModel, setSelectedModel] = useLocalStorage("gpt3.5", "gpt3.5"); // 默认选项
-  //更新参考文献的部分
-  // const [references, setReferences] = useLocalStorage<Reference[]>(
-  //   "referencesKey",
-  //   undefined
-  // );
-  //redux
   //redux
   const dispatch = useAppDispatch();
   const references = useAppSelector((state) => state.auth.referencesRedux);
   const editorContent = useAppSelector((state) => state.auth.editorContent); // 从 Redux store 中获取编辑器内容
   const systemPrompt = useAppSelector((state) => state.auth.systemPrompt);
-
-  const addReference = (newReference: Reference) => {
-    setReferences((prevReferences) => [...prevReferences, newReference]);
-  };
-
-  const removeReference = (index: number) => {
-    setReferences((prevReferences) =>
-      prevReferences.filter((_, i) => i !== index)
-    );
-  };
 
   useEffect(() => {
     if (!isMounted.current) {
@@ -97,13 +83,7 @@ const QEditor = () => {
         },
         theme: "snow",
       });
-      // 检查 localStorage 中是否有保存的内容
-      // const savedContent = localStorage.getItem("quillContent");
-      // if (savedContent) {
-      //   // 设置编辑器的内容
-      //   editor.current.root.innerHTML = savedContent;
-      // }
-      // 设置编辑器的内容
+
       if (editorContent) {
         editor.current.root.innerHTML = editorContent;
       }
@@ -351,13 +331,8 @@ const QEditor = () => {
             padding: "10px",
           }}
         ></div>
-        <ReferenceList
-          // references={references}
-          // addReference={addReference}
-          // removeReference={removeReference}
-          // setReferences={setReferences}
-          editor={quill}
-        />
+        <ReferenceList editor={quill} />
+        <ExportDocx editor={quill} />
       </div>
     </div>
   );
