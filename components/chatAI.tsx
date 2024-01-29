@@ -35,7 +35,7 @@ const sendMessageToOpenAI = async (
   // );
   //识别应该使用的模型
   let model = selectedModel === "gpt3.5" ? "gpt-3.5-turbo" : "gpt-4";
-  console.log("upsreamUrl", upsreamUrl);
+  console.log("upstreamUrl", upsreamUrl);
   // 设置API请求参数
   const requestOptions = {
     method: "POST",

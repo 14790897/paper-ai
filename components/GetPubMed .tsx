@@ -121,7 +121,9 @@ async function getPubMedPaperDetails(idList: IDList) {
       }
 
       // 构建文章的 PubMed URL
-      const articleUrl = `https://pubmed.ncbi.nlm.nih.gov/${medlineCitation.PMID._}/`;
+      const articleUrl = `https://pubmed.ncbi.nlm.nih.gov/${medlineCitation.PMID}/`;
+      // console.log("medlineCitation", medlineCitation);
+
       return {
         id: medlineCitation.PMID._,
         title: articleDetails.ArticleTitle,
