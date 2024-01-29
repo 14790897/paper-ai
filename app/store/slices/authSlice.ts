@@ -29,6 +29,9 @@ export const authSlice = createSlice({
     setSystemPrompt: (state, action: PayloadAction<string>) => {
       state.systemPrompt = action.payload;
     },
+    setEditorContent: (state, action: PayloadAction<string>) => {
+      state.editorContent = action.payload;
+    },
     addReferenceRedux: (state, action: PayloadAction<Reference>) => {
       state.referencesRedux.push(action.payload);
     },
@@ -43,8 +46,25 @@ export const authSlice = createSlice({
     clearReferencesRedux: (state) => {
       state.referencesRedux = [];
     },
-    setEditorContent: (state, action: PayloadAction<string>) => {
-      state.editorContent = action.payload;
+    swapReferencesRedux: (
+      state,
+      action: PayloadAction<{ indexA: number; indexB: number }>
+    ) => {
+      console.log("moveReference", state.referencesRedux); // 调试输出
+
+      const { indexA, indexB } = action.payload;
+      if (
+        indexA >= 0 &&
+        indexA < state.referencesRedux.length &&
+        indexB >= 0 &&
+        indexB < state.referencesRedux.length
+      ) {
+        const newReferences = [...state.referencesRedux];
+        const temp = newReferences[indexA];
+        newReferences[indexA] = newReferences[indexB];
+        newReferences[indexB] = temp;
+        state.referencesRedux = newReferences;
+      }
     },
   },
 });
@@ -59,6 +79,7 @@ export const {
   clearReferencesRedux,
   setEditorContent,
   setSystemPrompt,
+  swapReferencesRedux,
 } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

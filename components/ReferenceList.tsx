@@ -13,6 +13,7 @@ import {
   addReferenceRedux,
   removeReferenceRedux,
   clearReferencesRedux,
+  swapReferencesRedux,
 } from "@/app/store/slices/authSlice";
 
 type ReferenceListProps = {
@@ -40,31 +41,23 @@ function ReferenceList({
   const references = useAppSelector((state) => state.auth.referencesRedux);
 
   function moveReferenceUp(index: number) {
-    setReferences((prevReferences) => {
-      if (index === 0) return prevReferences; // 如果是第一个元素，不进行操作
+    console.log("index", index);
 
-      const newReferences = [...prevReferences];
-      const temp = newReferences[index];
-      newReferences[index] = newReferences[index - 1];
-      newReferences[index - 1] = temp;
-      console.log("moveReferenceUp", newReferences); // 调试输出
-
-      return newReferences;
-    });
+    if (index <= 0 || index >= references.length) {
+      console.log("index", index);
+      return; // Index out of bounds or first element
+    }
+    dispatch(swapReferencesRedux({ indexA: index, indexB: index - 1 }));
   }
 
   function moveReferenceDown(index: number) {
-    setReferences((prevReferences) => {
-      if (index === prevReferences.length - 1) return prevReferences; // 如果是最后一个元素，不进行操作
+    console.log("index", index);
+    if (index < 0 || index >= references.length - 1) {
+      console.log("index", index);
+      return; // Index out of bounds or last element
+    }
 
-      const newReferences = [...prevReferences];
-      const temp = newReferences[index];
-      newReferences[index] = newReferences[index + 1];
-      newReferences[index + 1] = temp;
-      console.log("moveReferenceDown", newReferences); // 调试输出
-
-      return newReferences;
-    });
+    dispatch(swapReferencesRedux({ indexA: index, indexB: index + 1 }));
   }
 
   function removeReferenceUpdateIndex(index: number) {
@@ -201,18 +194,18 @@ function ReferenceList({
                       ({reference.url})
                     </a>
                   )}
-                  {/* <button
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
-                  onClick={() => moveReferenceUp(index)}
-                >
-                  ↑
-                </button>
-                <button
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
-                  onClick={() => moveReferenceDown(index)}
-                >
-                  ↓
-                </button> */}
+                  <button
+                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
+                    onClick={() => moveReferenceUp(index)}
+                  >
+                    ↑
+                  </button>
+                  <button
+                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
+                    onClick={() => moveReferenceDown(index)}
+                  >
+                    ↓
+                  </button>
                   <button
                     className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
                     onClick={() =>
