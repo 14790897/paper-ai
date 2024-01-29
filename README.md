@@ -13,7 +13,7 @@
   <a href="#功能"><strong>功能</strong></a> ·
   <a href="#演示"><strong>演示</strong></a> ·
   <a href="#部署到 Vercel"><strong>部署到 Vercel</strong></a> ·
-  <a href="#克隆并在本地运行"><strong>克隆并在本地运行y</strong></a> ·
+  <a href="#克隆并在本地运行"><strong>克隆并在本地运行</strong></a> ·
 </p>
 <br/>
 
