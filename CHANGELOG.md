@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.2.1](https://www.github.com/14790897/paper-ai/compare/v1.2.0...v1.2.1) (2024-01-29)
+
+
+### Bug Fixes
+
+* 修复pubmed articleUrl 无法正常获取的问题 ([f5ae3c1](https://www.github.com/14790897/paper-ai/commit/f5ae3c1ff456bdb6131a8c39b1d04d0ee2094db7))
+
 ## [1.2.0](https://www.github.com/14790897/paper-ai/compare/v1.1.0...v1.2.0) (2024-01-29)
 
 
