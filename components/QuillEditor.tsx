@@ -77,6 +77,7 @@ const QEditor = () => {
   const dispatch = useAppDispatch();
   const references = useAppSelector((state) => state.auth.referencesRedux);
   const editorContent = useAppSelector((state) => state.auth.editorContent); // 从 Redux store 中获取编辑器内容
+  const systemPrompt = useAppSelector((state) => state.auth.systemPrompt);
 
   const addReference = (newReference: Reference) => {
     setReferences((prevReferences) => [...prevReferences, newReference]);
@@ -256,7 +257,14 @@ const QEditor = () => {
         quill,
         500
       )},搜索到的论文内容:${trimmedMessage},需要完成的论文主题：${topic},请根据搜索到的论文内容完成用户的论文`;
-      sendMessageToOpenAI(content, quill, selectedModel, apiKey, upsreamUrl);
+      sendMessageToOpenAI(
+        content,
+        quill,
+        selectedModel,
+        apiKey,
+        upsreamUrl,
+        systemPrompt
+      );
     } catch (error) {
       console.error("Error fetching data:", error);
       // 在处理错误后，再次抛出这个错误

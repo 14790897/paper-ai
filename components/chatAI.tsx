@@ -136,7 +136,10 @@ const getTopicFromAI = async (
       ],
     }),
   };
-  const response = await fetch(process.env.NEXT_PUBLIC_AI_URL, requestOptions);
+  const response = await fetch(
+    process.env.NEXT_PUBLIC_AI_URL + "/v1/chat/completions",
+    requestOptions
+  );
   const data = await response.json();
   const topic = data.choices[0].message.content;
   return topic; // 获取并返回回复
@@ -171,7 +174,7 @@ async function processResult(reader, decoder, editor) {
           jsonStr = jsonStr.trim();
           jsonStr = jsonStr.substring(6);
           let dataObject = JSON.parse(jsonStr);
-          console.log("dataObject", dataObject);
+          // console.log("dataObject", dataObject);
           // 处理 dataObject 中的 content
           if (dataObject.choices && dataObject.choices.length > 0) {
             let content =
@@ -180,7 +183,7 @@ async function processResult(reader, decoder, editor) {
             if (content) {
               // 在当前光标位置插入文本
               editor.insertText(editor.getSelection().index, content);
-              console.log("成功插入：", content);
+              // console.log("成功插入：", content);
             }
           }
         } catch (error) {

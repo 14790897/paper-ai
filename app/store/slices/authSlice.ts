@@ -5,6 +5,7 @@ export interface APIState {
   referencesRedux: Reference[];
   editorContent: string;
   upsreamUrl: string;
+  systemPrompt: string;
 }
 
 const initialState: APIState = {
@@ -12,6 +13,7 @@ const initialState: APIState = {
   referencesRedux: [],
   editorContent: "",
   upsreamUrl: "https://one.caifree.com", //https://api.openai.com
+  systemPrompt: "",
 };
 
 export const authSlice = createSlice({
@@ -23,6 +25,9 @@ export const authSlice = createSlice({
     },
     setUpsreamUrl: (state, action: PayloadAction<string>) => {
       state.upsreamUrl = action.payload;
+    },
+    setSystemPrompt: (state, action: PayloadAction<string>) => {
+      state.systemPrompt = action.payload;
     },
     addReferenceRedux: (state, action: PayloadAction<Reference>) => {
       state.referencesRedux.push(action.payload);
@@ -53,6 +58,7 @@ export const {
   removeReferenceRedux,
   clearReferencesRedux,
   setEditorContent,
+  setSystemPrompt,
 } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
