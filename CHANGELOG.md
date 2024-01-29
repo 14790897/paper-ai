@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.2.0](https://www.github.com/14790897/paper-ai/compare/v1.1.0...v1.2.0) (2024-01-29)
+
+
+### Features
+
+* 上下移动文献功能 ([c7cef37](https://www.github.com/14790897/paper-ai/commit/c7cef370d0568c7bc1a4df798e624bc4494344d2))
+* 导出到word功能，避免样式丢失 ([cc2856c](https://www.github.com/14790897/paper-ai/commit/cc2856ceb21532fa1bd8d36b78b028fd627aa726))
+* 系统提示自定义 ([c160d3e](https://www.github.com/14790897/paper-ai/commit/c160d3e6af970911e0f0163e0ab2979bdf79b8ad))
+
 ## [1.1.0](https://www.github.com/14790897/paper-ai/compare/v1.0.0...v1.1.0) (2024-01-28)
 
 
