@@ -145,11 +145,16 @@ async function getPubMedPaperDetails(idList: IDList) {
 
 // 示例：使用这些函数
 async function fetchPubMedData(query: string, year: number, limit: number) {
-  const idList = await getPubMedPapers(query, year, limit);
-  if (idList && idList.length > 0) {
-    const paperDetails = await getPubMedPaperDetails(idList);
-    console.log("fetchPubMedData", paperDetails); // 处理或显示文章详情
-    return paperDetails;
+  try {
+    const idList = await getPubMedPapers(query, year, limit);
+    if (idList && idList.length > 0) {
+      const paperDetails = await getPubMedPaperDetails(idList);
+      console.log("fetchPubMedData", paperDetails); // 处理或显示文章详情
+      return paperDetails;
+    }
+  } catch {
+    console.error("未搜索到文献");
+    throw new Error("未搜索到文献");
   }
 }
 

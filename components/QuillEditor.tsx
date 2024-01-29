@@ -55,7 +55,7 @@ const QEditor = () => {
   const upsreamUrl = useAppSelector((state: any) => state.auth.upsreamUrl);
   const [quill, setQuill] = useState(null);
   //询问ai，用户输入
-  const [userInput, setUserInput] = useState("robot");
+  const [userInput, setUserInput] = useState("");
   //quill编辑器鼠标位置
   const [cursorPosition, setCursorPosition] = useState(null);
 
