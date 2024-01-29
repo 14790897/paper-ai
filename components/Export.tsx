@@ -24,7 +24,7 @@ const ExportDocx = ({ editor }: ReferenceListProps) => {
   }, [editor]);
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center">
       <button
         onClick={exportToWord}
         className="px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded shadow"
