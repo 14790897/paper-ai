@@ -9,11 +9,10 @@ export interface APIState {
 }
 
 const initialState: APIState = {
-  apiKey:
-    "https://api.cocopilot.org/copilot_internal/v2/token||ghu_ThisIsARealFreeCopilotKeyByCoCopilot",
+  apiKey: "sess-L6DwIB7N859iQLWfNBTaPsmkErqZrjoXVk6m7BmA",
   referencesRedux: [],
   editorContent: "",
-  upsreamUrl: "https://chatserver.3211000.xyz", //https://api.openai.com  https://one.caifree.com
+  upsreamUrl: "https://api.liuweiqing.top", //https://api.openai.com  https://one.caifree.com https://chatserver.3211000.xyz
   systemPrompt: "",
 };
 
