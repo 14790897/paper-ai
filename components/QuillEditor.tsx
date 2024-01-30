@@ -16,6 +16,7 @@ import {
   convertToSuperscript,
   removeSpecialCharacters,
   formatTextInEditor,
+  getNumberBeforeCursor,
 } from "@/utils/others/quillutils";
 //组件
 import ExportDocx from "./Export";
@@ -163,19 +164,17 @@ const QEditor = () => {
         }
       }
       console.log("topic in AI", topic);
-      let rawData, dataString;
+      let rawData, dataString, newReferences;
       if (selectedSource === "arxiv") {
         rawData = await getArxivPapers(topic);
         console.log("arxiv rawdata:", rawData);
         // 将 rawData 转换为引用数组
-        const newReferences = rawData.map((entry) => ({
+        newReferences = rawData.map((entry) => ({
           url: entry.id,
           title: entry.title,
           year: entry.published,
           author: entry.authors?.slice(0, 3).join(", "),
         }));
-        dispatch(addReferencesRedux(newReferences));
-
         dataString = rawData
           .map((entry) => {
             return `ID: ${entry.id}\nTime: ${entry.published}\nTitle: ${entry.title}\nSummary: ${entry.summary}\n\n`;
@@ -184,7 +183,7 @@ const QEditor = () => {
       } else if (selectedSource === "semanticScholar") {
         rawData = await getSemanticPapers(topic, "2015-2023");
         // 将 rawData 转换为引用数组
-        const newReferences = rawData.map((entry) => ({
+        newReferences = rawData.map((entry) => ({
           url: entry.url,
           title: entry.title,
           year: entry.year,
@@ -196,7 +195,6 @@ const QEditor = () => {
               }${entry.journal.pages ? `: ${entry.journal.pages}` : ""}`
             : "",
         }));
-        dispatch(addReferencesRedux(newReferences));
         dataString = rawData
           .map((entry) => {
             return `Time: ${entry.year}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
@@ -204,7 +202,7 @@ const QEditor = () => {
           .join("");
       } else if (selectedSource === "pubmed") {
         rawData = await fetchPubMedData(topic, 2020, 2);
-        const newReferences = rawData.map((entry) => ({
+        newReferences = rawData.map((entry) => ({
           id: entry.id, // 文章的 PubMed ID
           title: entry.title, // 文章的标题
           abstract: entry.abstract, // 文章的摘要
@@ -217,7 +215,6 @@ const QEditor = () => {
 
         // 打印或进一步处理 newReferences
         console.log(newReferences);
-        dispatch(addReferencesRedux(newReferences));
 
         dataString = rawData
           .map((entry) => {
@@ -225,6 +222,13 @@ const QEditor = () => {
           })
           .join("");
       }
+      const nearestNumber = getNumberBeforeCursor(quill);
+      dispatch(
+        addReferencesRedux({
+          references: newReferences,
+          position: nearestNumber,
+        })
+      );
 
       // 确保搜索到的论文不超过 3000 个字符
       const trimmedMessage =

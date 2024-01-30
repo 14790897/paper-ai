@@ -6,6 +6,30 @@ function getTextBeforeCursor(quill, length = 500) {
   return quill.getText(start, cursorPosition - start);
 }
 
+function getNumberBeforeCursor(quill, length = 3000) {
+  const cursorPosition = quill.getSelection().index;
+  const start = Math.max(0, cursorPosition - length); // 确保开始位置不是负数
+  const textBeforeCursor = quill.getText(start, cursorPosition - start);
+
+  // 使用正则表达式匹配格式为[数字]的文本
+  const regex = /\[(\d+)\]/g;
+  let match;
+  let lastMatch;
+
+  // 使用循环找到最后一个匹配项
+  while ((match = regex.exec(textBeforeCursor)) !== null) {
+    lastMatch = match;
+  }
+
+  // 如果找到了匹配项，返回匹配到的数字（转换为数字类型）
+  if (lastMatch) {
+    return parseInt(lastMatch[1], 10);
+  }
+
+  // 如果没有找到匹配项，返回 0
+  return 0;
+}
+
 function updateBracketNumbersInDelta(delta) {
   let currentNumber = 1;
 
@@ -159,4 +183,5 @@ export {
   copyToClipboard,
   formatReferenceForCopy,
   formatAllReferencesForCopy,
+  getNumberBeforeCursor,
 };

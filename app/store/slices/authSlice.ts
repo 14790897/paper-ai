@@ -35,8 +35,14 @@ export const authSlice = createSlice({
     addReferenceRedux: (state, action: PayloadAction<Reference>) => {
       state.referencesRedux.push(action.payload);
     },
-    addReferencesRedux: (state, action: PayloadAction<Reference[]>) => {
-      state.referencesRedux.push(...action.payload);
+    addReferencesRedux: (
+      state,
+      action: PayloadAction<{ references: Reference[]; position?: number }>
+    ) => {
+      const { references, position } = action.payload;
+      const insertPosition =
+        position !== undefined ? position : state.referencesRedux.length;
+      state.referencesRedux.splice(insertPosition, 0, ...references);
     },
     removeReferenceRedux: (state, action: PayloadAction<number>) => {
       state.referencesRedux = state.referencesRedux.filter(
