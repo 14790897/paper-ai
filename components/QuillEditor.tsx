@@ -142,6 +142,9 @@ const QEditor = () => {
       upsreamUrl,
       prompt
     );
+    // 重新获取更新后的内容并更新 Redux store
+    const updatedContent = quill.root.innerHTML;
+    dispatch(setEditorContent(updatedContent));
   };
 
   // 处理paper2AI
@@ -241,7 +244,7 @@ const QEditor = () => {
         quill,
         500
       )},搜索到的论文内容:${trimmedMessage},需要完成的论文主题：${topic},请根据搜索到的论文内容完成用户的论文`;
-      sendMessageToOpenAI(
+      await sendMessageToOpenAI(
         content,
         quill,
         selectedModel,
@@ -249,6 +252,9 @@ const QEditor = () => {
         upsreamUrl,
         systemPrompt
       );
+      // 重新获取更新后的内容并更新 Redux store
+      const updatedContent = quill.root.innerHTML;
+      dispatch(setEditorContent(updatedContent));
     } catch (error) {
       console.error("Error fetching data:", error);
       // 在处理错误后，再次抛出这个错误

@@ -90,6 +90,8 @@ const sendMessageToOpenAI = async (
     const decoder = new TextDecoder();
 
     await processResult(reader, decoder, editor);
+    console.log("流式输出完成接下来要插入一个换行符");
+    editor.insertText(editor.getSelection().index, "\n");
 
     convertToSuperscript(editor);
     updateBracketNumbersInDeltaKeepSelection(editor);
