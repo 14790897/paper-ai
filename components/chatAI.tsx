@@ -26,13 +26,6 @@ const sendMessageToOpenAI = async (
   upsreamUrl: string,
   prompt?: string
 ) => {
-  // console.log("apiKey", apiKey);
-  // console.log("isValidApiKey(apiKey)", isValidApiKey(apiKey).toString());
-  // console.log(
-  //   " token的值",
-  //   "Bearer " +
-  //     (isValidApiKey(apiKey) ? apiKey : process.env.NEXT_PUBLIC_OPENAI_API_KEY)
-  // );
   //识别应该使用的模型
   let model = selectedModel === "gpt3.5" ? "gpt-3.5-turbo" : "gpt-4";
   console.log("upstreamUrl", upsreamUrl);
@@ -88,10 +81,9 @@ const sendMessageToOpenAI = async (
     }
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
-
-    await processResult(reader, decoder, editor);
-    console.log("流式输出完成接下来要插入一个换行符");
+    //开始结束前先进行换行
     editor.insertText(editor.getSelection().index, "\n");
+    await processResult(reader, decoder, editor);
 
     convertToSuperscript(editor);
     updateBracketNumbersInDeltaKeepSelection(editor);
