@@ -7,6 +7,9 @@ import {
   formatAllReferencesForCopy,
   delteIndexUpdateBracketNumbersInDeltaKeepSelection,
 } from "@/utils/others/quillutils";
+//删除文献按钮
+import ParagraphDeleteButton from "@/components/ParagraphDeleteInterface";
+
 //redux
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import {
@@ -51,10 +54,9 @@ function ReferenceList({ editor }: ReferenceListProps) {
     dispatch(swapReferencesRedux({ indexA: index, indexB: index + 1 }));
   }
 
-  function removeReferenceUpdateIndex(index: number) {
-    // removeReference(index);
+  function removeReferenceUpdateIndex(index: number, rmPg = false) {
     handleRemoveReference(index);
-    delteIndexUpdateBracketNumbersInDeltaKeepSelection(editor, index);
+    delteIndexUpdateBracketNumbersInDeltaKeepSelection(editor, index, rmPg);
   }
 
   const handleAddReference = (newReference: Reference) => {
@@ -205,12 +207,16 @@ function ReferenceList({ editor }: ReferenceListProps) {
                   >
                     复制
                   </button>
-                  <button
+                  {/* <button
                     className="text-red-500 hover:text-red-700 ml-4"
                     onClick={() => removeReferenceUpdateIndex(index)}
                   >
                     X
-                  </button>
+                  </button> */}
+                  <ParagraphDeleteButton
+                    index={index}
+                    removeReferenceUpdateIndex={removeReferenceUpdateIndex}
+                  ></ParagraphDeleteButton>
                 </li>
               )
           )}
