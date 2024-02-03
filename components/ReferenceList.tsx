@@ -182,6 +182,7 @@ function ReferenceList({ editor }: ReferenceListProps) {
                       className="text-blue-500 hover:underline"
                       target="_blank"
                       rel="noopener noreferrer"
+                      id={`[${(index + 1).toString()}]`}
                     >
                       {" "}
                       ({reference.url})
@@ -207,12 +208,6 @@ function ReferenceList({ editor }: ReferenceListProps) {
                   >
                     复制
                   </button>
-                  {/* <button
-                    className="text-red-500 hover:text-red-700 ml-4"
-                    onClick={() => removeReferenceUpdateIndex(index)}
-                  >
-                    X
-                  </button> */}
                   <ParagraphDeleteButton
                     index={index}
                     removeReferenceUpdateIndex={removeReferenceUpdateIndex}

@@ -54,15 +54,15 @@ const QEditor = () => {
   //读取redux中的API key
   const apiKey = useAppSelector((state: any) => state.auth.apiKey);
   const upsreamUrl = useAppSelector((state: any) => state.auth.upsreamUrl);
-  const [quill, setQuill] = useState(null);
+  const [quill, setQuill] = useState<Quill | null>(null);
   //询问ai，用户输入
   const [userInput, setUserInput] = useState("robot");
   //quill编辑器鼠标位置
-  const [cursorPosition, setCursorPosition] = useState(null);
+  const [cursorPosition, setCursorPosition] = useState<number | null>(null);
 
   // 初始化 Quill 编辑器
   const isMounted = useRef(false);
-  const editor = useRef(null);
+  const editor = useRef<Quill | null>(null);
   // 选择论文来源
   const [selectedSource, setSelectedSource] = useLocalStorage(
     "semanticScholar",
@@ -106,6 +106,25 @@ const QEditor = () => {
           console.log("No selection or cursor in the editor.");
         }
       });
+      // 添加点击事件监听器
+      const handleEditorClick = (e) => {
+        const range = editor.current!.getSelection();
+        if (range && range.length === 0) {
+          const [leaf, offset] = editor.current!.getLeaf(range.index);
+          const textWithoutSpaces = leaf.text.replace(/\s+/g, ""); // 去掉所有空格
+          if (/^\[\d+\]$/.test(textWithoutSpaces)) {
+            // console.log("点击了引用", textWithoutSpaces);
+            document.getElementById(textWithoutSpaces)!.scrollIntoView();
+          }
+        }
+      };
+
+      editor.current.root.addEventListener("click", handleEditorClick);
+
+      // 清理函数
+      // return () => {
+      //   editor.current!.root.removeEventListener("click", handleEditorClick);
+      // };
     }
   }, []);
 
