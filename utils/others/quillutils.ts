@@ -53,53 +53,87 @@ function deleteReferenceNumberOrParagraph(
   deleteParagraph: boolean
 ) {
   const indexStr = `[${indexToRemove + 1}]`;
-  const updatedOps = delta.ops.flatMap((op, i) => {
-    if (typeof op.insert === "string") {
-      const indexPos = op.insert.indexOf(indexStr);
-      if (indexPos !== -1) {
-        if (deleteParagraph) {
-          // // 检查是否包含要删除的索引并找到段落的起止位置
-          // let startPos = op.insert.lastIndexOf("\n", indexPos) + 1;
-          // let endPos = op.insert.indexOf("\n", indexPos);
-          // console.log("startPos", startPos);
-          // console.log("endPos", endPos);
-          // // 如果没有找到首部的换行符，说明是文档的第一个段落或索引紧跟在段落开头
-          // if (startPos === 0 && indexPos > 0) {
-          //   // 直接从文档开始删除到段落末尾
-          //   startPos = 0; // 从文档开头开始
-          // }
-          // // 如果没有找到末尾的换行符，说明索引在文档或段落的末尾
-          // endPos = endPos === -1 ? op.insert.length : endPos;
-          // // 删除整个段落
-          // console.log("startPos2", startPos);
-          // console.log("endPos2", endPos);
-          // const before = op.insert.slice(0, startPos);
-          // const after = op.insert.slice(endPos);
-          // op.insert = before + after;
-          // // 如果处理后的insert为空字符串，我们返回一个空数组来避免创建空操作
-          // console.log("删除整个段落");
-          // return op.insert ? [op] : [];
-          // 找到索引所在的op，开始向前和向后搜索段落的边界
-          let startPos = findPrevParagraphEnd(delta.ops, i);
-          let endPos = findNextParagraphStart(delta.ops, i);
+  if (deleteParagraph) {
+    const htmlString = removeParagraphWithReference(
+      quill.root.innerHTML,
+      indexToRemove + 1
+    );
+    console.log("htmlString", htmlString);
+    let delta = quill.clipboard.convert(htmlString);
+    return delta;
+  } else {
+    const updatedOps = delta.ops.flatMap((op, i) => {
+      if (typeof op.insert === "string") {
+        const indexPos = op.insert.indexOf(indexStr);
+        if (indexPos !== -1) {
+          // if (deleteParagraph) {
+          //   // let startPos = findPrevParagraphEnd(delta.ops, i);
+          //   // let endPos = findNextParagraphStart(delta.ops, i);
+          //   // deleteParagraphOps(delta.ops, startPos, endPos);
 
-          // 删除段落：需要根据startPos和endPos来决定删除或修改哪些op
-          // 这可能包括从一个op中删除文本，或者完全删除一个或多个op
-          deleteParagraphOps(delta.ops, startPos, endPos);
-        } else {
+          // } else {
           // 删除单个索引的逻辑
           const before = op.insert.slice(0, indexPos);
           const after = op.insert.slice(indexPos + indexStr.length);
           op.insert = before + after;
           console.log("删除索引");
         }
+        // }
       }
-    }
-    // 对于不需要修改的op，直接返回
-    return [op];
-  });
+      // 对于不需要修改的op，直接返回
+      return [op];
+    });
+    return { ops: updatedOps };
+  }
+}
 
-  return { ops: updatedOps };
+// function deleteParagraphsWithReferences(html: HTML, referenceNumber: number) {
+//   const regex = new RegExp(
+//     `<p><br><\\/p>.*?<sup>\\[${referenceNumber}\\]<\\/sup>.*?<p><br><\\/p>`,
+//     "s"
+//   );
+//   console.log("regex", regex.toString());
+
+//   const matches = html.match(regex);
+//   console.log(matches);
+//   return html.replace(regex, "");
+// }
+
+function removeParagraphWithReference(
+  htmlString: string,
+  referenceNumber: number
+) {
+  const referenceTag = `<sup>[${referenceNumber}]</sup>`;
+  let startIndex = htmlString.indexOf(referenceTag);
+
+  // 如果引用号不存在，直接返回原始字符串
+  if (startIndex === -1) {
+    return htmlString;
+  }
+  const paragraphTag = "<p><br></p>";
+  // 向前找到<p><br></p>作为段落的开始标志
+  let startParagraphIndex = htmlString.lastIndexOf(paragraphTag, startIndex);
+  if (startParagraphIndex !== -1) {
+    startParagraphIndex += paragraphTag.length;
+  } else {
+    // 如果没有找到，说明是文档的开始部分
+    startParagraphIndex = 0;
+  }
+  // 向后找到下一个<p><br></p>作为段落的结束标志，这实际上标记了下一个段落的开始
+  let endParagraphIndex = htmlString.indexOf(paragraphTag, startIndex);
+  // 调整结束索引以包含段落结束的</p>标签
+  if (endParagraphIndex !== -1) {
+    endParagraphIndex += paragraphTag.length;
+  } else {
+    // 如果没有找到，则将结束索引设置为字符串的末尾
+    endParagraphIndex = htmlString.length;
+  }
+
+  // 删除包含特定引用号的段落
+  return (
+    htmlString.slice(0, startParagraphIndex) +
+    htmlString.slice(endParagraphIndex)
+  );
 }
 
 function findPrevParagraphEnd(ops, currentIndex) {
