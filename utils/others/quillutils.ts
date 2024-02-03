@@ -66,12 +66,6 @@ function deleteReferenceNumberOrParagraph(
       if (typeof op.insert === "string") {
         const indexPos = op.insert.indexOf(indexStr);
         if (indexPos !== -1) {
-          // if (deleteParagraph) {
-          //   // let startPos = findPrevParagraphEnd(delta.ops, i);
-          //   // let endPos = findNextParagraphStart(delta.ops, i);
-          //   // deleteParagraphOps(delta.ops, startPos, endPos);
-
-          // } else {
           // 删除单个索引的逻辑
           const before = op.insert.slice(0, indexPos);
           const after = op.insert.slice(indexPos + indexStr.length);
@@ -135,107 +129,6 @@ function removeParagraphWithReference(
     htmlString.slice(endParagraphIndex)
   );
 }
-
-function findPrevParagraphEnd(ops, currentIndex) {
-  // 从当前索引向前搜索换行符
-  for (let i = currentIndex - 1; i >= 0; i--) {
-    const op = ops[i];
-    if (typeof op.insert === "string") {
-      const newlineIndex = op.insert.lastIndexOf("\n");
-      // 如果在当前op中找到了换行符，返回这个位置和op的索引
-      if (newlineIndex !== -1) {
-        return { opIndex: i, charIndex: newlineIndex + 1 };
-      }
-    }
-  }
-  // 如果没有找到换行符，返回文档开头的位置
-  return { opIndex: -1, charIndex: 0 };
-}
-function findNextParagraphStart(ops, currentIndex) {
-  // 从当前索引向后搜索换行符
-  for (let i = currentIndex; i < ops.length; i++) {
-    const op = ops[i];
-    if (typeof op.insert === "string") {
-      const newlineIndex = op.insert.indexOf("\n");
-      // 如果在当前op中找到了换行符，返回这个位置和op的索引
-      if (newlineIndex !== -1) {
-        return { opIndex: i, charIndex: newlineIndex + 1 };
-      }
-    }
-  }
-  // 如果没有找到换行符，返回文档末尾的位置
-  return {
-    opIndex: ops.length - 1,
-    charIndex: ops[ops.length - 1].insert.length,
-  };
-}
-function deleteParagraphOps(ops, startPos, endPos) {
-  // 如果段落在同一个op内
-  if (startPos.opIndex === endPos.opIndex && startPos.opIndex !== -1) {
-    const op = ops[startPos.opIndex];
-    const before = op.insert.substring(0, startPos.charIndex);
-    const after = op.insert.substring(endPos.charIndex);
-    op.insert = before + after;
-    if (op.insert === "") {
-      // 如果op为空，则移除此op
-      ops.splice(startPos.opIndex, 1);
-    }
-  } else {
-    // 处理跨越多个op的段落删除
-    // 1. 修改或删除起始op
-    if (startPos.opIndex !== -1) {
-      const startOp = ops[startPos.opIndex];
-      startOp.insert = startOp.insert.substring(0, startPos.charIndex);
-      if (startOp.insert === "") {
-        // 如果起始op为空，删除之
-        ops.splice(startPos.opIndex, 1);
-        // 调整结束位置索引，因为数组长度减少了
-        endPos.opIndex--;
-      }
-    }
-
-    // 2. 删除起始位置和结束位置之间的所有op
-    const deleteCount = endPos.opIndex - startPos.opIndex - 1;
-    if (deleteCount > 0) {
-      ops.splice(startPos.opIndex + 1, deleteCount);
-    }
-
-    // 3. 修改或删除结束op
-    if (endPos.opIndex !== -1 && endPos.opIndex < ops.length) {
-      const endOp = ops[endPos.opIndex];
-      endOp.insert = endOp.insert.substring(endPos.charIndex);
-      if (endOp.insert === "" && deleteCount >= 0) {
-        // 如果结束op为空，删除之
-        ops.splice(endPos.opIndex, 1);
-      }
-    }
-  }
-}
-
-// function deleteUpdateBracketNumbers(delta, indexToRemove:number, quill) {
-//   let currentNumber = 1;
-
-//   const updatedOps = delta.ops.map((op, i) => {
-//     if (typeof op.insert === "string") {
-//       // 如果文本包含要删除的索引，删除它
-//       if (op.insert.includes(`[${indexToRemove + 1}]`)) {
-//         const start = delta.index + i;
-//         const end = start + op.insert.length;
-//         quill.deleteText(start, end);
-//         return op;
-//       }
-
-//       // 否则，更新括号中的数字
-//       return {
-//         ...op,
-//         insert: op.insert.replace(/\[\d+\]/g, () => `[${currentNumber++}]`),
-//       };
-//     }
-//     return op;
-//   });
-
-//   return { ops: updatedOps };
-// }
 
 function updateBracketNumbersInDeltaKeepSelection(quill) {
   const selection = quill.getSelection();
