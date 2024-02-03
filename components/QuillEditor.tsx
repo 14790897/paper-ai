@@ -81,6 +81,11 @@ const QEditor = () => {
       editor.current = new Quill("#editor", {
         modules: {
           toolbar: toolbarOptions,
+          history: {
+            delay: 2000,
+            maxStack: 500, // 调整撤销和重做堆栈的大小
+            userOnly: false,
+          },
         },
         theme: "snow",
       });
