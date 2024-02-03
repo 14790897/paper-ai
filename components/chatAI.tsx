@@ -176,12 +176,13 @@ async function processResult(reader, decoder, editor) {
               dataObject.choices[0].delta?.content;
             if (content) {
               // 在当前光标位置插入文本
+              editor.focus();
               editor.insertText(editor.getSelection().index, content);
               // console.log("成功插入：", content);
             }
           }
         } catch (error) {
-          console.error("Failed to parse JSON object:", jsonStr);
+          // console.error("Failed to parse JSON object:", jsonStr);
           console.error("Error:", error);
           break;
         }
