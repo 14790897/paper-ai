@@ -18,7 +18,7 @@ const Settings = () => {
   const systemPrompt = useAppSelector((state) => state.auth.systemPrompt);
 
   return (
-    <div className="max-w-md mx-auto p-4">
+    <div className="max-w-md rounded overflow-hidden shadow-lg bg-blue-gray-100 z-1000  mx-auto ">
       <h1 className="font-bold text-3xl">settings</h1>
       <br />
       <div className="flex justify-end mt-4 mr-4">

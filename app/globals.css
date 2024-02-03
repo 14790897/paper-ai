@@ -40,3 +40,21 @@
     transform: translateY(0);
   }
 }
+
+.animate-slide-in-right {
+  animation: slideInFromRight 0.5s ease-out forwards;
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%); /* 从右侧外开始 */
+  }
+  100% {
+    transform: translateX(0); /* 完全进入视图 */
+  }
+}
+
+.component-container {
+  @apply fixed top-1/4 right-0;
+  transform: translateX(100%); /* 动画开始前，确保组件位于视图右侧之外 */
+}

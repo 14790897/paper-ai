@@ -5,12 +5,13 @@ import ConnectSupabaseSteps from "@/components/ConnectSupabaseSteps";
 import SignUpUserSteps from "@/components/SignUpUserSteps";
 import Header from "@/components/Header";
 import { cookies } from "next/headers";
-import QEditor from "@/components/QuillEditor";
 import QuillWrapper from "./QuillWrapper";
 // import TinyEditor from "../components/TinyEditor";
 // import SEditor from "../components/SlateEditor";
 import SettingsLink from "@/components/SettingsLink";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
+// import React, { useState, useEffect, useRef } from "react";
+
 // import Error from "@/app/global-error";
 export default async function Index() {
   const cookieStore = cookies();

@@ -1,4 +1,4 @@
-import SettingsWrapper from "../SettingsWrapper";
+import SettingsWrapper from "@/components/SettingsWrapper";
 
 export default function settings() {
   return (
