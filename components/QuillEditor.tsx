@@ -69,7 +69,10 @@ const QEditor = () => {
     "semanticScholar"
   ); // 默认选项
   //选择语言模型
-  const [selectedModel, setSelectedModel] = useLocalStorage("gpt3.5", "gpt3.5"); // 默认选项
+  const [selectedModel, setSelectedModel] = useLocalStorage(
+    "gpt3.5",
+    "deepseek-chat"
+  ); // 默认选项
   //redux
   const dispatch = useAppDispatch();
   const references = useAppSelector((state) => state.auth.referencesRedux);
@@ -291,17 +294,6 @@ const QEditor = () => {
     }
   }
 
-  // 插入论文信息
-  // const insertPapers = async (topic: string) => {
-  //   const rawData = await getArxivPapers(topic);
-  //   const dataString = rawData
-  //     .map((entry) => {
-  //       return `ID: ${entry.id}\nPublished: ${entry.published}\nTitle: ${entry.title}\nSummary: ${entry.summary}\n\n`;
-  //     })
-  //     .join("");
-  //   quill.insertText(quill.getLength(), dataString);
-  // };
-
   return (
     <div>
       <div id="Qtoolbar" className="space-y-2 flex justify-between">
@@ -345,8 +337,9 @@ const QEditor = () => {
           onChange={(e) => setSelectedModel(e.target.value)}
           className=" border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         >
-          <option value="gpt3.5">gpt3.5</option>
-          <option value="gpt4">gpt4</option>
+          <option value="gpt-3.5-turbo">gpt3.5</option>
+          <option value="gpt-4">gpt4</option>
+          <option value="deepseek-chat">deepseek-chat</option>
           {/* 其他来源网站 */}
         </select>
         {/* 用户输入自己的API key */}

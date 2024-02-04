@@ -27,7 +27,7 @@ const sendMessageToOpenAI = async (
   prompt?: string
 ) => {
   //识别应该使用的模型
-  let model = selectedModel === "gpt3.5" ? "gpt-3.5-turbo" : "gpt-4";
+  let model = selectedModel;
   console.log("upstreamUrl", upsreamUrl);
   // 设置API请求参数
   const requestOptions = {
@@ -76,8 +76,8 @@ const sendMessageToOpenAI = async (
       (upsreamUrl || process.env.NEXT_PUBLIC_AI_URL) + "/v1/chat/completions",
       requestOptions
     );
-    if (!response.ok) {
-      throw new Error("Server responded with an error");
+    if (!response.ok || !response.body) {
+      throw new Error("Server responded with an error" + response);
     }
     const reader = response.body.getReader();
     const decoder = new TextDecoder();

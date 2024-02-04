@@ -58,7 +58,21 @@
   @apply fixed top-1/4 right-0;
   transform: translateX(100%); /* 动画开始前，确保组件位于视图右侧之外 */
 }
-
+/* 想给上标添加一个鼠标放上去变手型的效果 */
 .ql-editor .ql-super {
   cursor: pointer;
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.vip-icon {
+  animation: flash 1s linear infinite;
 }
