@@ -109,13 +109,18 @@ const QEditor = () => {
       // 添加点击事件监听器
       const handleEditorClick = (e) => {
         const range = editor.current!.getSelection();
-        if (range && range.length === 0) {
-          const [leaf, offset] = editor.current!.getLeaf(range.index);
-          const textWithoutSpaces = leaf.text.replace(/\s+/g, ""); // 去掉所有空格
-          if (/^\[\d+\]$/.test(textWithoutSpaces)) {
-            // console.log("点击了引用", textWithoutSpaces);
-            document.getElementById(textWithoutSpaces)!.scrollIntoView();
+        if (range && range.length === 0 && editor.current) {
+          const [leaf, offset] = editor.current.getLeaf(range.index);
+          // console.log("leaf", leaf);
+          if (leaf.text) {
+            const textWithoutSpaces = leaf.text.replace(/\s+/g, ""); // 去掉所有空格
+            if (/^\[\d+\]$/.test(textWithoutSpaces)) {
+              console.log("点击了引用", textWithoutSpaces);
+              document.getElementById(textWithoutSpaces)!.scrollIntoView();
+            }
           }
+        } else {
+          console.log("No editor in click.");
         }
       };
 

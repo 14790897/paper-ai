@@ -58,3 +58,7 @@
   @apply fixed top-1/4 right-0;
   transform: translateX(100%); /* 动画开始前，确保组件位于视图右侧之外 */
 }
+
+.ql-editor .ql-super {
+  cursor: pointer;
+}

@@ -1,4 +1,5 @@
 import { Reference } from "@/utils/global";
+import Quill from "quill";
 
 function getTextBeforeCursor(quill, length = 500) {
   const cursorPosition = quill.getSelection().index;
@@ -170,7 +171,10 @@ function convertToSuperscript(quill) {
     const length = match[0].length;
 
     // 应用上标格式
-    quill.formatText(startIndex, length, { script: "super" });
+    quill.formatText(startIndex, length, {
+      script: "super",
+      // link: "javascript:void(0);",
+    });
     // 重置格式（如果需要）
     if (startIndex + length < text.length) {
       quill.formatText(startIndex + length, 1, "script", false);
