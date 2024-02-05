@@ -1,9 +1,10 @@
-import SettingsWrapper from "@/components/SettingsWrapper";
+//这里是settings页面
+import Settings from "@/components/Settings";
 
 export default function settings() {
   return (
     <div className="h-screen w-full ">
-      <SettingsWrapper />
+      <Settings />
     </div>
   );
 }
