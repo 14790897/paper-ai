@@ -9,6 +9,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@juggle/resize-observer": "^3.4.0",
+    "@lemonsqueezy/lemonsqueezy.js": "^2.0.0",
     "@next/third-parties": "^14.1.0",
     "@reduxjs/toolkit": "^2.0.1",
     "@supabase/ssr": "latest",
