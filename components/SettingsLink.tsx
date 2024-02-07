@@ -4,7 +4,7 @@ import { faCog } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 
 import Link from "next/link";
-import Settings from "@/components/Settings";
+import SettingsWrapper from "@/components/SettingsWrapper";
 
 const SettingsLink = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -26,7 +26,7 @@ const SettingsLink = () => {
     //     }`}
     //   >
 
-    //     <Settings />
+    //     <SettingsWrapper />
     //   </div>
     // </>
     <Link href="/settings" aria-label="Settings">

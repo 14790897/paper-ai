@@ -1,5 +1,5 @@
 //这里是settings页面
-import Settings from "@/components/Settings";
+import Settings from "@/components/SettingsWrapper";
 
 export default function settings() {
   return (
