@@ -3,6 +3,7 @@ import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { persistReducer } from "redux-persist";
 // import storage from "redux-persist/lib/storage";
 import { authReducer } from "./slices/authSlice";
+import { stateReducer } from "./slices/stateSlice";
 import storage from "./customStorage";
 import logger from "redux-logger";
 
@@ -18,14 +19,25 @@ const authPersistConfig = {
   ],
 };
 
+const statePersistConfig = {
+  key: "state1",
+  storage: storage,
+  whitelist: [
+    "showPaperManagement",
+    "paperNumberRedux",
+    "contentUpdatedFromNetwork",
+  ],
+};
+
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
+  state: persistReducer(statePersistConfig, stateReducer),
 });
 
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(logger),
+    getDefaultMiddleware({ serializableCheck: false }), //.concat(logger)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

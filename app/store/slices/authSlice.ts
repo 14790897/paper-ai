@@ -6,6 +6,7 @@ export interface APIState {
   editorContent: string;
   upsreamUrl: string;
   systemPrompt: string;
+  showPaperManagement: boolean;
 }
 
 const initialState: APIState = {
@@ -14,12 +15,16 @@ const initialState: APIState = {
   editorContent: "",
   upsreamUrl: "https://api.liuweiqing.top", //https://api.openai.com  https://one.caifree.com https://chatserver.3211000.xyz
   systemPrompt: "",
+  showPaperManagement: false,
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setShowPaperManagement: (state, action: PayloadAction<boolean>) => {
+      state.showPaperManagement = action.payload;
+    },
     setApiKey: (state, action: PayloadAction<string>) => {
       state.apiKey = action.payload;
     },
@@ -52,6 +57,9 @@ export const authSlice = createSlice({
     clearReferencesRedux: (state) => {
       state.referencesRedux = [];
     },
+    setReferencesRedux: (state, action: PayloadAction<Reference[]>) => {
+      state.referencesRedux = action.payload;
+    },
     swapReferencesRedux: (
       state,
       action: PayloadAction<{ indexA: number; indexB: number }>
@@ -77,6 +85,7 @@ export const authSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  setShowPaperManagement,
   setApiKey,
   setUpsreamUrl,
   addReferenceRedux,
@@ -84,6 +93,7 @@ export const {
   removeReferenceRedux,
   clearReferencesRedux,
   setEditorContent,
+  setReferencesRedux,
   setSystemPrompt,
   swapReferencesRedux,
 } = authSlice.actions;
