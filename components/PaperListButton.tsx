@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import { useAppDispatch } from "@/app/store"; // 确保路径正确
-import { setShowPaperManagement } from "@/app/store/slices/stateSlice"; // 确保路径正确
+import { useAppDispatch } from "@/app/store";
+import { setShowPaperManagement } from "@/app/store/slices/stateSlice";
 
 export default function PaperListButton() {
   const dispatch = useAppDispatch();
