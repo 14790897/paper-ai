@@ -3,12 +3,14 @@ export interface APIState {
   showPaperManagement: boolean;
   paperNumberRedux: string;
   contentUpdatedFromNetwork: boolean;
+  isVip: boolean;
 }
 
 const initialState: APIState = {
   showPaperManagement: false,
   paperNumberRedux: "1", //默认得给个值
   contentUpdatedFromNetwork: false,
+  isVip: false,
 };
 
 export const stateSlice = createSlice({
@@ -30,6 +32,9 @@ export const stateSlice = createSlice({
     setContentUpdatedFromNetwork: (state, action: PayloadAction<boolean>) => {
       state.contentUpdatedFromNetwork = action.payload;
     },
+    setIsVip: (state, action: PayloadAction<boolean>) => {
+      state.isVip = action.payload;
+    },
   },
 });
 
@@ -38,6 +43,7 @@ export const {
   setShowPaperManagement,
   setPaperNumberRedux,
   setContentUpdatedFromNetwork,
+  setIsVip,
 } = stateSlice.actions;
 
 export const stateReducer = stateSlice.reducer;

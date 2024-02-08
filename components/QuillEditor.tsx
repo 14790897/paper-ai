@@ -27,7 +27,10 @@ import {
   addReferencesRedux,
   setEditorContent,
 } from "@/app/store/slices/authSlice";
-import { setContentUpdatedFromNetwork } from "@/app/store/slices/stateSlice";
+import {
+  setContentUpdatedFromNetwork,
+  setIsVip,
+} from "@/app/store/slices/stateSlice";
 //类型声明
 import { Reference } from "@/utils/global";
 //supabase
@@ -68,6 +71,8 @@ const QEditor = () => {
   const contentUpdatedFromNetwork = useAppSelector(
     (state) => state.state.contentUpdatedFromNetwork
   );
+  //vip状态
+  const isVip = useAppSelector((state) => state.state.isVip);
 
   //询问ai，用户输入
   const [userInput, setUserInput] = useState("robot");
@@ -190,12 +195,14 @@ const QEditor = () => {
             dispatch(setEditorContent(content)); // 更新 Redux store
             //在云端同步supabase
             console.log("paperNumberRedux in quill", paperNumberRedux);
-            const data = await submitPaper(
-              supabase,
-              editorContent,
-              references,
-              paperNumberRedux
-            );
+            if (isVip) {
+              const data = await submitPaper(
+                supabase,
+                editorContent,
+                references,
+                paperNumberRedux
+              );
+            }
             setTimeout(() => {
               convertToSuperscript(quill);
             }, 0); // 延迟 0 毫秒，即将函数放入事件队列的下一个循环中执行,不然就会因为在改变文字触发整个函数时修改文本内容造成无法找到光标位置
@@ -337,14 +344,15 @@ const QEditor = () => {
       // 重新获取更新后的内容并更新 Redux store
       const updatedContent = quill.root.innerHTML;
       dispatch(setEditorContent(updatedContent));
-      //在云端同步supabase
-      const data = await submitPaper(
-        supabase,
-        editorContent,
-        references,
-        paperNumberRedux
-      );
-      console.log("response in submitPaper", data);
+      if (isVip) {
+        //在云端同步supabase
+        const data = await submitPaper(
+          supabase,
+          editorContent,
+          references,
+          paperNumberRedux
+        );
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
       // 在处理错误后，再次抛出这个错误

@@ -10,6 +10,7 @@ import {
 import {
   setPaperNumberRedux,
   setContentUpdatedFromNetwork,
+  setIsVip,
 } from "@/app/store/slices/stateSlice";
 //supabase
 import { createClient } from "@/utils/supabase/client";
@@ -39,12 +40,12 @@ const PaperManagement = () => {
   const showPaperManagement = useAppSelector(
     (state) => state.state.showPaperManagement
   );
+  //vip状态
+  const isVip = useAppSelector((state) => state.state.isVip);
   //获取的论文数量列表状态
   const [paperNumbers, setPaperNumbers] = useState<string[]>([]);
   //user id的状态设置
   const [userId, setUserId] = useState<string>("");
-  //vip状态
-  const [isVip, setIsVip] = useState(false);
 
   //获取用户存储在云端的论文，使用useCallback定义一个记忆化的函数来获取用户论文
   const fetchPapers = useCallback(async () => {

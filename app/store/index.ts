@@ -26,6 +26,7 @@ const statePersistConfig = {
     "showPaperManagement",
     "paperNumberRedux",
     "contentUpdatedFromNetwork",
+    "isVip",
   ],
 };
 
