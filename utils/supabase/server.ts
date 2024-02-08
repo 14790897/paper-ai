@@ -2,11 +2,6 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 export const createClient = (cookieStore: ReturnType<typeof cookies>) => {
-  // console.log(
-  //   "process.env.SUPABASE_SECRET_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!",
-  //   process.env.SUPABASE_SECRET_KEY ||
-  //     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  // );
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SECRET_KEY ||
