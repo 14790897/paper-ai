@@ -16,6 +16,7 @@ module.exports = {
         "blue-gray": {
           100: "#F0F4F8", // 这里使用你选择的颜色值
         },
+        gold: "#FFD700",
       },
     },
   },
