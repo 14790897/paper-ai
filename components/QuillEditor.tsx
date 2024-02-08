@@ -27,8 +27,18 @@ import {
   addReferencesRedux,
   setEditorContent,
 } from "@/app/store/slices/authSlice";
+import { setContentUpdatedFromNetwork } from "@/app/store/slices/stateSlice";
 //类型声明
 import { Reference } from "@/utils/global";
+//supabase
+import { createClient } from "@/utils/supabase/client";
+import {
+  getUserPapers,
+  getUser,
+  submitPaper,
+} from "@/utils/supabase/supabaseutils";
+//debounce
+import { debounce } from "lodash";
 
 const toolbarOptions = [
   ["bold", "italic", "underline", "strike"], // 加粗、斜体、下划线和删除线
@@ -55,6 +65,10 @@ const QEditor = () => {
   const apiKey = useAppSelector((state: any) => state.auth.apiKey);
   const upsreamUrl = useAppSelector((state: any) => state.auth.upsreamUrl);
   const [quill, setQuill] = useState<Quill | null>(null);
+  const contentUpdatedFromNetwork = useAppSelector(
+    (state) => state.state.contentUpdatedFromNetwork
+  );
+
   //询问ai，用户输入
   const [userInput, setUserInput] = useState("robot");
   //quill编辑器鼠标位置
@@ -78,7 +92,11 @@ const QEditor = () => {
   const references = useAppSelector((state) => state.auth.referencesRedux);
   const editorContent = useAppSelector((state) => state.auth.editorContent); // 从 Redux store 中获取编辑器内容
   const systemPrompt = useAppSelector((state) => state.auth.systemPrompt);
-
+  const paperNumberRedux = useAppSelector(
+    (state) => state.state.paperNumberRedux
+  );
+  //supabase
+  const supabase = createClient();
   useEffect(() => {
     if (!isMounted.current) {
       editor.current = new Quill("#editor", {
@@ -114,7 +132,6 @@ const QEditor = () => {
         const range = editor.current!.getSelection();
         if (range && range.length === 0 && editor.current) {
           const [leaf, offset] = editor.current.getLeaf(range.index);
-          // console.log("leaf", leaf);
           if (leaf.text) {
             const textWithoutSpaces = leaf.text.replace(/\s+/g, ""); // 去掉所有空格
             if (/^\[\d+\]$/.test(textWithoutSpaces)) {
@@ -136,28 +153,60 @@ const QEditor = () => {
     }
   }, []);
 
+  // 监听editorContent变化(redux的变量)，并使用Quill API更新内容
+  useEffect(() => {
+    if (editor.current) {
+      if (editorContent) {
+        if (contentUpdatedFromNetwork) {
+          // 清空当前内容
+          editor.current.setContents([]);
+          // 插入新内容
+          editor.current.clipboard.dangerouslyPasteHTML(editorContent);
+          // 重置标志
+          dispatch(setContentUpdatedFromNetwork(false));
+        } else {
+          console.log("No content updated from network in useEffect.");
+        }
+      } else {
+        console.log("No editorContent to update in useEffect.");
+      }
+    } else {
+      console.log("No editor.current to update in useEffect.");
+    }
+  }, [editorContent, contentUpdatedFromNetwork]);
+
   useEffect(() => {
     if (quill) {
       // 设置监听器以处理内容变化
-      quill.on("text-change", function (delta, oldDelta, source) {
-        if (source === "user") {
-          // 获取编辑器内容
-          const content = quill.root.innerHTML; // 或 quill.getText()，或 quill.getContents()
+      quill.on(
+        "text-change",
+        debounce(async function (delta, oldDelta, source) {
+          if (source === "user") {
+            // 获取编辑器内容
+            const content = quill.root.innerHTML; // 或 quill.getText()，或 quill.getContents()
 
-          // 保存到 localStorage
-          // localStorage.setItem("quillContent", content);
-          dispatch(setEditorContent(content)); // 更新 Redux store
-
-          setTimeout(() => {
-            convertToSuperscript(quill);
-          }, 0); // 延迟 0 毫秒，即将函数放入事件队列的下一个循环中执行,不然就会因为在改变文字触发整个函数时修改文本内容造成无法找到光标位置
-        }
-      });
+            // 保存到 localStorage
+            // localStorage.setItem("quillContent", content);
+            dispatch(setEditorContent(content)); // 更新 Redux store
+            //在云端同步supabase
+            console.log("paperNumberRedux in quill", paperNumberRedux);
+            const data = await submitPaper(
+              supabase,
+              editorContent,
+              references,
+              paperNumberRedux
+            );
+            // setTimeout(() => {
+            //   convertToSuperscript(quill);
+            // }, 0); // 延迟 0 毫秒，即将函数放入事件队列的下一个循环中执行,不然就会因为在改变文字触发整个函数时修改文本内容造成无法找到光标位置
+          }
+        }, 1000) // 这里的 5000 是防抖延迟时间，单位为毫秒
+      );
     }
   }, [quill, dispatch]);
 
   // 处理用户输入变化
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: any) => {
     setUserInput(event.target.value);
   };
 
@@ -257,6 +306,7 @@ const QEditor = () => {
           })
           .join("");
       }
+      //在对应的位置添加文献
       const nearestNumber = getNumberBeforeCursor(quill);
       dispatch(
         addReferencesRedux({
@@ -287,6 +337,14 @@ const QEditor = () => {
       // 重新获取更新后的内容并更新 Redux store
       const updatedContent = quill.root.innerHTML;
       dispatch(setEditorContent(updatedContent));
+      //在云端同步supabase
+      const data = await submitPaper(
+        supabase,
+        editorContent,
+        references,
+        paperNumberRedux
+      );
+      console.log("response in submitPaper", data);
     } catch (error) {
       console.error("Error fetching data:", error);
       // 在处理错误后，再次抛出这个错误
@@ -310,12 +368,6 @@ const QEditor = () => {
         >
           AI Write
         </button>
-        {/* <button
-          onClick={() => insertPapers(userInput)}
-          className="bg-indigo-500 hover:bg-indigo-700 text-black font-bold py-2 px-4 rounded"
-        >
-          Insert Papers
-        </button> */}
         <button
           onClick={() => paper2AI(userInput)}
           className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 mr-2 rounded"
