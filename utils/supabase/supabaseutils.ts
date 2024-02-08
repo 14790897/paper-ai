@@ -30,7 +30,7 @@ export async function submitPaper(
   supabase: SupabaseClient,
   editorContent: string,
   references: Reference[],
-  paperNumber: string
+  paperNumber = "1"
 ) {
   const user = await getUser(supabase);
   if (user) {

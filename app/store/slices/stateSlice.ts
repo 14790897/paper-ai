@@ -7,7 +7,7 @@ export interface APIState {
 
 const initialState: APIState = {
   showPaperManagement: false,
-  paperNumberRedux: "",
+  paperNumberRedux: "1", //默认得给个值
   contentUpdatedFromNetwork: false,
 };
 

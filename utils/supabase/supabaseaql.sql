@@ -9,3 +9,24 @@ create table public."user_paper" (
     paper_reference character varying [] null,
     constraint userPaper_pkey primary key (id)
 ) tablespace pg_default;
+-- trigger
+BEGIN -- 检查用户是否是VIP
+IF NOT EXISTS (
+    SELECT 1
+    FROM public.vip_statuses
+    WHERE user_id = new.user_id
+        AND is_vip
+) THEN RAISE EXCEPTION 'User ID: %, is_vip: %, New, %',
+new.user_id,
+(
+    SELECT is_vip
+    FROM public.vip_statuses
+    WHERE user_id = new.user_id
+),
+NEW;
+-- 如果用户不是VIP，抛出异常
+RAISE EXCEPTION 'Only VIP users are allowed to perform this operation.';
+END IF;
+-- 如果用户是VIP，允许操作继续
+RETURN NEW;
+END;
