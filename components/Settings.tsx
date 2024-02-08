@@ -69,7 +69,7 @@ const Settings = () => {
           <textarea
             id="system-prompt"
             value={systemPrompt}
-            onChange={(event) => setSystemPrompt(event.target.value)}
+            onChange={(event) => dispatch(setSystemPrompt(event.target.value))}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             rows={8}
           />
