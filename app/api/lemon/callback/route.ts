@@ -1,0 +1,92 @@
+// app/api/payment/webhooks/route.ts
+import { headers } from "next/headers";
+import { Buffer } from "buffer";
+import crypto from "crypto";
+import rawBody from "raw-body";
+import { Readable } from "stream";
+import { NextResponse } from "next/server";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
+import { SupabaseClient } from "@supabase/supabase-js";
+
+export async function POST(request: Request) {
+  const cookieStore = cookies();
+  const supabaseAdmin = createClient(cookieStore);
+  console.log("webhook");
+  const body = await rawBody(Readable.from(Buffer.from(await request.text())));
+  const headersList = headers();
+  const payload = JSON.parse(body.toString());
+
+  const sigString = headersList.get("x-signature");
+  if (!sigString) {
+    console.error(`Signature header not found`);
+    return NextResponse.json(
+      { message: "Signature header not found" },
+      { status: 401 }
+    );
+  }
+  const secret = process.env.LEMONS_SQUEEZY_SIGNATURE_SECRET as string;
+  const hmac = crypto.createHmac("sha256", secret);
+  const digest = Buffer.from(hmac.update(body).digest("hex"), "utf8");
+  const signature = Buffer.from(
+    Array.isArray(sigString) ? sigString.join("") : sigString || "",
+    "utf8"
+  );
+  // 校验签名
+  if (!crypto.timingSafeEqual(digest, signature)) {
+    return NextResponse.json({ message: "Invalid signature" }, { status: 403 });
+  }
+
+  const userEmail = (payload.attributes && payload.attributes.user_email) || "";
+  // 检查custom里的参数
+  if (!userEmail)
+    return NextResponse.json(
+      { message: "No userEmail provided" },
+      { status: 403 }
+    );
+  return await setVip(supabaseAdmin, userEmail);
+}
+
+async function getUserId(supabaseAdmin: SupabaseClient, email: string) {
+  const { data, error } = await supabaseAdmin
+    .from("auth.users")
+    .select("id")
+    .eq("email", email)
+    .single();
+
+  if (error) {
+    console.error("查询用户 ID 失败:", error);
+    return null;
+  }
+
+  return data.id;
+}
+
+async function setVip(
+  supabaseAdmin: SupabaseClient,
+  email: string,
+  isVip = true,
+  startDate = new Date(),
+  endDate = new Date()
+) {
+  const userId = await getUserId(supabaseAdmin, email);
+  if (!userId)
+    return NextResponse.json({ message: "No user found" }, { status: 403 });
+  const { data, error } = await supabaseAdmin.from("vip_statuses").upsert(
+    {
+      user_id: userId,
+      is_vip: isVip,
+      start_date: startDate,
+      end_date: endDate,
+    },
+    { onConflict: "user_id" }
+  );
+  if (error) {
+    console.error("设置 VIP 失败:", error);
+    return NextResponse.json(
+      { message: "Failed to set VIP 设置 VIP 状态失败" },
+      { status: 403 }
+    );
+  }
+  return NextResponse.json({ message: "Success VIP 状态已更新:" });
+}
