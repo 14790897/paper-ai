@@ -8,14 +8,18 @@ interface SweetAlertComponentProps {
   removeReferenceUpdateIndex: (index: number, rmPg: boolean) => void;
 }
 
-const ParagraphDeleteButton: React.FC<SweetAlertComponentProps> = ({
+const ParagraphDeleteButton: React.FC<any> = ({
   index,
   removeReferenceUpdateIndex,
+  isRemovePaper = false,
+  title = "需要同时删除与文献相关的整个段落吗",
+  text = "根据周围的换行符来判断是否是同一个段落",
 }) => {
+  //这里传递函数的时候应该把参数先提前弄好 2.7
   const showAlert = async () => {
     const result = await Swal.fire({
-      title: "需要同时删除与文献相关的整个段落吗?",
-      text: "根据周围的换行符来判断是否是同一个段落",
+      title: title,
+      text: text,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -23,10 +27,14 @@ const ParagraphDeleteButton: React.FC<SweetAlertComponentProps> = ({
       confirmButtonText: "Yes, delete it!",
     });
     if (result.isConfirmed) {
-      removeReferenceUpdateIndex(index, true);
+      if (isRemovePaper) {
+        removeReferenceUpdateIndex(index, true);
+      } else {
+        removeReferenceUpdateIndex();
+      }
       // Swal.fire("Deleted!", "Your file has been deleted.", "success");
     } else {
-      removeReferenceUpdateIndex(index, false);
+      if (!isRemovePaper) removeReferenceUpdateIndex(index, false);
       // Swal.fire("Cancelled", "Your imaginary file is safe :)", "error");
     }
   };
