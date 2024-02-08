@@ -1,17 +1,19 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
+import { supabaseAdmin } from "@/utils/supabase/servicerole";
 
 export async function POST(req: Request) {
   try {
-    const cookieStore = cookies();
-    const supabaseAdmin = createClient(cookieStore);
-    const {
-      data: { user },
-    } = await supabaseAdmin.auth.getUser();
-    // 从请求体中提取数据
-    if (!user) throw new Error("No user found");
-    //   const { userId } = await req.json();
-    const userId = await user.id;
+    // const cookieStore = cookies();
+    // const supabaseAdmin = createClient(cookieStore);
+
+    // const {
+    //   data: { user },
+    // } = await supabaseAdmin.auth.getUser();
+    // // 从请求体中提取数据
+    // if (!user) throw new Error("No user found");
+    // const userId = await user.id;
+    const { userId } = await req.json();
     console.log("userId", userId);
     const { data, error } = await supabaseAdmin
       .from("user_paper") // 指定表名
