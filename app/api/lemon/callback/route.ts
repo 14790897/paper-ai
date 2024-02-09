@@ -1,4 +1,4 @@
-// app/api/payment/webhooks/route.ts
+// app/api/lemon/callback/route.ts
 import { headers } from "next/headers";
 import { Buffer } from "buffer";
 import crypto from "crypto";
@@ -25,26 +25,39 @@ export async function POST(request: Request) {
       { status: 401 }
     );
   }
-  const secret = process.env.LEMONS_SQUEEZY_SIGNATURE_SECRET as string;
-  const hmac = crypto.createHmac("sha256", secret);
-  const digest = Buffer.from(hmac.update(body).digest("hex"), "utf8");
-  const signature = Buffer.from(
-    Array.isArray(sigString) ? sigString.join("") : sigString || "",
-    "utf8"
-  );
-  // 校验签名
-  if (!crypto.timingSafeEqual(digest, signature)) {
-    return NextResponse.json({ message: "Invalid signature" }, { status: 403 });
-  }
+  try {
+    const secret = process.env.LEMONS_SQUEEZY_SIGNATURE_SECRET as string;
+    console.log("secret:", secret);
+    const hmac = crypto.createHmac("sha256", secret);
+    const digest = Buffer.from(hmac.update(body).digest("hex"), "utf8");
+    const signature = Buffer.from(
+      Array.isArray(sigString) ? sigString.join("") : sigString || "",
+      "utf8"
+    );
+    // 校验签名
+    if (!crypto.timingSafeEqual(digest, signature)) {
+      return NextResponse.json(
+        { message: "Invalid signature" },
+        { status: 403 }
+      );
+    }
 
-  const userEmail = (payload.attributes && payload.attributes.user_email) || "";
-  // 检查custom里的参数
-  if (!userEmail)
+    const userEmail =
+      (payload.attributes && payload.attributes.user_email) || "";
+    // 检查custom里的参数
+    if (!userEmail)
+      return NextResponse.json(
+        { message: "No userEmail provided" },
+        { status: 403 }
+      );
+    return await setVip(supabaseAdmin, userEmail);
+  } catch (error) {
+    console.error("Error in lemon squeezy:", error);
     return NextResponse.json(
-      { message: "No userEmail provided" },
+      { message: "Error in lemon squeezy:", error },
       { status: 403 }
     );
-  return await setVip(supabaseAdmin, userEmail);
+  }
 }
 
 async function getUserId(supabaseAdmin: SupabaseClient, email: string) {
