@@ -41,7 +41,7 @@ export async function POST(request: Request) {
         { status: 403 }
       );
     }
-
+    console.log("payload:", payload);
     const userEmail =
       (payload.attributes && payload.attributes.user_email) || "";
     // 检查custom里的参数
