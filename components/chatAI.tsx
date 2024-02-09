@@ -77,7 +77,7 @@ const sendMessageToOpenAI = async (
       requestOptions
     );
     if (!response.ok || !response.body) {
-      throw new Error("Server responded with an error" + response);
+      throw new Error("");
     }
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
@@ -88,11 +88,11 @@ const sendMessageToOpenAI = async (
     convertToSuperscript(editor);
     updateBracketNumbersInDeltaKeepSelection(editor);
   } catch (error) {
-    console.error("Error:", error);
+    // console.error("Error:", error);
     // 如果有响应，返回响应的原始内容
     if (response) {
       const rawResponse = await response.text();
-      throw new Error(`Error: ${error.message}, Response: ${rawResponse}`);
+      throw new Error(`请求发生错误: ${error}, Response: ${rawResponse}`);
     }
     // 如果没有响应，只抛出错误
     throw error;
@@ -183,13 +183,16 @@ async function processResult(reader, decoder, editor) {
             }
           }
         } catch (error) {
-          console.error(
-            "there is a error in parse JSON object:",
-            jsonStr,
-            "error reason",
-            error
-          );
-          break;
+          // console.error(
+          //   "there is a error in parse JSON object:",
+          //   jsonStr,
+          //   "error reason",
+          //   error
+          // );
+          // break;
+          throw new Error(`
+            there is a error in parse JSON object: ${jsonStr},
+            error reason: ${error}`);
         }
       }
     } catch (error) {

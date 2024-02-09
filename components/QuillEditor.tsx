@@ -293,6 +293,9 @@ const QEditor = () => {
           .join("");
       } else if (selectedSource === "pubmed") {
         rawData = await fetchPubMedData(topic, 2020, 2);
+        if (!rawData) {
+          throw new Error("未搜索到文献 from PubMed.");
+        }
         newReferences = rawData.map((entry) => ({
           id: entry.id, // 文章的 PubMed ID
           title: entry.title, // 文章的标题
@@ -354,9 +357,9 @@ const QEditor = () => {
         );
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      // console.error("Error fetching data:", error);
       // 在处理错误后，再次抛出这个错误
-      throw error;
+      throw new Error(`Paper2AI出现错误: ${error}`);
     }
   }
 

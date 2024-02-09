@@ -53,7 +53,7 @@ async function getPubMedPaperDetails(idList: IDList) {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`${response.text()}`);
     }
 
     const data = await response.text(); // 获取响应文本
@@ -152,9 +152,9 @@ async function fetchPubMedData(query: string, year: number, limit: number) {
       console.log("fetchPubMedData", paperDetails); // 处理或显示文章详情
       return paperDetails;
     }
-  } catch {
-    console.error("未搜索到文献");
-    throw new Error("未搜索到文献");
+  } catch (error) {
+    //这里无法起作用因为pubmed不会返回400系错误
+    throw new Error(`未搜索到文献: ${error}`);
   }
 }
 

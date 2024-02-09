@@ -53,18 +53,15 @@ async function getArxivPapers(
     // 你可以在这里处理数据
     result = extractArxivData(result);
     return result;
-  } catch (error) {
-    if (error.response) {
-      // 请求已发送，但服务器响应的状态码不在 2xx 范围内
-      console.error("Error fetching data: ", error.response.data);
-    } else if (error.request) {
-      // 请求已发送，但没有收到响应
-      console.error("No response received: ", error.request);
-    } else {
-      // 发送请求时出现错误
-      console.error("Error setting up the request: ", error.message);
-    }
-    return null;
+  } catch (error: any) {
+    throw new Error(
+      `Error fetching data from Arxiv API:${JSON.stringify(
+        error.response,
+        null,
+        2
+      )}`
+    );
+    // return null;
   }
 }
 
