@@ -1,14 +1,15 @@
 import { Reference } from "@/utils/global";
 import Quill from "quill";
+import { animated, useSpring } from "@react-spring/web";
 
-function getTextBeforeCursor(quill, length = 500) {
-  const cursorPosition = quill.getSelection().index;
+function getTextBeforeCursor(quill: Quill, length = 500) {
+  const cursorPosition = quill.getSelection()!.index;
   const start = Math.max(0, cursorPosition - length); // 确保开始位置不是负数
   return quill.getText(start, cursorPosition - start);
 }
 
-function getNumberBeforeCursor(quill, length = 3000) {
-  const cursorPosition = quill.getSelection().index;
+function getNumberBeforeCursor(quill: Quill, length = 3000) {
+  const cursorPosition = quill.getSelection()!.index;
   const start = Math.max(0, cursorPosition - length); // 确保开始位置不是负数
   const textBeforeCursor = quill.getText(start, cursorPosition - start);
 
@@ -31,10 +32,10 @@ function getNumberBeforeCursor(quill, length = 3000) {
   return 0;
 }
 
-function updateBracketNumbersInDelta(delta) {
+function updateBracketNumbersInDelta(delta: any) {
   let currentNumber = 1;
 
-  const updatedOps = delta.ops.map((op) => {
+  const updatedOps = delta.ops.map((op: any) => {
     if (typeof op.insert === "string") {
       return {
         ...op,
@@ -48,9 +49,9 @@ function updateBracketNumbersInDelta(delta) {
 }
 
 function deleteReferenceNumberOrParagraph(
-  delta,
+  delta: any,
   indexToRemove: number,
-  quill,
+  quill: Quill,
   deleteParagraph: boolean
 ) {
   const indexStr = `[${indexToRemove + 1}]`;
@@ -63,7 +64,7 @@ function deleteReferenceNumberOrParagraph(
     let delta = quill.clipboard.convert(htmlString);
     return delta;
   } else {
-    const updatedOps = delta.ops.flatMap((op, i) => {
+    const updatedOps = delta.ops.flatMap((op: any, i) => {
       if (typeof op.insert === "string") {
         const indexPos = op.insert.indexOf(indexStr);
         if (indexPos !== -1) {
@@ -131,7 +132,7 @@ function removeParagraphWithReference(
   );
 }
 
-function updateBracketNumbersInDeltaKeepSelection(quill) {
+function updateBracketNumbersInDeltaKeepSelection(quill: Quill) {
   const selection = quill.getSelection();
   const delta = quill.getContents();
   const updatedDelta = updateBracketNumbersInDelta(delta);
@@ -142,7 +143,7 @@ function updateBracketNumbersInDeltaKeepSelection(quill) {
 }
 
 export function delteIndexUpdateBracketNumbersInDeltaKeepSelection(
-  quill,
+  quill: Quill,
   index: number,
   rmPg: boolean
 ) {
@@ -161,7 +162,7 @@ export function delteIndexUpdateBracketNumbersInDeltaKeepSelection(
   }
 }
 
-function convertToSuperscript(quill) {
+function convertToSuperscript(quill: Quill) {
   const text = quill.getText();
   const regex = /\[\d+\]/g; // 正则表达式匹配 "[数字]" 格式
   let match;
@@ -220,7 +221,7 @@ function formatAllReferencesForCopy(references: Reference[]): string {
     .join("\n");
 }
 
-export function formatTextInEditor(editor) {
+export function formatTextInEditor(editor: Quill) {
   convertToSuperscript(editor);
   updateBracketNumbersInDeltaKeepSelection(editor);
 }

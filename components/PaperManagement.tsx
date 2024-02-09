@@ -24,6 +24,8 @@ import {
 } from "@/utils/supabase/supabaseutils";
 //动画
 import { CSSTransition } from "react-transition-group";
+import { animated, useSpring } from "@react-spring/web";
+
 //删除远程论文按钮
 import ParagraphDeleteButton from "@/components/ParagraphDeleteInterface";
 //vip充值按钮
@@ -59,22 +61,26 @@ const PaperManagement = () => {
   }, [supabase]); // 依赖项数组中包含supabase，因为它可能会影响到fetchPapers函数的结果
 
   //获取用户VIP状态
-  const initFetch = async () => {
+  const initFetchVipStatue = useCallback(async () => {
     const user = await getUser();
     if (user && user.id) {
       const isVip = await fetchUserVipStatus(user.id);
-      console.log("isVip", isVip);
-      setIsVip(isVip);
+      return isVip;
     }
-  };
-  useEffect(() => {
-    initFetch();
-  }, []);
+  }, [supabase]);
 
   // 使用useEffect在组件挂载后立即获取数据
   useEffect(() => {
-    fetchPapers();
-  }, [fetchPapers]);
+    const checkAndFetchPapers = async () => {
+      const isVip = await initFetchVipStatue();
+      dispatch(setIsVip(isVip));
+      console.log("isVip in initFetchVipStatue", isVip);
+      if (isVip) {
+        fetchPapers();
+      }
+    };
+    checkAndFetchPapers();
+  }, [supabase]);
 
   const handlePaperClick = async (paperNumber: string) => {
     const data = await getUserPaper(userId, paperNumber, supabase); // 假设这个函数异步获取论文内容
@@ -110,6 +116,11 @@ const PaperManagement = () => {
     await fetchPapers();
   };
 
+  // const animations = useSpring({
+  //   opacity: showPaperManagement ? 1 : 0,
+  //   from: { opacity: 0 },
+  // });
+
   return (
     <CSSTransition
       in={showPaperManagement}
@@ -117,6 +128,8 @@ const PaperManagement = () => {
       classNames="slide"
       unmountOnExit
     >
+      {/* showPaperManagement ? ( */}
+      {/* <animated.div style={animations}> */}
       <>
         <div className="paper-management-container flex flex-col items-center space-y-4">
           <div className="max-w-md w-full bg-blue-gray-100 rounded overflow-hidden shadow-lg mx-auto p-5">
@@ -179,6 +192,8 @@ const PaperManagement = () => {
           )}
         </div>
       </>
+      {/* </animated.div>
+    ) : null */}
     </CSSTransition>
   );
 };
