@@ -53,7 +53,7 @@ export async function submitPaper(
       console.log(
         "Response data in submitPaper:",
         data,
-        `此次更新的是第${paperNumber}篇论文`
+        `此次更新的是第${paperNumber}篇论文,更新内容为${editorContent}`
       );
       return data;
     } catch (error) {

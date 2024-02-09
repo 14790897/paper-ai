@@ -183,11 +183,11 @@ const QEditor = () => {
       const content = quill!.root.innerHTML; // 或 quill.getText()，或 quill.getContents()
       dispatch(setEditorContent(content)); // 更新 Redux store
       //在云端同步supabase
-      console.log("paperNumberRedux in quill", paperNumberRedux);
+      // console.log("paperNumberRedux in quill", paperNumberRedux);
       if (isVip) {
         const data = await submitPaper(
           supabase,
-          editorContent,
+          content,
           references,
           paperNumberRedux
         );
@@ -196,7 +196,7 @@ const QEditor = () => {
         convertToSuperscript(quill!);
       }, 0); // 延迟 0 毫秒，即将函数放入事件队列的下一个循环中执行,不然就会因为在改变文字触发整个函数时修改文本内容造成无法找到光标位置
     }
-  }, 1000); // 这里的 5000 是防抖延迟时间，单位为毫秒
+  }, 1000); // 这里的 1000 是防抖延迟时间，单位为毫秒
 
   useEffect(() => {
     if (quill) {
