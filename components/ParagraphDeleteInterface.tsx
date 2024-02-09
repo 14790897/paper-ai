@@ -12,7 +12,7 @@ const ParagraphDeleteButton: React.FC<any> = ({
   index,
   removeReferenceUpdateIndex,
   isRemovePaper = false,
-  title = "需要同时删除与文献相关的整个段落吗",
+  title = "需要同时删除与文献相关的整个段落吗？",
   text = "根据周围的换行符来判断是否是同一个段落",
 }) => {
   //这里传递函数的时候应该把参数先提前弄好 2.7
