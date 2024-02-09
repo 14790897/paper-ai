@@ -188,7 +188,7 @@ const QEditor = () => {
         const data = await submitPaper(
           supabase,
           content,
-          references,
+          undefined,
           paperNumberRedux
         );
       }
@@ -348,7 +348,7 @@ const QEditor = () => {
         //在云端同步supabase
         const data = await submitPaper(
           supabase,
-          editorContent,
+          updatedContent,
           references,
           paperNumberRedux
         );

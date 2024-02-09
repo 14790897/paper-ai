@@ -28,36 +28,49 @@ export async function getUser() {
 //将论文保存到服务器
 export async function submitPaper(
   supabase: SupabaseClient,
-  editorContent: string,
-  references: Reference[],
+  editorContent?: string, // 使得editorContent成为可选参数
+  references?: Reference[], // 使得references成为可选参数
   paperNumber = "1"
 ) {
   const user = await getUser(supabase);
   if (user) {
     try {
-      // console.log(user.id, editorContent, references);
+      // 构造请求体，只包含提供的参数
+      const requestBody: any = {
+        userId: user.id,
+        paperNumber,
+      };
+
+      if (editorContent !== undefined) {
+        requestBody.paperContent = editorContent;
+      }
+
+      if (references !== undefined) {
+        requestBody.paperReference = references;
+      }
+
       const response = await fetch("/api/supa/data", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          userId: user.id,
-          paperContent: editorContent,
-          paperReference: references,
-          paperNumber,
-        }),
+        body: JSON.stringify(requestBody),
       });
+
       const data = await response.json();
-      // 处理响应数据
       console.log(
         "Response data in submitPaper:",
         data,
-        `此次更新的是第${paperNumber}篇论文,更新内容为${editorContent}`
+        `此次更新的是第${paperNumber}篇论文,` +
+          `${editorContent !== undefined ? "更新内容为" + editorContent : ""}` +
+          `${
+            references !== undefined
+              ? "更新引用为" + JSON.stringify(references)
+              : ""
+          }`
       );
       return data;
     } catch (error) {
-      // 错误处理
       console.error("Error submitting paper in submitPaper:", error);
     }
   } else {
@@ -66,6 +79,7 @@ export async function submitPaper(
     );
   }
 }
+
 //添加某指定用户id下的论文
 
 //删除指定用户下paperNumber的论文

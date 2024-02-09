@@ -14,9 +14,11 @@ export async function POST(req: Request) {
     [
       {
         user_id: userId,
-        paper_content: paperContent,
-        paper_reference: paperReference,
         paper_number: paperNumber,
+        ...(paperContent !== undefined && { paper_content: paperContent }),
+        ...(paperReference !== undefined && {
+          paper_reference: paperReference,
+        }),
       },
     ],
     { onConflict: "user_id, paper_number" }
