@@ -84,13 +84,13 @@ const QEditor = () => {
   const editor = useRef<Quill | null>(null);
   // 选择论文来源
   const [selectedSource, setSelectedSource] = useLocalStorage(
-    "semanticScholar",
+    "学术引擎",
     "semanticScholar"
   ); // 默认选项
   //选择语言模型
   const [selectedModel, setSelectedModel] = useLocalStorage(
-    "gpt3.5",
-    "deepseek-chat"
+    "gpt语言模型",
+    "gpt-4"
   ); // 默认选项
   //redux
   const dispatch = useAppDispatch();
@@ -397,13 +397,11 @@ const QEditor = () => {
           onChange={(e) => setSelectedModel(e.target.value)}
           className=" border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         >
-          <option value="gpt-3.5-turbo">gpt3.5</option>
-          <option value="gpt-4">gpt4</option>
+          <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+          <option value="gpt-4">gpt-4</option>
           <option value="deepseek-chat">deepseek-chat</option>
           {/* 其他来源网站 */}
         </select>
-        {/* 用户输入自己的API key */}
-
         <button
           onClick={() => formatTextInEditor(quill)} // 假设 updateIndex 是处理更新操作的函数
           className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"

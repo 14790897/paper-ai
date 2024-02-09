@@ -166,7 +166,8 @@ async function processResult(reader, decoder, editor) {
           // 如果 jsonStr 以 "data: " 开头，就移除这个前缀
           // 移除字符串首尾的空白字符
           jsonStr = jsonStr.trim();
-          jsonStr = jsonStr.substring(6);
+          // jsonStr = jsonStr.substring(6);
+          jsonStr = jsonStr.replace("data:", "");
           let dataObject = JSON.parse(jsonStr);
           // console.log("dataObject", dataObject);
           // 处理 dataObject 中的 content
@@ -182,8 +183,12 @@ async function processResult(reader, decoder, editor) {
             }
           }
         } catch (error) {
-          // console.error("Failed to parse JSON object:", jsonStr);
-          console.error("Error:", error);
+          console.error(
+            "there is a error in parse JSON object:",
+            jsonStr,
+            "error reason",
+            error
+          );
           break;
         }
       }
