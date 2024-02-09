@@ -27,10 +27,7 @@ import {
   addReferencesRedux,
   setEditorContent,
 } from "@/app/store/slices/authSlice";
-import {
-  setContentUpdatedFromNetwork,
-  setIsVip,
-} from "@/app/store/slices/stateSlice";
+import { setContentUpdatedFromNetwork } from "@/app/store/slices/stateSlice";
 //类型声明
 import { Reference } from "@/utils/global";
 //supabase
@@ -180,37 +177,37 @@ const QEditor = () => {
     }
   }, [editorContent, contentUpdatedFromNetwork]);
 
+  const handleTextChange = debounce(async function (delta, oldDelta, source) {
+    if (source === "user") {
+      // 获取编辑器内容
+      const content = quill!.root.innerHTML; // 或 quill.getText()，或 quill.getContents()
+      dispatch(setEditorContent(content)); // 更新 Redux store
+      //在云端同步supabase
+      console.log("paperNumberRedux in quill", paperNumberRedux);
+      if (isVip) {
+        const data = await submitPaper(
+          supabase,
+          editorContent,
+          references,
+          paperNumberRedux
+        );
+      }
+      setTimeout(() => {
+        convertToSuperscript(quill!);
+      }, 0); // 延迟 0 毫秒，即将函数放入事件队列的下一个循环中执行,不然就会因为在改变文字触发整个函数时修改文本内容造成无法找到光标位置
+    }
+  }, 1000); // 这里的 5000 是防抖延迟时间，单位为毫秒
+
   useEffect(() => {
     if (quill) {
       // 设置监听器以处理内容变化
-      quill.on(
-        "text-change",
-        debounce(async function (delta, oldDelta, source) {
-          if (source === "user") {
-            // 获取编辑器内容
-            const content = quill.root.innerHTML; // 或 quill.getText()，或 quill.getContents()
-
-            // 保存到 localStorage
-            // localStorage.setItem("quillContent", content);
-            dispatch(setEditorContent(content)); // 更新 Redux store
-            //在云端同步supabase
-            console.log("paperNumberRedux in quill", paperNumberRedux);
-            if (isVip) {
-              const data = await submitPaper(
-                supabase,
-                editorContent,
-                references,
-                paperNumberRedux
-              );
-            }
-            setTimeout(() => {
-              convertToSuperscript(quill);
-            }, 0); // 延迟 0 毫秒，即将函数放入事件队列的下一个循环中执行,不然就会因为在改变文字触发整个函数时修改文本内容造成无法找到光标位置
-          }
-        }, 1000) // 这里的 5000 是防抖延迟时间，单位为毫秒
-      );
+      quill.on("text-change", handleTextChange);
+      // 清理函数
+      return () => {
+        quill.off("text-change", handleTextChange);
+      };
     }
-  }, [quill, dispatch]);
+  }, [quill, dispatch, paperNumberRedux]);
 
   // 处理用户输入变化
   const handleInputChange = (event: any) => {

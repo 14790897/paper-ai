@@ -37,7 +37,7 @@ export async function POST(req: Request) {
   } else {
     // 成功保存，返回成功信息
     return new Response(
-      JSON.stringify({ message: "Success in user_paper save" }),
+      JSON.stringify({ message: "Success in user_paper save", data }),
       {
         status: 200,
         headers: {
