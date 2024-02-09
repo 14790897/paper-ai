@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     }
     console.log("payload:", payload);
     const userEmail =
-      (payload.attributes && payload.attributes.user_email) || "";
+      (payload.data.attributes && payload.data.attributes.user_email) || "";
     // 检查custom里的参数
     if (!userEmail)
       return NextResponse.json(
