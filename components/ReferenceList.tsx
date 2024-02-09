@@ -18,7 +18,9 @@ import {
   clearReferencesRedux,
   swapReferencesRedux,
 } from "@/app/store/slices/authSlice";
-
+//supabase
+import { submitPaper } from "@/utils/supabase/supabaseutils";
+import { createClient } from "@/utils/supabase/client";
 type ReferenceListProps = {
   editor: any;
 };
@@ -33,6 +35,11 @@ function ReferenceList({ editor }: ReferenceListProps) {
   //redux
   const dispatch = useAppDispatch();
   const references = useAppSelector((state) => state.auth.referencesRedux);
+  const paperNumberRedux = useAppSelector(
+    (state) => state.state.paperNumberRedux
+  );
+  //supabase
+  const supabase = createClient();
 
   function moveReferenceUp(index: number) {
     console.log("index", index);
@@ -70,11 +77,16 @@ function ReferenceList({ editor }: ReferenceListProps) {
   const handleClearReferences = () => {
     dispatch(clearReferencesRedux());
   };
+  //监听references，如果发生变化，就提交到服务器
+  React.useEffect(() => {
+    submitPaper(supabase, undefined, references, paperNumberRedux);
+  }, [references]);
+
   return (
     <div className="container mx-auto p-4">
       {/* 表单区域 */}
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
           handleAddReference({
             title: newTitle,
@@ -89,6 +101,7 @@ function ReferenceList({ editor }: ReferenceListProps) {
           setNewYear("");
           setNewPublisher("");
           setNewUrl("");
+          // submitPaper(supabase, undefined, references, paperNumberRedux);
         }}
         className="mb-6"
       >
@@ -210,6 +223,7 @@ function ReferenceList({ editor }: ReferenceListProps) {
                   </button>
                   <ParagraphDeleteButton
                     index={index}
+                    isRemovePaper={true}
                     removeReferenceUpdateIndex={removeReferenceUpdateIndex}
                   ></ParagraphDeleteButton>
                 </li>

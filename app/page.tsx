@@ -1,5 +1,5 @@
-import DeployButton from "../components/DeployButton";
-import AuthButton from "../components/AuthButton";
+import PaperListButtonWrapper from "@/components/PaperListButtonWrapper";
+import AuthButton from "@/components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
 import ConnectSupabaseSteps from "@/components/ConnectSupabaseSteps";
 import SignUpUserSteps from "@/components/SignUpUserSteps";
@@ -9,11 +9,10 @@ import QuillWrapper from "./QuillWrapper";
 // import TinyEditor from "../components/TinyEditor";
 // import SEditor from "../components/SlateEditor";
 import SettingsLink from "@/components/SettingsLink";
-import { ErrorBoundary } from "next/dist/client/components/error-boundary";
-// import React, { useState, useEffect, useRef } from "react";
+import PaperManagementWrapper from "@/components/PaperManagementWrapper";
 
 // import Error from "@/app/global-error";
-export default async function Index() {
+export default function Index() {
   const cookieStore = cookies();
 
   const canInitSupabaseClient = () => {
@@ -30,18 +29,18 @@ export default async function Index() {
   const isSupabaseConnected = canInitSupabaseClient();
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
+    <div className="flex-1 w-full flex flex-col gap-10 items-center">
       <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
         <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <DeployButton />
+          {/* <DeployButton /> */}
+          {/* 用来表示是否显示论文列表页 */}
+          <PaperListButtonWrapper />
           {isSupabaseConnected && <AuthButton />}
           <SettingsLink />
         </div>
       </nav>
-      {/* <ErrorBoundary fallback={<Error />}> */}
+      <PaperManagementWrapper />
       <QuillWrapper />
-      {/* </ErrorBoundary> */}
-
       <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
         <p>
           <a
