@@ -38,6 +38,7 @@ function ReferenceList({ editor }: ReferenceListProps) {
   const paperNumberRedux = useAppSelector(
     (state) => state.state.paperNumberRedux
   );
+  const isVip = useAppSelector((state) => state.state.isVip);
   //supabase
   const supabase = createClient();
 
@@ -77,9 +78,17 @@ function ReferenceList({ editor }: ReferenceListProps) {
   const handleClearReferences = () => {
     dispatch(clearReferencesRedux());
   };
+  // 状态标志，用于跟踪组件是否首次渲染
+  const [isFirstRender, setIsFirstRender] = useState(true);
+  React.useEffect(() => {
+    // 当组件首次渲染后，设置 isFirstRender 为 false
+    setIsFirstRender(false);
+  }, []); // 这个 useEffect 依赖数组为空，所以只会在组件首次渲染后运行
   //监听references，如果发生变化，就提交到服务器
   React.useEffect(() => {
-    submitPaper(supabase, undefined, references, paperNumberRedux);
+    if (!isFirstRender && isVip) {
+      submitPaper(supabase, undefined, references, paperNumberRedux);
+    }
   }, [references]);
 
   return (
