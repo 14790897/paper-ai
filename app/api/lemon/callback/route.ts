@@ -103,3 +103,39 @@ async function setVip(
   }
   return NextResponse.json({ message: "Success VIP 状态已更新:" });
 }
+
+export async function GET(request: Request) {
+  // 创建一个简易的HTML内容
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>VIP Status Checker</title>
+         <style>
+          body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: Arial, sans-serif;
+          }
+          div.container {
+            flex-direction: column;
+          }
+        </style>
+      </head>
+      <body>
+        <p>下面是这个路由设置VIP的代码，你们能破解吗？</p>
+        <a href="https://github.com/14790897/paper-ai/blob/main/app/api/lemon/callback/route.ts">route.ts</a>
+      </body>
+    </html>
+  `;
+
+  return new Response(htmlContent, {
+    headers: {
+      "Content-Type": "text/html; charset=UTF-8",
+    },
+  });
+}
