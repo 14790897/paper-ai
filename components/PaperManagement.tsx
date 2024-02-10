@@ -53,7 +53,7 @@ const PaperManagement = () => {
   const fetchPapers = useCallback(async () => {
     const user = await getUser(supabase);
     if (user && user.id) {
-      console.log("user.id", user.id);
+      // console.log("user.id", user.id);
       const numbers = await getUserPaperNumbers(user.id, supabase);
       setPaperNumbers(numbers || []); // 直接在这里更新状态
       setUserId(user.id);

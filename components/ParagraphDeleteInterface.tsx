@@ -34,7 +34,7 @@ const ParagraphDeleteButton: React.FC<any> = ({
       }
       // Swal.fire("Deleted!", "Your file has been deleted.", "success");
     } else {
-      if (!isRemovePaper) removeReferenceUpdateIndex(index, false);
+      if (isRemovePaper) removeReferenceUpdateIndex(index, false);
       // Swal.fire("Cancelled", "Your imaginary file is safe :)", "error");
     }
   };
