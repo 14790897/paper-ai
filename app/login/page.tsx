@@ -1,56 +1,68 @@
-import Link from 'next/link'
-import { headers, cookies } from 'next/headers'
-import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
+import Link from "next/link";
+import { headers, cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export default function Login({
   searchParams,
 }: {
-  searchParams: { message: string }
+  searchParams: { message: string };
 }) {
   const signIn = async (formData: FormData) => {
-    'use server'
+    "use server";
 
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const cookieStore = cookies();
+    const supabase = createClient(cookieStore);
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
-    })
+    });
 
     if (error) {
-      return redirect('/login?message=Could not authenticate user')
+      return redirect("/login?message=Could not authenticate user");
     }
 
-    return redirect('/')
-  }
+    return redirect("/");
+  };
 
   const signUp = async (formData: FormData) => {
-    'use server'
+    "use server";
 
-    const origin = headers().get('origin')
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
+    const origin = headers().get("origin");
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const cookieStore = cookies();
+    const supabase = createClient(cookieStore);
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: `${origin}/auth/callback`,
       },
-    })
+    });
+    //profiles表 插入用户信息
+    const user = data?.user;
+    if (user) {
+      const { data, error: profileError } = await supabase
+        .from("profiles")
+        .insert([{ id: user.id, email: user.email }]);
 
+      if (profileError) {
+        console.error("Failed to create user profile:", profileError);
+      }
+    } else if (error) {
+      console.error("Sign in error:", error);
+    }
     if (error) {
-      return redirect('/login?message=Could not authenticate user')
+      return redirect("/login?message=Could not authenticate user");
     }
 
-    return redirect('/login?message=Check email to continue sign in process')
-  }
+    return redirect("/login?message=Check email to continue sign in process");
+  };
 
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
@@ -71,7 +83,7 @@ export default function Login({
           className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"
         >
           <polyline points="15 18 9 12 15 6" />
-        </svg>{' '}
+        </svg>{" "}
         Back
       </Link>
 
@@ -114,5 +126,5 @@ export default function Login({
         )}
       </form>
     </div>
-  )
+  );
 }

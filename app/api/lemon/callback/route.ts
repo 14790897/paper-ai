@@ -62,7 +62,7 @@ export async function POST(request: Request) {
 
 async function getUserId(supabaseAdmin: SupabaseClient, email: string) {
   const { data, error } = await supabaseAdmin
-    .from("auth.users")
+    .from("profiles")
     .select("id")
     .eq("email", email)
     .single();
