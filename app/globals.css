@@ -128,3 +128,22 @@
     margin-bottom: 10px; /* 增加元素之间的间距 */
   }
 }
+
+/* 输入框基本样式 */
+.textarea-focus-expand {
+  height: 50px; /* 默认高度 */
+  flex-grow: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px 15px;
+  margin-right: 8px;
+  color: #333;
+  transition: height 0.3s ease; /* 平滑过渡效果 */
+}
+
+/* 输入框获得焦点时的样式 */
+.textarea-focus-expand:focus {
+  height: 200px; /* 聚焦时的高度 */
+  border-color: #007bff; /* 改变边框颜色以提供视觉反馈 */
+}

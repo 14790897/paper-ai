@@ -363,11 +363,10 @@ const QEditor = () => {
   return (
     <div>
       <div id="Qtoolbar" className="space-y-2 flex justify-between">
-        <input
-          type="text"
+        <textarea
           value={userInput}
           onChange={handleInputChange}
-          className="flex-grow shadow appearance-none border rounded py-2 px-3 mr-2 text-grey-darker"
+          className="textarea-focus-expand flex-grow shadow appearance-none border rounded py-2 px-3 mr-2 text-grey-darker"
           placeholder="点击AI Write就是正常的对话交流，点击Paper2AI会根据输入的主题词去寻找对应论文"
         />
         <button
