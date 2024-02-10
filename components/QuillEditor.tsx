@@ -72,7 +72,7 @@ const QEditor = () => {
   const isVip = useAppSelector((state) => state.state.isVip);
 
   //询问ai，用户输入
-  const [userInput, setUserInput] = useState("robot");
+  const [userInput, setUserInput] = useState("");
   //quill编辑器鼠标位置
   const [cursorPosition, setCursorPosition] = useState<number | null>(null);
 
