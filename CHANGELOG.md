@@ -1,5 +1,53 @@
 # Changelog
 
+## [1.3.0](https://www.github.com/14790897/paper-ai/compare/v1.2.0...v1.3.0) (2024-02-10)
+
+
+### Features
+
+* lemonsqueezy1 ([fbd899c](https://www.github.com/14790897/paper-ai/commit/fbd899cae3d2a1daf41e3578a5b04d258da42b99))
+* supa utils ([e7567cb](https://www.github.com/14790897/paper-ai/commit/e7567cb49d132059b03d7296e402d40a287cff31))
+* supa路由 ([20add6b](https://www.github.com/14790897/paper-ai/commit/20add6b617cc9d205299f4ca02758b0ac55639ad))
+* vip按钮 ([aeff960](https://www.github.com/14790897/paper-ai/commit/aeff96032ef4fa5d20ee62ee6a0813778095c726))
+* 使用免费的deepseek ([10e7ef0](https://www.github.com/14790897/paper-ai/commit/10e7ef05c97bb3faff1563995b460defed72f1cb))
+* 删除引用的时候同时删除段落 ([65da583](https://www.github.com/14790897/paper-ai/commit/65da583258346d8259707eb828d61b4e7790ec48))
+* 在设置界面保存了多个可用的配置 ([a723425](https://www.github.com/14790897/paper-ai/commit/a72342504fc4b10498258c84a5fad812a32dee04))
+* 完善了错误处理 ([91ab703](https://www.github.com/14790897/paper-ai/commit/91ab703708979e7c4f4bbc64793274db9e6c01bf))
+* 导出word功能增加导出文献内容 ([8dcb54a](https://www.github.com/14790897/paper-ai/commit/8dcb54a49b46aed8441e28aeaf3e4489d9bae61a))
+* 尝试删除索引的时候删除整个段落 ([732dd73](https://www.github.com/14790897/paper-ai/commit/732dd738c93601a0cd81379ced2dfa7ddd8ce683))
+* 引用和内容分开更新 ([0276ff8](https://www.github.com/14790897/paper-ai/commit/0276ff8964486c89519e37265adbab5072e6c1aa))
+* 注册时在profiles插入用户信息，方便设置vip时读取email操作 ([8629d20](https://www.github.com/14790897/paper-ai/commit/8629d2034112165c16deb8f3f50f5f43899d1cd2))
+* 点击引用数字调转到对应文献 ([3580c34](https://www.github.com/14790897/paper-ai/commit/3580c34e830d121a702a7cdbfaa5ed3a3c7a44bc))
+* 管理云端多篇论文功能 ([fe31198](https://www.github.com/14790897/paper-ai/commit/fe31198124f9459c579260018ba673a1353b077f))
+* 编辑过程中同步云端 ([2ca6d3d](https://www.github.com/14790897/paper-ai/commit/2ca6d3d212861aa6b54ac6beddd1e498026631ce))
+* 自动识别最近的文献序号在那之后插入新的文献 ([ba8722a](https://www.github.com/14790897/paper-ai/commit/ba8722afdaf5698732521c1ad5be1ab8039a1655))
+
+
+### Bug Fixes
+
+* AI输入的时候鼠标可以失去焦点 ([88063ba](https://www.github.com/14790897/paper-ai/commit/88063baa2ed07ebb807b21138054a9805d948da0))
+* isVip改为redux状态 ([91e9759](https://www.github.com/14790897/paper-ai/commit/91e9759cb7192901e88dd72699b33caad066a8ac))
+* lemon ([6e6cf16](https://www.github.com/14790897/paper-ai/commit/6e6cf16fbadafc9a990df8eac8d9f14d8a67fca7))
+* lemon ([acae014](https://www.github.com/14790897/paper-ai/commit/acae014a46ee8f3c32e12f5da820145ba8090eae))
+* redux ([4fa7796](https://www.github.com/14790897/paper-ai/commit/4fa779698ec308dda603f54cb29cd718b5df41af))
+* settings的redux ([9ee43eb](https://www.github.com/14790897/paper-ai/commit/9ee43ebd061498d1a03c14e6adef78840195bfd8))
+* settings的redux ([1d4fbaf](https://www.github.com/14790897/paper-ai/commit/1d4fbaf8e426762b1b80f0d8d4761e835b8ac5da))
+* system prompt可以输入 ([02357cc](https://www.github.com/14790897/paper-ai/commit/02357cc03661a0cda62413deaf07153cc117ceed))
+* vercel部署密钥问题 ([84e0363](https://www.github.com/14790897/paper-ai/commit/84e0363313487020b97d0056c65f4a26f10f4cae))
+* 修复pubmed articleUrl 无法正常获取的问题 ([f5ae3c1](https://www.github.com/14790897/paper-ai/commit/f5ae3c1ff456bdb6131a8c39b1d04d0ee2094db7))
+* 修复service-role无法访问 ([9cb214d](https://www.github.com/14790897/paper-ai/commit/9cb214d67f7453a6c08d643957996a5ffa3b1110))
+* 修复service-role无法访问 ([d0e6a72](https://www.github.com/14790897/paper-ai/commit/d0e6a72f0d57b3ad27e47676556acff8be13debf))
+* 刷新之后不获取云端文献引用 ([74486f9](https://www.github.com/14790897/paper-ai/commit/74486f95c2f95b5e1cc6e031e0dddff52fbca15e))
+* 将输入栏变得方便 ([165f189](https://www.github.com/14790897/paper-ai/commit/165f189efa7bd0003dd2a35b6acbcd040961198f))
+* 引用改变的时候立刻同步 ([01d703a](https://www.github.com/14790897/paper-ai/commit/01d703a17b2b18c7bfead1080426f8f8d3619a36))
+* 插入前先换行 ([d56f427](https://www.github.com/14790897/paper-ai/commit/d56f427484d342e893c9ff104f06ddb64e14f145))
+* 撤销 ([f761c35](https://www.github.com/14790897/paper-ai/commit/f761c357ea3bf74a11a890e9da942db7c4e7fd4a))
+* 文献引用删除修复 ([4e6f628](https://www.github.com/14790897/paper-ai/commit/4e6f628289063f28768bd05f92d23895c7417a27))
+* 自动保存编辑器内容 ([6107267](https://www.github.com/14790897/paper-ai/commit/610726712366ca66c7392560f32000cf7e63a87f))
+* 解决vip状态不正确，因为没有使用dispatch ([833e2e1](https://www.github.com/14790897/paper-ai/commit/833e2e1b0ec0aac46d7759ac44172432fa31a6f0))
+* 解决向云端同步的时候文章内容不更新 ([2286a48](https://www.github.com/14790897/paper-ai/commit/2286a48fc040c972d65f8c2a15c4701d31658869))
+* 解决因为闭包导致paperNumberRedux 不正确的问题 ([486c75d](https://www.github.com/14790897/paper-ai/commit/486c75d4d7a9a016399170274bd55bab00f2c3b6))
+
 ## [1.2.0](https://www.github.com/14790897/paper-ai/compare/v1.1.0...v1.2.0) (2024-01-29)
 
 
