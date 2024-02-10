@@ -109,3 +109,22 @@
   z-index: 1000; /* 确保悬浮层在其他内容之上 */
   /* 可以添加其他样式来美化组件，如背景色、阴影等 */
 }
+
+/* 适配手机样式 */
+@media (max-width: 768px) {
+  #editor {
+    width: 100%; /* 适应屏幕宽度 */
+    min-height: 200px; /* 调整为更适合移动设备的尺寸 */
+    padding: 5px; /* 减少内边距 */
+  }
+
+  #Qtoolbar {
+    flex-direction: column; /* 在较小屏幕上垂直堆叠工具栏元素 */
+    align-items: stretch; /* 拉伸按钮以填充容器 */
+  }
+
+  #Qtoolbar > button,
+  #Qtoolbar > select {
+    margin-bottom: 10px; /* 增加元素之间的间距 */
+  }
+}

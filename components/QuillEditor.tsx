@@ -368,7 +368,7 @@ const QEditor = () => {
           value={userInput}
           onChange={handleInputChange}
           className="flex-grow shadow appearance-none border rounded py-2 px-3 mr-2 text-grey-darker"
-          placeholder="点击AI Write就是正常的对话交流，点击Paper2AI会根据输入的主题词去寻找对应论文" // 这是你的提示
+          placeholder="点击AI Write就是正常的对话交流，点击Paper2AI会根据输入的主题词去寻找对应论文"
         />
         <button
           onClick={handleAIWrite}
@@ -413,7 +413,7 @@ const QEditor = () => {
         <div
           id="editor"
           style={{
-            width: "calc(100vw - 100px)", // 屏幕宽度减去 100px
+            width: "calc(100vw - 20px)", // 屏幕宽度减去 100px
             minHeight: "250px", // 注意驼峰命名法
             maxHeight: "500px",
             overflowY: "auto", // overflow-y -> overflowY
