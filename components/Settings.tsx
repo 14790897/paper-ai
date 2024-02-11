@@ -15,7 +15,7 @@ import { useLocalStorage } from "react-use";
 // 在 Settings.tsx 或一个单独的配置文件中
 const CONFIG_OPTIONS = [
   {
-    name: "cocopilot-gpt4（apiKey在前面手动加上ghu）",
+    name: "cocopilot-gpt4（apiKey在前面手动加上ghu,因为GitHub不允许上传完整的密钥）",
     apiKey: "_pXVxLPBzcvCjSvG0Mv4K7G9ffw3xsM2ZKolZ",
     upstreamUrl: "https://proxy.cocopilot.org",
   },
