@@ -6,12 +6,9 @@ WORKDIR /app
 
 # 复制 package.json 和 package-lock.json (或 yarn.lock)
 COPY package*.json ./
-# 如果使用yarn，并有yarn.lock文件，也可以复制
-# COPY package.json yarn.lock ./
 
 # 安装项目依赖
 RUN npm install
-# 如果使用 yarn，可以用 RUN yarn install 代替
 
 # 复制项目文件到工作目录
 COPY . .
