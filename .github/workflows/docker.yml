@@ -25,4 +25,4 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: 14790897/PaperAI:latest
+          tags: 14790897/paperai:latest
