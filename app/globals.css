@@ -147,3 +147,8 @@
   height: 200px; /* 聚焦时的高度 */
   border-color: #007bff; /* 改变边框颜色以提供视觉反馈 */
 }
+
+.icon-hover:hover {
+  transform: scale(1.2); /* 放大到原大小的1.2倍 */
+  transition: transform 0.3s ease; /* 平滑过渡效果 */
+}

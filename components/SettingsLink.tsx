@@ -30,7 +30,7 @@ const SettingsLink = () => {
     //   </div>
     // </>
     <Link href="/settings" aria-label="Settings">
-      <FontAwesomeIcon icon={faCog} size="2x" />
+      <FontAwesomeIcon icon={faCog} size="2x" className="icon-hover" />
     </Link>
   );
 };
