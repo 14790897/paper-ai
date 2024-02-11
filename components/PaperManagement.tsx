@@ -51,7 +51,7 @@ const PaperManagement = () => {
 
   //获取用户存储在云端的论文，使用useCallback定义一个记忆化的函数来获取用户论文
   const fetchPapers = useCallback(async () => {
-    const user = await getUser(supabase);
+    const user = await getUser();
     if (user && user.id) {
       // console.log("user.id", user.id);
       const numbers = await getUserPaperNumbers(user.id, supabase);
