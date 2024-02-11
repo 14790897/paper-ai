@@ -43,6 +43,18 @@
 
 如果只想在本地开发，而不想部署到 Vercel，[请按以下步骤操作](#clone-and-run-locally)。
 
+## 镜像运行
+1. 拉取镜像
+```sh
+docker pull 14790897/paperai:latest
+```
+2. 运行镜像
+```sh
+docker run -d -p 3000:3000 \
+  -e NEXT_PUBLIC_AI_URL=自定义AI模型地址\
+  -e NEXT_PUBLIC_OPENAI_API_KEY=自定义API KEY \
+  14790897/paperai:latest
+```
 ## 克隆并在本地运行
 
 ```bash
