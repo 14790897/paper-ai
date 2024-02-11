@@ -110,6 +110,14 @@
   /* 可以添加其他样式来美化组件，如背景色、阴影等 */
 }
 
+#editor {
+  /* width: calc(100vw - 20px); */
+  min-height: 250px;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+}
+
 /* 适配手机样式 */
 @media (max-width: 768px) {
   #editor {

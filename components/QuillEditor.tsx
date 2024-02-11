@@ -361,7 +361,7 @@ const QEditor = () => {
   }
 
   return (
-    <div>
+    <div className="flex   flex-col ">
       <div id="Qtoolbar" className="space-y-2 flex justify-between">
         <textarea
           value={userInput}
@@ -381,6 +381,7 @@ const QEditor = () => {
         >
           Paper2AI
         </button>
+        {/* 论文网站 */}
         <select
           value={selectedSource}
           onChange={(e) => setSelectedSource(e.target.value)}
@@ -389,8 +390,8 @@ const QEditor = () => {
           <option value="arxiv">arxiv</option>
           <option value="semanticScholar">semantic scholar</option>
           <option value="pubmed">pubmed</option>
-          {/* 其他来源网站 */}
         </select>
+        {/* AI模型 */}
         <select
           value={selectedModel}
           onChange={(e) => setSelectedModel(e.target.value)}
@@ -399,7 +400,6 @@ const QEditor = () => {
           <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
           <option value="gpt-4">gpt-4</option>
           <option value="deepseek-chat">deepseek-chat</option>
-          {/* 其他来源网站 */}
         </select>
         <button
           onClick={() => formatTextInEditor(quill)} // 假设 updateIndex 是处理更新操作的函数
@@ -409,17 +409,7 @@ const QEditor = () => {
         </button>
       </div>
       <div>
-        <div
-          id="editor"
-          style={{
-            width: "calc(100vw - 20px)", // 屏幕宽度减去 100px
-            minHeight: "250px", // 注意驼峰命名法
-            maxHeight: "500px",
-            overflowY: "auto", // overflow-y -> overflowY
-            border: "1px solid #ccc",
-            padding: "10px",
-          }}
-        ></div>
+        <div id="editor"></div>
         <ReferenceList editor={quill} />
         <ExportDocx editor={quill} />
       </div>

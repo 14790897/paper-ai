@@ -53,7 +53,11 @@ const Settings = () => {
       <br />
       <div className="flex justify-end mt-4 mr-4">
         <Link href="/" aria-label="Settings">
-          <FontAwesomeIcon icon={faArrowLeft} size="2x" />
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            size="2x"
+            className="icon-hover"
+          />
         </Link>
       </div>
       {/* 配置选择器 */}
