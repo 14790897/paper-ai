@@ -12,6 +12,7 @@
     "@lemonsqueezy/lemonsqueezy.js": "^2.0.0",
     "@next/third-parties": "^14.1.0",
     "@reduxjs/toolkit": "^2.0.1",
+    "@sentry/nextjs": "^7.100.1",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "add": "^2.0.6",

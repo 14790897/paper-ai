@@ -40,3 +40,6 @@ pass
 
 .vercel
 post.md
+
+# Sentry Config File
+.sentryclirc
