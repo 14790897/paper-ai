@@ -2,6 +2,7 @@ import Link from "next/link";
 import { headers, cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import * as Sentry from "@sentry/nextjs";
 
 export default function Login({
   searchParams,
@@ -16,11 +17,19 @@ export default function Login({
     const cookieStore = cookies();
     const supabase = createClient(cookieStore);
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-
+    //sentry
+    const user = data?.user;
+    if (user) {
+      Sentry.setUser({
+        email: user.email,
+        id: user.id,
+        ip_address: "{{auto}}}",
+      });
+    }
     if (error) {
       return redirect("/login?message=Could not authenticate user");
     }
@@ -54,9 +63,14 @@ export default function Login({
       if (profileError) {
         console.error("Failed to create user profile:", profileError);
       }
-    } else if (error) {
-      console.error("Sign in error:", error);
+      //sentry
+      Sentry.setUser({
+        email: user.email,
+        id: user.id,
+        ip_address: "{{auto}}}",
+      });
     }
+
     if (error) {
       return redirect("/login?message=Could not authenticate user");
     }
