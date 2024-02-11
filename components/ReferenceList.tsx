@@ -92,9 +92,69 @@ function ReferenceList({ editor }: ReferenceListProps) {
   }, [references]);
 
   return (
-    <div className="container mx-auto p-4">
+    <div className=" mx-auto p-4">
+      {/* 引用列表显示区域 */}
+      <ul>
+        {references &&
+          references.map(
+            (reference, index) =>
+              reference && (
+                <li key={index} className="mb-3 p-2 border-b">
+                  {/* 显示序号 */}
+                  <span className="font-bold mr-2">[{index + 1}].</span>
+                  {reference.author}. {reference.title}.{" "}
+                  {/* 判断 journal 字段是否存在 */}
+                  {reference.journal ? (
+                    <span>reference.journal. </span>
+                  ) : (
+                    <span>
+                      {reference.venue}, {reference.year}.
+                    </span>
+                  )}
+                  {reference.url && (
+                    <a
+                      href={reference.url}
+                      className="text-blue-500 hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      id={`[${(index + 1).toString()}]`}
+                    >
+                      {" "}
+                      ({reference.url})
+                    </a>
+                  )}
+                  <button
+                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
+                    onClick={() => moveReferenceUp(index)}
+                  >
+                    ↑
+                  </button>
+                  <button
+                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
+                    onClick={() => moveReferenceDown(index)}
+                  >
+                    ↓
+                  </button>
+                  <button
+                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
+                    onClick={() =>
+                      copyToClipboard(formatReferenceForCopy(reference))
+                    }
+                  >
+                    复制
+                  </button>
+                  <ParagraphDeleteButton
+                    index={index}
+                    isRemovePaper={true}
+                    removeReferenceUpdateIndex={removeReferenceUpdateIndex}
+                  ></ParagraphDeleteButton>
+                </li>
+              )
+          )}
+      </ul>
       {/* 表单区域 */}
       <form
+        id="referenceForm"
         onSubmit={async (e) => {
           e.preventDefault();
           handleAddReference({
@@ -156,6 +216,7 @@ function ReferenceList({ editor }: ReferenceListProps) {
             <button
               className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded "
               type="submit"
+              form="referenceForm"
             >
               添加自定义引用
             </button>
@@ -180,65 +241,6 @@ function ReferenceList({ editor }: ReferenceListProps) {
           </div>
         </div>
       </form>
-      {/* 引用列表显示区域 */}
-      <ul>
-        {references &&
-          references.map(
-            (reference, index) =>
-              reference && (
-                <li key={index} className="mb-3 p-2 border-b">
-                  {/* 显示序号 */}
-                  <span className="font-bold mr-2">[{index + 1}].</span>
-                  {reference.author}. {reference.title}.{" "}
-                  {/* 判断 journal 字段是否存在 */}
-                  {reference.journal ? (
-                    <span>reference.journal. </span>
-                  ) : (
-                    <span>
-                      {reference.venue}, {reference.year}.
-                    </span>
-                  )}
-                  {reference.url && (
-                    <a
-                      href={reference.url}
-                      className="text-blue-500 hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      id={`[${(index + 1).toString()}]`}
-                    >
-                      {" "}
-                      ({reference.url})
-                    </a>
-                  )}
-                  <button
-                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
-                    onClick={() => moveReferenceUp(index)}
-                  >
-                    ↑
-                  </button>
-                  <button
-                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
-                    onClick={() => moveReferenceDown(index)}
-                  >
-                    ↓
-                  </button>
-                  <button
-                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
-                    onClick={() =>
-                      copyToClipboard(formatReferenceForCopy(reference))
-                    }
-                  >
-                    复制
-                  </button>
-                  <ParagraphDeleteButton
-                    index={index}
-                    isRemovePaper={true}
-                    removeReferenceUpdateIndex={removeReferenceUpdateIndex}
-                  ></ParagraphDeleteButton>
-                </li>
-              )
-          )}
-      </ul>
     </div>
   );
 }
