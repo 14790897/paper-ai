@@ -144,7 +144,7 @@
 
 /* 输入框获得焦点时的样式 */
 .textarea-focus-expand:focus {
-  height: 200px; /* 聚焦时的高度 */
+  height: 100px; /* 聚焦时的高度 */
   border-color: #007bff; /* 改变边框颜色以提供视觉反馈 */
 }
 
