@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.4.0](https://www.github.com/14790897/paper-ai/compare/v1.3.0...v1.4.0) (2024-02-12)
+
+
+### Features
+
+* i18n 切换 ([2573950](https://www.github.com/14790897/paper-ai/commit/2573950ad82140a16d1d8d6c48d33fcfc269d81e))
+* i18n中文英文 ([d64295e](https://www.github.com/14790897/paper-ai/commit/d64295e27ad3668539be8cb3b8b46bbccf086334))
+* sentry ([f5ee326](https://www.github.com/14790897/paper-ai/commit/f5ee32669c23ceb79ea618dd04a8e781eabb4936))
+* sentry追踪用户 ([b983427](https://www.github.com/14790897/paper-ai/commit/b983427721dda54aac187c9b95f8d21988944c06))
+
+
+### Bug Fixes
+
+* reference中的journal终于搞定 ([67212d6](https://www.github.com/14790897/paper-ai/commit/67212d6a8514c67d8d9e19733ba1d228c0690eed))
+
 ## [1.3.0](https://www.github.com/14790897/paper-ai/compare/v1.2.0...v1.3.0) (2024-02-10)
 
 
