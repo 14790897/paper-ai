@@ -21,12 +21,16 @@ import {
 //supabase
 import { submitPaper } from "@/utils/supabase/supabaseutils";
 import { createClient } from "@/utils/supabase/client";
+//i18n
+import { useTranslation } from "@/app/i18n/client";
 type ReferenceListProps = {
   editor: any;
+  lng: string;
 };
 
-function ReferenceList({ editor }: ReferenceListProps) {
-  // console.log("editor in ReferenceList", editor);
+function ReferenceList({ editor, lng }: ReferenceListProps) {
+  //i18n
+  const { t } = useTranslation(lng);
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newYear, setNewYear] = useState("");
@@ -141,7 +145,7 @@ function ReferenceList({ editor }: ReferenceListProps) {
                       copyToClipboard(formatReferenceForCopy(reference))
                     }
                   >
-                    复制
+                    {t("复制")}
                   </button>
                   <ParagraphDeleteButton
                     index={index}
@@ -180,35 +184,35 @@ function ReferenceList({ editor }: ReferenceListProps) {
             type="text"
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
-            placeholder="Title"
+            placeholder={t("Title")}
           />
           <input
             className="border p-2 rounded"
             type="text"
             value={newAuthor}
             onChange={(e) => setNewAuthor(e.target.value)}
-            placeholder="Author"
+            placeholder={t("Author")}
           />
           <input
             className="border p-2 rounded"
             type="text"
             value={newYear}
             onChange={(e) => setNewYear(e.target.value)}
-            placeholder="Year"
+            placeholder={t("Year")}
           />
           <input
             className="border p-2 rounded"
             type="text"
             value={newPublisher}
             onChange={(e) => setNewPublisher(e.target.value)}
-            placeholder="Publisher"
+            placeholder={t("Publisher")}
           />
           <input
             className="border p-2 rounded"
             type="text"
             value={newUrl}
             onChange={(e) => setNewUrl(e.target.value)}
-            placeholder="URL"
+            placeholder={t("Url")}
           />
         </div>
         <div className="container mx-auto p-4">
@@ -218,7 +222,7 @@ function ReferenceList({ editor }: ReferenceListProps) {
               type="submit"
               form="referenceForm"
             >
-              添加自定义引用
+              {t("添加自定义引用")}
             </button>
 
             <button
@@ -228,7 +232,7 @@ function ReferenceList({ editor }: ReferenceListProps) {
                 copyToClipboard(formatAllReferencesForCopy(references))
               }
             >
-              复制所有引用
+              {t("复制所有引用")}
             </button>
             <button
               className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded "
@@ -236,7 +240,7 @@ function ReferenceList({ editor }: ReferenceListProps) {
               // onClick={() => setReferences([])} // 设置引用列表为空数组
               onClick={() => handleClearReferences()}
             >
-              删除所有引用
+              {t("删除所有引用")}
             </button>
           </div>
         </div>

@@ -11,32 +11,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useLocalStorage } from "react-use";
+import { useTranslation } from "@/app/i18n/client";
 
-// 在 Settings.tsx 或一个单独的配置文件中
-const CONFIG_OPTIONS = [
-  {
-    name: "cocopilot-gpt4（apiKey在前面手动加上ghu,因为GitHub不允许上传完整的密钥）",
-    apiKey: "_pXVxLPBzcvCjSvG0Mv4K7G9ffw3xsM2ZKolZ",
-    upstreamUrl: "https://proxy.cocopilot.org",
-  },
-  {
-    name: "deepseek-chat(需要手动修改模型为这个)",
-    apiKey: "sk-ffe19ebe9fa44d00884330ff1c18cf82",
-    upstreamUrl: "https://api.deepseek.com",
-  },
-  {
-    name: "caifree(推荐)",
-    apiKey: "sk-aiHrrRLYUUelHstX69E9484509254dBf92061d6744FfFaD1",
-    upstreamUrl: "https://one.caifree.com",
-  },
-  {
-    name: "自定义",
-    apiKey: "",
-    upstreamUrl: "",
-  },
-];
-
-const Settings = () => {
+const Settings = ({ lng }: { lng: string }) => {
+  //i18n
+  const { t } = useTranslation(lng);
+  const CONFIG_OPTIONS = [
+    {
+      name: t("configurations.cocopilot-gpt4"),
+      apiKey: "_pXVxLPBzcvCjSvG0Mv4K7G9ffw3xsM2ZKolZ",
+      upstreamUrl: "https://proxy.cocopilot.org",
+    },
+    {
+      name: t("configurations.deepseek-chat"),
+      apiKey: "sk-ffe19ebe9fa44d00884330ff1c18cf82",
+      upstreamUrl: "https://api.deepseek.com",
+    },
+    {
+      name: t("configurations.caifree"),
+      apiKey: "sk-aiHrrRLYUUelHstX69E9484509254dBf92061d6744FfFaD1",
+      upstreamUrl: "https://one.caifree.com",
+    },
+    {
+      name: t("configurations.custom"),
+      apiKey: "",
+      upstreamUrl: "",
+    },
+  ];
   //redux
   const dispatch = useAppDispatch();
   const apiKey = useAppSelector((state) => state.auth.apiKey);
@@ -65,7 +66,7 @@ const Settings = () => {
         className="block text-gray-700 text-sm font-bold mb-2"
         htmlFor="config-selector"
       >
-        配置选择器
+        {t("配置选择器")}
       </label>
       <select
         id="config-selector"
@@ -106,7 +107,7 @@ const Settings = () => {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="upstream-url"
           >
-            Upstream URL:
+            {t("Upstream URL:")}
           </label>
           <input
             id="upstream-url"
@@ -122,7 +123,7 @@ const Settings = () => {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="system-prompt"
           >
-            System Prompt(Paper2AI):
+            {t("System Prompt(Paper2AI):")}
           </label>
           <textarea
             id="system-prompt"

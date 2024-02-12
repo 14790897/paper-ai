@@ -1,8 +1,11 @@
 import React from "react";
 import { sendGAEvent } from "@next/third-parties/google";
-
+//i18n
+import { useTranslation } from "@/app/i18n/client";
 // BuyVipButton 组件
-function BuyVipButton() {
+function BuyVipButton({ lng }: { lng: string }) {
+  //i18n
+  const { t } = useTranslation(lng);
   // 这是购买VIP的目标URL
   const targetUrl = "https://store.paperai.life";
   return (
@@ -13,7 +16,9 @@ function BuyVipButton() {
           sendGAEvent({ event: "buyVipButtonClicked", value: "buy vip" })
         }
       >
-        Buy VIP TO UNLOCK Cloud Sync and Edit Mutiple Papers Simultaneously
+        {t(
+          "Buy VIP TO UNLOCK Cloud Sync and Edit Mutiple Papers Simultaneously"
+        )}
       </button>
     </a>
   );

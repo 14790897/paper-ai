@@ -3,10 +3,10 @@
 import ReduxProvider from "@/app/store/ReduxProvider";
 import PaperManagement from "@/components/PaperManagement";
 
-export default function PaperManagementWrapper() {
+export default function PaperManagementWrapper({ lng }) {
   return (
     <ReduxProvider>
-      <PaperManagement />
+      <PaperManagement lng={lng} />
     </ReduxProvider>
   );
 }

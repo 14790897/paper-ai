@@ -10,9 +10,14 @@ import QuillWrapper from "@/components/QuillWrapper";
 // import SEditor from "../components/SlateEditor";
 import SettingsLink from "@/components/SettingsLink";
 import PaperManagementWrapper from "@/components/PaperManagementWrapper";
+//i18n
+import { useTranslation } from "@/app/i18n";
+import { IndexProps } from "@/utils/global";
 
 // import Error from "@/app/global-error";
-export default function Index() {
+export default async function Index({ params: { lng } }: IndexProps) {
+  const { t } = await useTranslation(lng);
+
   const cookieStore = cookies();
 
   const canInitSupabaseClient = () => {
@@ -39,8 +44,8 @@ export default function Index() {
           <SettingsLink />
         </div>
       </nav>
-      <PaperManagementWrapper />
-      <QuillWrapper />
+      <PaperManagementWrapper lng={lng} />
+      <QuillWrapper lng={lng} />
       <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
         <p>
           <a
@@ -49,7 +54,7 @@ export default function Index() {
             className="font-bold hover:underline"
             rel="noreferrer"
           >
-            give me a star in GitHub
+            {t("give me a star in GitHub")}
           </a>
         </p>
       </footer>

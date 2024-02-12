@@ -1,0 +1,30 @@
+{
+  "give me a star in GitHub": "在GitHub上给我一颗star",
+  "更新索引": "更新索引",
+  "AI写作": "AI写作",
+  "Paper2AI": "寻找文献",
+  "点击AI写作就是正常的对话交流，点击寻找文献会根据输入的主题词去寻找对应论文": "点击AI写作就是正常的对话交流，点击寻找文献会根据输入的主题词去寻找对应论文",
+  "+ Add Paper": "+ 添加文献",
+  "Buy VIP TO UNLOCK Cloud Sync and Edit Mutiple Papers Simultaneously": "购买VIP解锁云同步和同时编辑多篇论文",
+  "Paper Management": "文献管理",
+  "Your Cloud Papers": "您的云端论文",
+  "复制": "复制",
+  "添加自定义引用": "添加自定义引用",
+  "复制所有引用": "复制所有引用",
+  "删除所有引用": "删除所有引用",
+  "Title": "标题",
+  "Author": "作者",
+  "Year": "年份",
+  "Publisher": "出版商",
+  "Url": "论文网址",
+  "配置选择器": "配置选择器",
+  "Upstream URL:": "请求模型的URL:",
+  "System Prompt(Paper2AI):": "系统提示(Paper2AI):",
+
+  "configurations": {
+    "cocopilot-gpt4": "cocopilot-gpt4（apiKey前面手动加上ghu，因为GitHub不允许上传完整的密钥）",
+    "deepseek-chat": "deepseek-chat（需要手动修改模型为这个）",
+    "caifree": "caifree（推荐）",
+    "custom": "自定义"
+  }
+}

@@ -39,6 +39,8 @@ import {
 } from "@/utils/supabase/supabaseutils";
 //debounce
 import { debounce } from "lodash";
+//i18n
+import { useTranslation } from "@/app/i18n/client";
 
 const toolbarOptions = [
   ["bold", "italic", "underline", "strike"], // 加粗、斜体、下划线和删除线
@@ -60,7 +62,10 @@ const toolbarOptions = [
   ["clean"], // 清除格式按钮
 ];
 
-const QEditor = () => {
+const QEditor = ({ lng }) => {
+  //i18n
+  const { t } = useTranslation(lng);
+
   //读取redux中的API key
   const apiKey = useAppSelector((state: any) => state.auth.apiKey);
   const upsreamUrl = useAppSelector((state: any) => state.auth.upsreamUrl);
@@ -367,19 +372,21 @@ const QEditor = () => {
           value={userInput}
           onChange={handleInputChange}
           className="textarea-focus-expand flex-grow shadow appearance-none border rounded py-2 px-3 mr-2 text-grey-darker"
-          placeholder="点击AI Write就是正常的对话交流，点击Paper2AI会根据输入的主题词去寻找对应论文"
+          placeholder={t(
+            "点击AI写作就是正常的对话交流，点击寻找文献会根据输入的主题词去寻找对应论文"
+          )}
         />
         <button
           onClick={handleAIWrite}
           className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 mr-2 rounded"
         >
-          AI Write
+          {t("AI写作")}
         </button>
         <button
           onClick={() => paper2AI(userInput)}
           className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 mr-2 rounded"
         >
-          Paper2AI
+          {t("Paper2AI")}
         </button>
         {/* 论文网站 */}
         <select
@@ -405,13 +412,13 @@ const QEditor = () => {
           onClick={() => formatTextInEditor(quill)} // 假设 updateIndex 是处理更新操作的函数
           className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
         >
-          更新索引
+          {t("更新索引")}
         </button>
       </div>
       <div>
         <div id="editor"></div>
-        <ReferenceList editor={quill} />
-        <ExportDocx editor={quill} />
+        <ReferenceList editor={quill} lng={lng} />
+        <ExportDocx editor={quill} lng={lng} />
       </div>
     </div>
   );

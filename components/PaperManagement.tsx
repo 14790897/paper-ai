@@ -24,14 +24,18 @@ import {
 } from "@/utils/supabase/supabaseutils";
 //动画
 import { CSSTransition } from "react-transition-group";
-import { animated, useSpring } from "@react-spring/web";
+// import { animated, useSpring } from "@react-spring/web";
 
 //删除远程论文按钮
 import ParagraphDeleteButton from "@/components/ParagraphDeleteInterface";
 //vip充值按钮
 import BuyVipButton from "@/components/BuyVipButton"; // 假设这是购买VIP的按钮组件
+//i18n
+import { useTranslation } from "@/app/i18n/client";
 
-const PaperManagement = () => {
+const PaperManagement = ({ lng }) => {
+  //i18n
+  const { t } = useTranslation(lng);
   //supabase
   const supabase = createClient();
   //redux
@@ -133,7 +137,10 @@ const PaperManagement = () => {
       <>
         <div className="paper-management-container flex flex-col items-center space-y-4">
           <div className="max-w-md w-full bg-blue-gray-100 rounded overflow-hidden shadow-lg mx-auto p-5">
-            <h1 className="font-bold text-3xl text-center">Paper Management</h1>
+            <h1 className="font-bold text-3xl text-center">
+              {" "}
+              {t("Paper Management")}
+            </h1>
           </div>
           {isVip ? (
             <div>
@@ -141,10 +148,13 @@ const PaperManagement = () => {
                 onClick={handleAddPaperClick}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               >
-                + Add Paper
+                {t("+ Add Paper")}
               </button>
               <div className="flex flex-col items-center space-y-2">
-                <h2 className="text-xl font-semibold">Your Papers</h2>
+                <h2 className="text-xl font-semibold">
+                  {" "}
+                  {t("Your Cloud Papers")}
+                </h2>
                 {paperNumbers.length > 0 ? (
                   <ul className="list-disc">
                     {[...paperNumbers]
@@ -188,7 +198,7 @@ const PaperManagement = () => {
               </div>
             </div>
           ) : (
-            <BuyVipButton />
+            <BuyVipButton lng={lng} />
           )}
         </div>
       </>

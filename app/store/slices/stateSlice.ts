@@ -4,6 +4,7 @@ export interface APIState {
   paperNumberRedux: string;
   contentUpdatedFromNetwork: boolean;
   isVip: boolean;
+  language: string;
 }
 
 const initialState: APIState = {
@@ -11,6 +12,7 @@ const initialState: APIState = {
   paperNumberRedux: "1", //默认得给个值
   contentUpdatedFromNetwork: false,
   isVip: false,
+  language: "en",
 };
 
 export const stateSlice = createSlice({
@@ -35,6 +37,9 @@ export const stateSlice = createSlice({
     setIsVip: (state, action: PayloadAction<boolean>) => {
       state.isVip = action.payload;
     },
+    setLanguage: (state, action: PayloadAction<string>) => {
+      state.language = action.payload;
+    },
   },
 });
 
@@ -44,6 +49,7 @@ export const {
   setPaperNumberRedux,
   setContentUpdatedFromNetwork,
   setIsVip,
+  setLanguage,
 } = stateSlice.actions;
 
 export const stateReducer = stateSlice.reducer;

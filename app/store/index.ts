@@ -27,6 +27,7 @@ const statePersistConfig = {
     "paperNumberRedux",
     "contentUpdatedFromNetwork",
     "isVip",
+    "language",
   ],
 };
 
