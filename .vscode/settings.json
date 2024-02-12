@@ -1,19 +1,68 @@
 {
-    "sqltools.connections": [
-        {
-            "mysqlOptions": {
-                "authProtocol": "default",
-                "enableSsl": "Disabled"
-            },
-            "previewLimit": 50,
-            "server": "localhost",
-            "port": 3306,
-            "driver": "MySQL",
-            "name": "local",
-            "database": "b3log_symphony",
-            "username": "root",
-            "password": "123456"
-        }
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default",
+        "enableSsl": "Disabled"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "local",
+      "database": "b3log_symphony",
+      "username": "root",
+      "password": "123456"
+    }
+  ],
+  "commentTranslate.targetLanguage": "zh-CN",
+  "i18n-ally.localesPaths": ["../../../git-program/paper-ai/app/i18n"],
+
+  "i18n-ally.keystyle": "nested",
+
+  "i18n-ally.namespace": true,
+
+  "i18n-ally.enabledParsers": ["json", "js"],
+
+  "i18n-ally.sortKeys": true,
+
+  "i18n-ally.sourceLanguage": "zh-CN",
+
+  "i18n-ally.displayLanguage": "en",
+  "i18n-ally.editor.preferEditor": true,
+
+  "i18n-ally.extract.keygenStyle": "camelCase",
+  "i18n-ally.enabledFrameworks": ["i18next"],
+  // Parser options for extracting HTML, see https://github.com/lokalise/i18n-ally/blob/master/src/extraction/parsers/options.ts
+  "i18n-ally.extract.parsers.html": {
+    "attributes": [
+      "text",
+      "title",
+      "alt",
+      "placeholder",
+      "label",
+      "aria-label",
+      "button"
     ],
-    "commentTranslate.targetLanguage": "zh-CN"
+    "ignoredTags": ["script", "style"],
+    "vBind": true,
+    "inlineText": true
+  },
+
+  // Enables hard-coded strings detection automatically whenever opening supported a file
+  "i18n-ally.extract.autoDetect": true,
+
+  // Make sure that particular refactoring templates would be picked up be the bulk extraction depending on the context
+  "i18n-ally.refactor.templates": [
+    {
+      // affect scope (optional)
+      // see https://github.com/lokalise/i18n-ally/blob/master/src/core/types.ts#L156-L156
+      "source": "html-attribute",
+      "templates": ["i18n.t('{key}'{args})", "custom.t('{key}'{args})"],
+      // accept globs, resolved to project root (optional)
+      "include": ["app/**/*.{vue,ts,js,tsx}", "index.html"],
+      "exclude": ["src/config/**"]
+    }
+    // ...
+  ]
 }

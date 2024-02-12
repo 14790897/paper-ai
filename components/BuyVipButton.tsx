@@ -4,7 +4,7 @@ import { sendGAEvent } from "@next/third-parties/google";
 // BuyVipButton 组件
 function BuyVipButton() {
   // 这是购买VIP的目标URL
-  const targetUrl = "https://store.paperai.life/checkout";
+  const targetUrl = "https://store.paperai.life";
   return (
     <a href={targetUrl} target="_blank" className="no-underline">
       <button
