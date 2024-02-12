@@ -12,6 +12,7 @@ import SettingsLink from "@/components/SettingsLink";
 import PaperManagementWrapper from "@/components/PaperManagementWrapper";
 //i18n
 import { useTranslation } from "@/app/i18n";
+import { FooterBase } from "@/components/Footer/FooterBase";
 import { IndexProps } from "@/utils/global";
 
 // import Error from "@/app/global-error";
@@ -47,16 +48,19 @@ export default async function Index({ params: { lng } }: IndexProps) {
       <PaperManagementWrapper lng={lng} />
       <QuillWrapper lng={lng} />
       <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>
+        <div className="flex items-center space-x-4">
+          {" "}
+          {/* 添加flex容器来水平排列子元素 */}
           <a
             href="https://github.com/14790897/paper-ai"
             target="_blank"
-            className="font-bold hover:underline"
+            className="font-bold text-blue-600 hover:underline hover:text-blue-800"
             rel="noreferrer"
           >
             {t("give me a star in GitHub")}
           </a>
-        </p>
+          <FooterBase t={t} lng={lng} />
+        </div>
       </footer>
     </div>
   );
