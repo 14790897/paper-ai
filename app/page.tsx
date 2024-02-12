@@ -5,7 +5,7 @@ import ConnectSupabaseSteps from "@/components/ConnectSupabaseSteps";
 import SignUpUserSteps from "@/components/SignUpUserSteps";
 import Header from "@/components/Header";
 import { cookies } from "next/headers";
-import QuillWrapper from "./QuillWrapper";
+import QuillWrapper from "@/components/QuillWrapper";
 // import TinyEditor from "../components/TinyEditor";
 // import SEditor from "../components/SlateEditor";
 import SettingsLink from "@/components/SettingsLink";
