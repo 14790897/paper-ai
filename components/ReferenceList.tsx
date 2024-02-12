@@ -95,6 +95,16 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
     }
   }, [references]);
 
+  function formatReference(reference) {
+    if (reference.journal) {
+      return `${reference.journal}. `;
+    } else if (reference.journalReference) {
+      return `${reference.journalReference}`;
+    } else {
+      return `${reference.venue}, ${reference.year}.`;
+    }
+  }
+
   return (
     <div className=" mx-auto p-4">
       {/* 引用列表显示区域 */}
@@ -108,13 +118,14 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
                   <span className="font-bold mr-2">[{index + 1}].</span>
                   {reference.author}. {reference.title}.{" "}
                   {/* 判断 journal 字段是否存在 */}
-                  {reference.journal ? (
+                  {/* {reference.journal ? (
                     <span>reference.journal. </span>
                   ) : (
                     <span>
                       {reference.venue}, {reference.year}.
                     </span>
-                  )}
+                  )} */}
+                  <span>{formatReference(reference)}</span>
                   {reference.url && (
                     <a
                       href={reference.url}
