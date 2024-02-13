@@ -232,7 +232,7 @@ export function formatJournalReference(entry: any) {
   }
 
   // 基础引用格式：期刊名称和出版年份
-  let reference = `${entry.journal.name}[J], ${entry.year}`;
+  let reference = `${entry.journal.name}, ${entry.year}`;
 
   // 如果有卷号，添加卷号信息
   if (entry.journal.volume) {

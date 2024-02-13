@@ -95,16 +95,27 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
     }
   }, [references]);
 
-  function formatReference(reference) {
+  function formatReference(reference: Reference) {
     if (reference.journal) {
-      return `${reference.journal}. `;
+      return `[J]. ${reference.journal}. `;
     } else if (reference.journalReference) {
-      return `${reference.journalReference}`;
+      return `[J]. ${reference.journalReference}`;
     } else {
       return `${reference.venue}, ${reference.year}.`;
     }
   }
-
+  function getFullReference(reference: Reference) {
+    let fullReference = `${reference.author}. ${reference.title}`;
+    fullReference += formatReference(reference);
+    return fullReference;
+  }
+  function getAllFullReferences(references: Reference[]) {
+    return references
+      .map((reference, index) => {
+        return `[${index + 1}] ${getFullReference(reference)}`;
+      })
+      .join("\n");
+  }
   return (
     <div className=" mx-auto p-4">
       {/* 引用列表显示区域 */}
@@ -116,8 +127,7 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
                 <li key={index} className="mb-3 p-2 border-b">
                   {/* 显示序号 */}
                   <span className="font-bold mr-2">[{index + 1}].</span>
-                  {reference.author}. {reference.title}.{" "}
-                  <span>{formatReference(reference)}</span>
+                  {getFullReference(reference)}
                   {reference.url && (
                     <a
                       href={reference.url}
@@ -144,9 +154,7 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
                   </button>
                   <button
                     className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
-                    onClick={() =>
-                      copyToClipboard(formatReferenceForCopy(reference))
-                    }
+                    onClick={() => copyToClipboard(getFullReference(reference))}
                   >
                     {t("复制")}
                   </button>
@@ -231,9 +239,7 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
             <button
               className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded "
               type="button"
-              onClick={() =>
-                copyToClipboard(formatAllReferencesForCopy(references))
-              }
+              onClick={() => copyToClipboard(getAllFullReferences(references))}
             >
               {t("复制所有引用")}
             </button>

@@ -13,6 +13,7 @@ export type Reference = {
   url: string;
   venue?: string;
   journal?: JournalInfo;
+  journalReference?: string;
 };
 
 export interface IndexProps {

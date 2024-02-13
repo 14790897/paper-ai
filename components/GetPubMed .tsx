@@ -119,7 +119,6 @@ async function getPubMedPaperDetails(idList: IDList) {
       }
 
       let journalTitle = articleDetails.Journal.Title; // 提取出版者信息（杂志标题）
-      journalTitle += "[J]";
       journalTitle += `, ${publishedDate}`;
       if (articleDetails.Journal.JournalIssue.Volume) {
         journalTitle += `, ${articleDetails.Journal.JournalIssue.Volume}`;

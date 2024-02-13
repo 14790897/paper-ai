@@ -297,7 +297,7 @@ const QEditor = ({ lng }) => {
           year: entry.year,
           author: entry.authors?.slice(0, 3).join(", "),
           venue: entry.venue,
-          journalReference: formatJournalReference(entry),
+          journal: formatJournalReference(entry),
         }));
         dataString = rawData
           .map((entry) => {
@@ -357,6 +357,7 @@ const QEditor = ({ lng }) => {
         upsreamUrl,
         systemPrompt
       );
+      setUserInput("");
       // 重新获取更新后的内容并更新 Redux store
       const updatedContent = quill.root.innerHTML;
       dispatch(setEditorContent(updatedContent));
