@@ -163,7 +163,7 @@ async function fetchPubMedData(query: string, year: number, limit: number) {
     }
   } catch (error) {
     //这里无法起作用因为pubmed不会返回400系错误
-    throw new Error(`未搜索到文献: ${error}`);
+    throw new Error(`pubmed: ${error}`);
   }
 }
 

@@ -106,7 +106,7 @@ function removeParagraphWithReference(
   if (startIndex === -1) {
     return htmlString;
   }
-  const paragraphTag = "<p><br></p>";
+  const paragraphTag = "</p><p>";
   // 向前找到<p><br></p>作为段落的开始标志
   let startParagraphIndex = htmlString.lastIndexOf(paragraphTag, startIndex);
   if (startParagraphIndex !== -1) {
