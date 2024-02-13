@@ -3,13 +3,13 @@ import Quill from "quill";
 import { animated, useSpring } from "@react-spring/web";
 
 function getTextBeforeCursor(quill: Quill, length = 500) {
-  const cursorPosition = quill.getSelection()!.index;
+  const cursorPosition = quill.getSelection(true)!.index;
   const start = Math.max(0, cursorPosition - length); // 确保开始位置不是负数
   return quill.getText(start, cursorPosition - start);
 }
 
 function getNumberBeforeCursor(quill: Quill, length = 3000) {
-  const cursorPosition = quill.getSelection()!.index;
+  const cursorPosition = quill.getSelection(true)!.index;
   const start = Math.max(0, cursorPosition - length); // 确保开始位置不是负数
   const textBeforeCursor = quill.getText(start, cursorPosition - start);
 
@@ -133,7 +133,7 @@ function removeParagraphWithReference(
 }
 
 function updateBracketNumbersInDeltaKeepSelection(quill: Quill) {
-  const selection = quill.getSelection();
+  const selection = quill.getSelection(true);
   const delta = quill.getContents();
   const updatedDelta = updateBracketNumbersInDelta(delta);
   quill.setContents(updatedDelta);
@@ -147,7 +147,7 @@ export function delteIndexUpdateBracketNumbersInDeltaKeepSelection(
   index: number,
   rmPg: boolean
 ) {
-  const selection = quill.getSelection();
+  const selection = quill.getSelection(true);
   const delta = quill.getContents();
   let updatedDelta = deleteReferenceNumberOrParagraph(
     delta,

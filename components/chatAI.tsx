@@ -81,14 +81,15 @@ const sendMessageToOpenAI = async (
     }
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
-    //开始结束前先进行换行
-    editor.insertText(editor.getSelection().index, "\n");
+    //开始前先进行换行
+    // editor.focus();
+    editor.insertText(editor.getSelection(true).index, "\n");
     await processResult(reader, decoder, editor);
 
     convertToSuperscript(editor);
     updateBracketNumbersInDeltaKeepSelection(editor);
   } catch (error) {
-    // console.error("Error:", error);
+    console.error("Error:", error);
     // 如果有响应，返回响应的原始内容
     if (response) {
       const rawResponse = await response.text();
@@ -177,8 +178,8 @@ async function processResult(reader, decoder, editor) {
               dataObject.choices[0].delta?.content;
             if (content) {
               // 在当前光标位置插入文本
-              editor.focus();
-              editor.insertText(editor.getSelection().index, content);
+              // editor.focus();
+              editor.insertText(editor.getSelection(true).index, content);
               // console.log("成功插入：", content);
             }
           }

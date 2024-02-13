@@ -143,7 +143,11 @@ const QEditor = ({ lng }) => {
             const textWithoutSpaces = leaf.text.replace(/\s+/g, ""); // 去掉所有空格
             if (/^\[\d+\]$/.test(textWithoutSpaces)) {
               console.log("点击了引用", textWithoutSpaces);
-              document.getElementById(textWithoutSpaces)!.scrollIntoView();
+              try {
+                document.getElementById(textWithoutSpaces)!.scrollIntoView();
+              } catch (e) {
+                console.log("没有找到对应的引用");
+              }
             }
           }
         } else {
