@@ -226,6 +226,27 @@ export function formatTextInEditor(editor: Quill) {
   updateBracketNumbersInDeltaKeepSelection(editor);
 }
 
+export function formatJournalReference(entry: any) {
+  if (!entry.journal) {
+    return ""; // 如果没有期刊信息，直接返回空字符串
+  }
+
+  // 基础引用格式：期刊名称和出版年份
+  let reference = `${entry.journal.name}[J], ${entry.year}`;
+
+  // 如果有卷号，添加卷号信息
+  if (entry.journal.volume) {
+    reference += `, ${entry.journal.volume}`;
+  }
+
+  // 如果有页码，添加页码信息
+  if (entry.journal.pages) {
+    reference += `: ${entry.journal.pages}`;
+  }
+
+  return reference;
+}
+
 export {
   getTextBeforeCursor,
   updateBracketNumbersInDelta,

@@ -16,7 +16,7 @@ async function getPubMedPapers(query: string, year: number, limit = 2) {
       "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi";
     const db = "pubmed"; // 设定搜索的数据库为PubMed
     const retMax = limit; // 检索的最大记录数
-    const retStart = getRandomOffset(30 - limit); // 假设每页最多30条，根据需要随机偏移
+    const retStart = getRandomOffset(20 - limit); // 假设每页最多30条，根据需要随机偏移
     const url = `${baseURL}?db=${db}&term=${query}[Title/Abstract]+AND+2018:3000[Date - Publication]&retMax=${retMax}&retStart=${retStart}&api_key=${process.env.NEXT_PUBLIC_PUBMED_API_KEY}`;
     const response = await axios.get(url, { responseType: "text" });
     console.log(response.data);
@@ -106,18 +106,27 @@ async function getPubMedPaperDetails(idList: IDList) {
               return names.join(" ");
             })
           : ["Unknown Author"];
-      const journalTitle = articleDetails.Journal.Title; // 提取出版者信息（杂志标题）
 
       let publishedDate = "No date available";
       // 尝试从 ArticleDate 获取发表日期
       if (articleDetails.ArticleDate) {
-        publishedDate = `${articleDetails.ArticleDate.Year}-${articleDetails.ArticleDate.Month}-${articleDetails.ArticleDate.Day}`;
+        publishedDate = `${articleDetails.ArticleDate.Year}`;
       }
       // 如果 ArticleDate 不存在，尝试从 JournalIssue/PubDate 获取
       else if (articleDetails.Journal.JournalIssue.PubDate) {
         publishedDate = `${articleDetails.Journal.JournalIssue.PubDate.Year}-${
           articleDetails.Journal.JournalIssue.PubDate.Month || ""
         }`;
+      }
+
+      let journalTitle = articleDetails.Journal.Title; // 提取出版者信息（杂志标题）
+      journalTitle += "[J]";
+      journalTitle += `, ${publishedDate}`;
+      if (articleDetails.Journal.JournalIssue.Volume) {
+        journalTitle += `, ${articleDetails.Journal.JournalIssue.Volume}`;
+      }
+      if (articleDetails.Pagination) {
+        journalTitle = `: ${articleDetails.Pagination.MedlinePgn}`;
       }
 
       // 构建文章的 PubMed URL

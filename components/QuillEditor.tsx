@@ -17,6 +17,7 @@ import {
   removeSpecialCharacters,
   formatTextInEditor,
   getNumberBeforeCursor,
+  formatJournalReference,
 } from "@/utils/others/quillutils";
 //组件
 import ExportDocx from "./Export";
@@ -291,11 +292,7 @@ const QEditor = ({ lng }) => {
           year: entry.year,
           author: entry.authors?.slice(0, 3).join(", "),
           venue: entry.venue,
-          journalReference: entry.journal
-            ? `${entry.journal.name}[J], ${entry.year}${
-                entry.journal.volume ? `, ${entry.journal.volume}` : ""
-              }${entry.journal.pages ? `: ${entry.journal.pages}` : ""}`
-            : "",
+          journalReference: formatJournalReference(entry),
         }));
         dataString = rawData
           .map((entry) => {
@@ -311,7 +308,7 @@ const QEditor = ({ lng }) => {
           id: entry.id, // 文章的 PubMed ID
           title: entry.title, // 文章的标题
           abstract: entry.abstract, // 文章的摘要
-          author: entry.authors.join(", "), // 文章的作者列表，假设为字符串数组
+          author: entry.authors?.slice(0, 3).join(", "), // 文章的作者列表，假设为字符串数组
           year: entry.year, // 文章的发表日期
           venue: entry.journal, // 文章的发表杂志
           url: entry.url, // 文章的 URL

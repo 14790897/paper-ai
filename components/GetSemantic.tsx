@@ -17,7 +17,7 @@ interface Paper {
 
 async function getSemanticPapers(query: string, year: string, limit = 2) {
   try {
-    const maxOffset = 30 - limit; // 假设总记录数为 100
+    const maxOffset = 20 - limit; // 假设总记录数为 20
     const offset = getRandomOffset(maxOffset);
     const url = `https://api.semanticscholar.org/graph/v1/paper/search`;
     const response = await axios.get(url, {
