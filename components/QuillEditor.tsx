@@ -79,8 +79,11 @@ const QEditor = ({ lng }) => {
   //询问ai，用户输入
   const [userInput, setUserInput] = useState("");
   //quill编辑器鼠标位置
-  const [cursorPosition, setCursorPosition] = useState<number | null>(null);
-
+  const [cursorPosition, setCursorPosition] = useLocalStorage<number | null>(
+    "光标位置",
+    null
+  );
+  //
   // 初始化 Quill 编辑器
   const isMounted = useRef(false);
   const editor = useRef<Quill | null>(null);
@@ -236,6 +239,8 @@ const QEditor = ({ lng }) => {
       upsreamUrl,
       prompt
     );
+    // 清空input内容
+    setUserInput("");
     // 重新获取更新后的内容并更新 Redux store
     const updatedContent = quill.root.innerHTML;
     dispatch(setEditorContent(updatedContent));
