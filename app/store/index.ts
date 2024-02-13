@@ -28,6 +28,7 @@ const statePersistConfig = {
     "contentUpdatedFromNetwork",
     "isVip",
     "language",
+    "isJumpToReference",
   ],
 };
 

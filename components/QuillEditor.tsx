@@ -70,6 +70,9 @@ const QEditor = ({ lng }) => {
   //读取redux中的API key
   const apiKey = useAppSelector((state: any) => state.auth.apiKey);
   const upsreamUrl = useAppSelector((state: any) => state.auth.upsreamUrl);
+  const isJumpToReference = useAppSelector(
+    (state) => state.state.isJumpToReference
+  );
   const [quill, setQuill] = useState<Quill | null>(null);
   const contentUpdatedFromNetwork = useAppSelector(
     (state) => state.state.contentUpdatedFromNetwork
@@ -140,22 +143,24 @@ const QEditor = ({ lng }) => {
       });
       // 添加点击事件监听器
       const handleEditorClick = (e) => {
-        const range = editor.current!.getSelection();
-        if (range && range.length === 0 && editor.current) {
-          const [leaf, offset] = editor.current.getLeaf(range.index);
-          if (leaf.text) {
-            const textWithoutSpaces = leaf.text.replace(/\s+/g, ""); // 去掉所有空格
-            if (/^\[\d+\]$/.test(textWithoutSpaces)) {
-              console.log("点击了引用", textWithoutSpaces);
-              try {
-                document.getElementById(textWithoutSpaces)!.scrollIntoView();
-              } catch (e) {
-                console.log("没有找到对应的引用");
+        if (isJumpToReference) {
+          const range = editor.current!.getSelection();
+          if (range && range.length === 0 && editor.current) {
+            const [leaf, offset] = editor.current.getLeaf(range.index);
+            if (leaf.text) {
+              const textWithoutSpaces = leaf.text.replace(/\s+/g, ""); // 去掉所有空格
+              if (/^\[\d+\]$/.test(textWithoutSpaces)) {
+                console.log("点击了引用", textWithoutSpaces);
+                try {
+                  document.getElementById(textWithoutSpaces)!.scrollIntoView();
+                } catch (e) {
+                  console.log("没有找到对应的引用");
+                }
               }
             }
+          } else {
+            console.log("No editor in click.");
           }
-        } else {
-          console.log("No editor in click.");
         }
       };
 

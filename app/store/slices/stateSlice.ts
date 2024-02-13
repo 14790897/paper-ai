@@ -5,6 +5,7 @@ export interface APIState {
   contentUpdatedFromNetwork: boolean;
   isVip: boolean;
   language: string;
+  isJumpToReference: boolean;
 }
 
 const initialState: APIState = {
@@ -13,6 +14,7 @@ const initialState: APIState = {
   contentUpdatedFromNetwork: false,
   isVip: false,
   language: "en",
+  isJumpToReference: false,
 };
 
 export const stateSlice = createSlice({
@@ -40,6 +42,9 @@ export const stateSlice = createSlice({
     setLanguage: (state, action: PayloadAction<string>) => {
       state.language = action.payload;
     },
+    setIsJumpToReference: (state, action: PayloadAction<boolean>) => {
+      state.isJumpToReference = action.payload;
+    },
   },
 });
 
@@ -50,6 +55,7 @@ export const {
   setContentUpdatedFromNetwork,
   setIsVip,
   setLanguage,
+  setIsJumpToReference,
 } = stateSlice.actions;
 
 export const stateReducer = stateSlice.reducer;

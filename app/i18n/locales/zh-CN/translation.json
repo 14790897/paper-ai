@@ -26,5 +26,6 @@
     "deepseek-chat": "deepseek-chat（需要手动修改模型为这个）",
     "caifree": "caifree（推荐）",
     "custom": "自定义"
-  }
+  },
+  "鼠标点击段落中的上标跳转到文献引用？": "鼠标点击段落中的上标跳转到文献引用？"
 }

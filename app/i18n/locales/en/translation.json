@@ -25,5 +25,6 @@
     "deepseek-chat": "deepseek-chat (Model needs to be manually changed to this one)",
     "caifree": "caifree (Recommended)",
     "custom": "Custom"
-  }
+  },
+  "鼠标点击段落中的上标跳转到文献引用？": "Click the superscript in the paragraph to jump to the reference?"
 }
