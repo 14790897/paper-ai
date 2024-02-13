@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.5.0](https://www.github.com/14790897/paper-ai/compare/v1.4.0...v1.5.0) (2024-02-13)
+
+
+### Features
+
+* pubmed论文格式更新 ([3636fe1](https://www.github.com/14790897/paper-ai/commit/3636fe1c358e3f4edebca2c17f527383f787e7a4))
+* 加了一个按钮用来控制鼠标点击段落中的上标跳转到文献引用 ([e5d267c](https://www.github.com/14790897/paper-ai/commit/e5d267cf7075d8830bee172d2f8e5b6b1f487487))
+* 更准确的文献引用 ([c4d4100](https://www.github.com/14790897/paper-ai/commit/c4d410073caea3cdc7e016e492b62c22fec99543))
+* 记录selection位置以及自动清空UserInput内容 ([9e85552](https://www.github.com/14790897/paper-ai/commit/9e85552d8966f7408e2ae61b92b91d0b3ae40e59))
+
+
+### Bug Fixes
+
+* 删除段落的错误 ([089a7af](https://www.github.com/14790897/paper-ai/commit/089a7afa7e84ccd965e9a1d51a2cae47c0269b3e))
+* 未选中焦点的时候会报错 ([342d78b](https://www.github.com/14790897/paper-ai/commit/342d78bd882367cbf9afbfb234f85bfb05e3d489))
+
 ## [1.4.0](https://www.github.com/14790897/paper-ai/compare/v1.3.0...v1.4.0) (2024-02-12)
 
 
