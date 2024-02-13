@@ -114,8 +114,7 @@ async function getPubMedPaperDetails(idList: IDList) {
       }
       // 如果 ArticleDate 不存在，尝试从 JournalIssue/PubDate 获取
       else if (articleDetails.Journal.JournalIssue.PubDate) {
-        publishedDate = `${articleDetails.Journal.JournalIssue.PubDate.Year}-${
-          articleDetails.Journal.JournalIssue.PubDate.Month || ""
+        publishedDate = `${articleDetails.Journal.JournalIssue.PubDate.Year}
         }`;
       }
 
@@ -126,16 +125,20 @@ async function getPubMedPaperDetails(idList: IDList) {
         journalTitle += `, ${articleDetails.Journal.JournalIssue.Volume}`;
       }
       if (articleDetails.Pagination) {
-        journalTitle = `: ${articleDetails.Pagination.MedlinePgn}`;
+        journalTitle += `: ${articleDetails.Pagination.StartPage}-${articleDetails.Pagination.EndPage}`;
       }
-
       // 构建文章的 PubMed URL
       const articleUrl = `https://pubmed.ncbi.nlm.nih.gov/${medlineCitation.PMID}/`;
       // console.log("medlineCitation", medlineCitation);
-
+      console.log("\n,journalTitle", journalTitle);
+      let title = articleDetails.ArticleTitle;
+      // 检查并去除字符串最后的句点
+      if (title.endsWith(".")) {
+        title = title.slice(0, -1);
+      }
       return {
         id: medlineCitation.PMID._,
-        title: articleDetails.ArticleTitle,
+        title: title,
         abstract: abstract,
         authors: authors,
         url: articleUrl,

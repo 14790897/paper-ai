@@ -117,14 +117,6 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
                   {/* 显示序号 */}
                   <span className="font-bold mr-2">[{index + 1}].</span>
                   {reference.author}. {reference.title}.{" "}
-                  {/* 判断 journal 字段是否存在 */}
-                  {/* {reference.journal ? (
-                    <span>reference.journal. </span>
-                  ) : (
-                    <span>
-                      {reference.venue}, {reference.year}.
-                    </span>
-                  )} */}
                   <span>{formatReference(reference)}</span>
                   {reference.url && (
                     <a

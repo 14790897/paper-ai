@@ -58,17 +58,17 @@ export async function submitPaper(
       });
 
       const data = await response.json();
-      console.log(
-        "Response data in submitPaper:",
-        data,
-        `此次更新的是第${paperNumber}篇论文,` +
-          `${editorContent !== undefined ? "更新内容为" + editorContent : ""}` +
-          `${
-            references !== undefined
-              ? "更新引用为" + JSON.stringify(references)
-              : ""
-          }`
-      );
+      // console.log(
+      //   "Response data in submitPaper:",
+      //   data,
+      //   `此次更新的是第${paperNumber}篇论文,` +
+      //     `${editorContent !== undefined ? "更新内容为" + editorContent : ""}` +
+      //     `${
+      //       references !== undefined
+      //         ? "更新引用为" + JSON.stringify(references)
+      //         : ""
+      //     }`
+      // );
       return data;
     } catch (error) {
       console.error("Error submitting paper in submitPaper:", error);

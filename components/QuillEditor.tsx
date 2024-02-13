@@ -310,7 +310,7 @@ const QEditor = ({ lng }) => {
           abstract: entry.abstract, // 文章的摘要
           author: entry.authors?.slice(0, 3).join(", "), // 文章的作者列表，假设为字符串数组
           year: entry.year, // 文章的发表日期
-          venue: entry.journal, // 文章的发表杂志
+          journal: entry.journal, // 文章的发表杂志
           url: entry.url, // 文章的 URL
           source: "PubMed", // 指示这些引用来自 PubMed
         }));
