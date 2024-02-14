@@ -7,6 +7,9 @@ import { Reference } from "@/utils/global";
 //supabase
 const supabase = createClient();
 import { createClient } from "@/utils/supabase/client";
+//sentry
+import * as Sentry from "@sentry/nextjs";
+
 //获取用户id
 export async function getUser() {
   const { data, error } = await supabase.auth.getSession();
@@ -170,5 +173,25 @@ export async function fetchUserVipStatus(userId: string) {
     return data.is_vip;
   } else {
     return false;
+  }
+}
+
+//profiles表 插入用户信息
+export async function insertUserProfile(data: any, supabase: SupabaseClient) {
+  const user = data?.user;
+  if (user) {
+    const { data, error: profileError } = await supabase
+      .from("profiles")
+      .insert([{ id: user.id, email: user.email }]);
+
+    if (profileError) {
+      console.error("Failed to create user profile:", profileError);
+    }
+    //sentry
+    Sentry.setUser({
+      email: user.email,
+      id: user.id,
+      ip_address: "{{auto}}}",
+    });
   }
 }

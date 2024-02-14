@@ -3,12 +3,24 @@ import { headers, cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import * as Sentry from "@sentry/nextjs";
-
-export default function Login({
+import DeployButton from "@/components/DeployButton";
+import SettingsLink from "@/components/SettingsLink";
+//i18n
+import { useTranslation } from "@/app/i18n";
+import { FooterBase } from "@/components/Footer/FooterBase";
+//supabase
+import { insertUserProfile } from "@/utils/supabase/supabaseutils";
+// signingithub
+import { SignInGitHub } from "@/components/SignInGitHub";
+export default async function Login({
   searchParams,
+  params: { lng },
 }: {
   searchParams: { message: string };
+  params: { lng: string };
 }) {
+  const { t } = await useTranslation(lng);
+
   const signIn = async (formData: FormData) => {
     "use server";
 
@@ -54,22 +66,7 @@ export default function Login({
       },
     });
     //profiles表 插入用户信息
-    const user = data?.user;
-    if (user) {
-      const { data, error: profileError } = await supabase
-        .from("profiles")
-        .insert([{ id: user.id, email: user.email }]);
-
-      if (profileError) {
-        console.error("Failed to create user profile:", profileError);
-      }
-      //sentry
-      Sentry.setUser({
-        email: user.email,
-        id: user.id,
-        ip_address: "{{auto}}}",
-      });
-    }
+    await insertUserProfile(data, supabase);
 
     if (error) {
       return redirect("/login?message=Could not authenticate user");
@@ -80,6 +77,12 @@ export default function Login({
 
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
+      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
+        <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
+          <DeployButton />
+          <SettingsLink />
+        </div>
+      </nav>
       <Link
         href="/"
         className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
@@ -100,7 +103,6 @@ export default function Login({
         </svg>{" "}
         Back
       </Link>
-
       <form
         className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
         action={signIn}
@@ -139,6 +141,22 @@ export default function Login({
           </p>
         )}
       </form>
+      <SignInGitHub />
+      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
+        <div className="flex items-center space-x-4">
+          {" "}
+          {/* 添加flex容器来水平排列子元素 */}
+          <a
+            href="https://github.com/14790897/paper-ai"
+            target="_blank"
+            className="font-bold text-blue-600 hover:underline hover:text-blue-800"
+            rel="noreferrer"
+          >
+            {t("give me a star in GitHub")}
+          </a>
+          <FooterBase t={t} lng={lng} />
+        </div>
+      </footer>
     </div>
   );
 }
