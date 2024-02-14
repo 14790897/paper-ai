@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.5.1](https://www.github.com/14790897/paper-ai/compare/v1.5.0...v1.5.1) (2024-02-14)
+
+
+### Bug Fixes
+
+* translation ([03febb1](https://www.github.com/14790897/paper-ai/commit/03febb136415fcd48a4248d19c1086bfc0c95f8d))
+* 论文引用格式 ([b603365](https://www.github.com/14790897/paper-ai/commit/b603365265314f61122a8bab0da1561bc1c0c5a2))
+
 ## [1.5.0](https://www.github.com/14790897/paper-ai/compare/v1.4.0...v1.5.0) (2024-02-13)
 
 
