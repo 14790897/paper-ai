@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirm Your Signup</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+      }
+      .container {
+        background-color: #fff;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #333;
+      }
+      p {
+        color: #666;
+      }
+      .button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome to PaperAI!</h1>
+      <p>
+        You're almost ready to start exploring all the powerful features of
+        PaperAI, including AI writing, literature search, and more.
+      </p>
+      <p>
+        Please click the button below to confirm your signup and activate your
+        account:
+      </p>
+      <a href="{{ .ConfirmationURL }}" class="button">Confirm Signup</a>
+      <p>
+        If you didn't sign up for a PaperAI account, please ignore this email.
+      </p>
+    </div>
+  </body>
+</html>

@@ -39,6 +39,7 @@ const Settings = ({ lng }: { lng: string }) => {
       upstreamUrl: "",
     },
   ];
+  //https://freeapi.iil.im  sk-GdUOBeCCCpeB16G877C8C62b849c4653A561550bEb79Fe7e
   //redux
   const dispatch = useAppDispatch();
   const apiKey = useAppSelector((state) => state.auth.apiKey);
