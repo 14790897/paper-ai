@@ -226,6 +226,7 @@ export function formatTextInEditor(editor: Quill) {
   updateBracketNumbersInDeltaKeepSelection(editor);
 }
 
+//这个是格式化semantic scholar的
 export function formatJournalReference(entry: any) {
   if (!entry.journal) {
     return ""; // 如果没有期刊信息，直接返回空字符串
@@ -245,6 +246,28 @@ export function formatJournalReference(entry: any) {
   }
 
   return reference;
+}
+
+function formatReference(reference: Reference) {
+  if (reference.journal) {
+    return `[J]. ${reference.journal}. `;
+  } else if (reference.journalReference) {
+    return `[J]. ${reference.journalReference}`;
+  } else {
+    return `${reference.venue}, ${reference.year}.`;
+  }
+}
+export function getFullReference(reference: Reference) {
+  let fullReference = `${reference.author}. ${reference.title}`;
+  fullReference += formatReference(reference);
+  return fullReference;
+}
+export function getAllFullReferences(references: Reference[]) {
+  return references
+    .map((reference, index) => {
+      return `[${index + 1}] ${getFullReference(reference)}`;
+    })
+    .join("\n");
 }
 
 export {

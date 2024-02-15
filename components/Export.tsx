@@ -5,7 +5,7 @@ import * as quillToWord from "quill-to-word";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import ReduxProvider from "@/app/store/ReduxProvider";
 import { Reference } from "@/utils/global";
-import { formatAllReferencesForCopy } from "@/utils/others/quillutils";
+import { getAllFullReferences } from "@/utils/others/quillutils";
 type ParaIn = {
   editor: any;
 };
@@ -24,7 +24,7 @@ const ExportDocx = ({ editor }: ParaIn) => {
         insert: "\n参考文献\n",
       },
     ];
-    const referencesString = formatAllReferencesForCopy(references);
+    const referencesString = getAllFullReferences(references);
     const quillReferences = [{ insert: referencesString }];
     // 合并标题和引用列表
     return referencesWithTitle.concat(quillReferences);

@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { Reference } from "@/utils/global";
 import {
   copyToClipboard,
-  formatReferenceForCopy,
-  formatAllReferencesForCopy,
+  getFullReference,
+  getAllFullReferences,
   delteIndexUpdateBracketNumbersInDeltaKeepSelection,
 } from "@/utils/others/quillutils";
 //删除文献按钮
@@ -95,27 +95,6 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
     }
   }, [references]);
 
-  function formatReference(reference: Reference) {
-    if (reference.journal) {
-      return `[J]. ${reference.journal}. `;
-    } else if (reference.journalReference) {
-      return `[J]. ${reference.journalReference}`;
-    } else {
-      return `${reference.venue}, ${reference.year}.`;
-    }
-  }
-  function getFullReference(reference: Reference) {
-    let fullReference = `${reference.author}. ${reference.title}`;
-    fullReference += formatReference(reference);
-    return fullReference;
-  }
-  function getAllFullReferences(references: Reference[]) {
-    return references
-      .map((reference, index) => {
-        return `[${index + 1}] ${getFullReference(reference)}`;
-      })
-      .join("\n");
-  }
   return (
     <div className=" mx-auto p-4">
       {/* 引用列表显示区域 */}
