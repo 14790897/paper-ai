@@ -60,7 +60,7 @@ const ExportDocx = ({ editor }: ParaIn) => {
       quillToWordConfig
     );
     saveAs(docAsBlob, "word-export.docx");
-  }, [editor]);
+  }, [editor, references]);
 
   return (
     <ReduxProvider>
