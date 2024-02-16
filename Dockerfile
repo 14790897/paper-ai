@@ -26,6 +26,7 @@ WORKDIR /app
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/package.json ./package.json
 
 # 暴露端口
 EXPOSE 3000
