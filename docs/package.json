@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "tailwindcss": "^3.4.1",
     "vitepress": "^1.0.0-rc.42"
   },
   "scripts": {
