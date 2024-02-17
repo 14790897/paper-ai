@@ -47,5 +47,3 @@ post.md
 #vitepress
 docs/.vitepress/dist/*
 node_modules
-dist
-cache
