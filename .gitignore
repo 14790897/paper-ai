@@ -43,3 +43,6 @@ post.md
 
 # Sentry Config File
 .sentryclirc
+
+#vitepress
+docs/.vitepress/dist/*
