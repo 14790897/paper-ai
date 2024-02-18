@@ -164,8 +164,8 @@ async function getPubMedPaperDetails(idList: IDList) {
 async function fetchPubMedData(
   query: string,
   year: number,
-  limit: number,
-  offset: number
+  offset: number,
+  limit: number
 ) {
   try {
     const idList = await getPubMedPapers(query, year, offset, limit);
