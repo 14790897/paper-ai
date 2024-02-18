@@ -10,14 +10,20 @@ type PubMedID = string;
 // 定义idList为PubMedID数组
 type IDList = PubMedID[];
 
-async function getPubMedPapers(query: string, year: number, limit = 2) {
+async function getPubMedPapers(
+  query: string,
+  year: number,
+  offset = -1,
+  limit = 2
+) {
   try {
     const baseURL =
       "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi";
     const db = "pubmed"; // 设定搜索的数据库为PubMed
     const retMax = limit; // 检索的最大记录数
-    const retStart = getRandomOffset(20 - limit); // 假设每页最多30条，根据需要随机偏移
-    const url = `${baseURL}?db=${db}&term=${query}[Title/Abstract]+AND+2018:3000[Date - Publication]&retMax=${retMax}&retStart=${retStart}&api_key=${process.env.NEXT_PUBLIC_PUBMED_API_KEY}`;
+    const maxOffset = 20 - limit; // 假设总记录数为 20
+    if (offset === -1) offset = getRandomOffset(maxOffset);
+    const url = `${baseURL}?db=${db}&term=${query}[Title/Abstract]+AND+2018:3000[Date - Publication]&retMax=${retMax}&retStart=${offset}&api_key=${process.env.NEXT_PUBLIC_PUBMED_API_KEY}`;
     const response = await axios.get(url, { responseType: "text" });
     console.log(response.data);
     // 解析XML数据
@@ -155,9 +161,14 @@ async function getPubMedPaperDetails(idList: IDList) {
 }
 
 // 示例：使用这些函数
-async function fetchPubMedData(query: string, year: number, limit: number) {
+async function fetchPubMedData(
+  query: string,
+  year: number,
+  limit: number,
+  offset: number
+) {
   try {
-    const idList = await getPubMedPapers(query, year, limit);
+    const idList = await getPubMedPapers(query, year, offset, limit);
     if (idList && idList.length > 0) {
       const paperDetails = await getPubMedPaperDetails(idList);
       console.log("fetchPubMedData", paperDetails); // 处理或显示文章详情

@@ -38,12 +38,13 @@ interface Author {
 async function getArxivPapers(
   query: string,
   maxResults = 5,
+  offset = -1,
   sortBy = "submittedDate",
   sortOrder = "descending"
 ) {
-  const maxOffset = 30 - maxResults; // 假设总记录数为 100
-  const start = getRandomOffset(maxOffset);
-  const url = `https://export.arxiv.org/api/query?search_query=${query}&start=${start}&max_results=${maxResults}&sortBy=${sortBy}&sortOrder=${sortOrder}`;
+  const maxOffset = 20 - maxResults; // 假设总记录数为 20
+  if (offset === -1) offset = getRandomOffset(maxOffset);
+  const url = `https://export.arxiv.org/api/query?search_query=${query}&start=${offset}&max_results=${maxResults}&sortBy=${sortBy}&sortOrder=${sortOrder}`;
 
   try {
     const response = await axios.get(url);

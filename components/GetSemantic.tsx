@@ -15,10 +15,15 @@ interface Paper {
   url: string;
 }
 
-async function getSemanticPapers(query: string, year: string, limit = 2) {
+async function getSemanticPapers(
+  query: string,
+  year: string,
+  offset = -1,
+  limit = 2
+) {
   try {
     const maxOffset = 20 - limit; // 假设总记录数为 20
-    const offset = getRandomOffset(maxOffset);
+    if (offset === -1) offset = getRandomOffset(maxOffset);
     const url = `https://api.semanticscholar.org/graph/v1/paper/search`;
     const response = await axios.get(url, {
       headers: {
