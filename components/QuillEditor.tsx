@@ -366,7 +366,8 @@ const QEditor = ({ lng }) => {
           selectedModel!,
           apiKey,
           upsreamUrl,
-          systemPrompt
+          systemPrompt,
+          cursorPosition!
         );
         setUserInput("");
         // 重新获取更新后的内容并更新 Redux store

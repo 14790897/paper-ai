@@ -6,6 +6,7 @@ import { extractText } from "@/utils/others/slateutils";
 import {
   updateBracketNumbersInDeltaKeepSelection,
   convertToSuperscript,
+  deleteSameBracketNumber,
 } from "@/utils/others/quillutils";
 //redux不能在普通函数使用
 
@@ -26,7 +27,8 @@ const sendMessageToOpenAI = async (
   selectedModel: string,
   apiKey: string,
   upsreamUrl: string,
-  prompt?: string
+  prompt: string,
+  cursorPosition?: number
 ) => {
   //识别应该使用的模型
   let model = selectedModel;
@@ -87,8 +89,9 @@ const sendMessageToOpenAI = async (
     // editor.focus();
     editor.insertText(editor.getSelection(true).index, "\n");
     await processResult(reader, decoder, editor);
-
+    //搜索是否有相同的括号编号，如果有相同的则删除到只剩一个
     convertToSuperscript(editor);
+    deleteSameBracketNumber(editor, cursorPosition);
     updateBracketNumbersInDeltaKeepSelection(editor);
   } catch (error) {
     console.error("Error:", error);
