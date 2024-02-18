@@ -22,6 +22,7 @@ import {
 //组件
 import ExportDocx from "./Export";
 import ReferenceList from "./ReferenceList";
+import ProgressDisplay from "./ProgressBar";
 //redux
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import {
@@ -105,6 +106,8 @@ const QEditor = ({ lng }) => {
     "生成次数",
     1
   ); // 初始值设为1
+  const [generateNumber, setGenerateNumber] = useState(0); //当前任务的进行数
+  const [openProgressBar, setOpenProgressBar] = useState(false);
 
   //redux
   const dispatch = useAppDispatch();
@@ -267,6 +270,7 @@ const QEditor = ({ lng }) => {
     quill!.setSelection(cursorPosition!, 0); // 将光标移动到原来的位置
     let offset = -1;
     if (generatedPaperNumber) offset = 0;
+    setOpenProgressBar(true);
     for (let i = 0; i < generatedPaperNumber!; i++) {
       try {
         if (!topic) {
@@ -385,12 +389,15 @@ const QEditor = ({ lng }) => {
         }
         //修改offset使得按照接下来的顺序进行获取文献
         offset += 2;
+        setGenerateNumber(i + 1);
       } catch (error) {
         // console.error("Error fetching data:", error);
         // 在处理错误后，再次抛出这个错误
         throw new Error(`Paper2AI出现错误: ${error}`);
       }
     }
+    setOpenProgressBar(false);
+    setGenerateNumber(0); //总的已经生成的数量
   }
 
   return (
@@ -449,10 +456,16 @@ const QEditor = ({ lng }) => {
           {t("更新索引")}
         </button>
       </div>
+      {openProgressBar ? (
+        <ProgressDisplay
+          generatedPaperNumber={generatedPaperNumber!}
+          i={generateNumber}
+        />
+      ) : null}
       <div>
         <div id="editor"></div>
         <ReferenceList editor={quill} lng={lng} />
-        <ExportDocx editor={quill} lng={lng} />
+        <ExportDocx editor={quill} />
       </div>
     </div>
   );
