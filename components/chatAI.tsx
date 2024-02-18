@@ -28,7 +28,7 @@ const sendMessageToOpenAI = async (
   apiKey: string,
   upsreamUrl: string,
   prompt: string,
-  cursorPosition?: number
+  cursorPosition: number
 ) => {
   //识别应该使用的模型
   let model = selectedModel;

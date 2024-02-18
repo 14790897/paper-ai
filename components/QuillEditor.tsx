@@ -252,7 +252,8 @@ const QEditor = ({ lng }) => {
       selectedModel!,
       apiKey,
       upsreamUrl,
-      prompt
+      prompt,
+      cursorPosition!
     );
     // 清空input内容
     setUserInput("");
