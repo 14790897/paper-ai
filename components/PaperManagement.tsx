@@ -46,6 +46,8 @@ const PaperManagement = ({ lng }) => {
   const showPaperManagement = useAppSelector(
     (state) => state.state.showPaperManagement
   );
+  const editorContent = useAppSelector((state) => state.auth.editorContent);
+  const referencesRedux = useAppSelector((state) => state.auth.referencesRedux);
   //vip状态
   const isVip = useAppSelector((state) => state.state.isVip);
   //获取的论文数量列表状态
@@ -109,6 +111,13 @@ const PaperManagement = ({ lng }) => {
   }
 
   const handleAddPaperClick = async () => {
+    // 先手动保存本地内容到云端
+    // await submitPaper(
+    //   supabase,
+    //   editorContent,
+    //   referencesRedux,
+    //   paperNumberRedux
+    // );
     // 添加一个新的空白论文
     await submitPaper(
       supabase,
