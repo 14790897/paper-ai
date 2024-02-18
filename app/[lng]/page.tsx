@@ -59,6 +59,13 @@ export default async function Index({ params: { lng } }: IndexProps) {
           >
             {t("give me a star in GitHub")}
           </a>
+          <a
+            href="https://docs.paperai.life/"
+            target="_blank"
+            className="font-bold text-blue-500 hover:underline hover:text-blue-700"
+          >
+            <strong>使用文档</strong>
+          </a>
           <FooterBase t={t} lng={lng} />
         </div>
       </footer>
