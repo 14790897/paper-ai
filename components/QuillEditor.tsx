@@ -345,14 +345,6 @@ const QEditor = ({ lng }) => {
             })
             .join("");
         }
-        //在对应的位置添加文献
-        const nearestNumber = getNumberBeforeCursor(quill!);
-        dispatch(
-          addReferencesRedux({
-            references: newReferences,
-            position: nearestNumber,
-          })
-        );
 
         // 确保搜索到的论文不超过 3000 个字符
         const trimmedMessage =
@@ -378,6 +370,14 @@ const QEditor = ({ lng }) => {
         // 重新获取更新后的内容并更新 Redux store
         const updatedContent = quill!.root.innerHTML;
         dispatch(setEditorContent(updatedContent));
+        //在对应的位置添加文献
+        const nearestNumber = getNumberBeforeCursor(quill!);
+        dispatch(
+          addReferencesRedux({
+            references: newReferences,
+            position: nearestNumber,
+          })
+        );
         if (isVip) {
           //在云端同步supabase
           const data = await submitPaper(
