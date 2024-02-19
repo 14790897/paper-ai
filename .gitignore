@@ -49,3 +49,5 @@ docs/.vitepress/dist/*
 node_modules
 dist
 cache
+# Sentry Config File
+.sentryclirc
