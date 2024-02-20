@@ -42,6 +42,11 @@ const Settings = ({ lng }: { lng: string }) => {
       upstreamUrl: "https://chat.flssedu1.top/api/openai",
     },
     {
+      name: t("configurations.vv佬"),
+      apiKey: "nk-23118",
+      upstreamUrl: "https://cocopilot-pool.aivvm.com",
+    },
+    {
       name: t("configurations.custom"),
       apiKey: "",
       upstreamUrl: "",

@@ -1,6 +1,7 @@
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -52,6 +53,42 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className}>
+      <Script
+        dangerouslySetInnerHTML={{
+          __html: `
+      // We pre-filled your app ID in the widget URL: 'https://widget.intercom.io/widget/mqoya8yp'
+      (function(){
+        var w = window;
+        var ic = w.Intercom;
+        if (typeof ic === "function") {
+          ic('reattach_activator');
+          ic('update', intercomSettings);
+        } else {
+          var d = document;
+          var i = function() { i.c(arguments); };
+          i.q = [];
+          i.c = function(args) { i.q.push(args); };
+          w.Intercom = i;
+          function l() {
+            var s = d.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = 'https://widget.intercom.io/widget/mqoya8yp';
+            var x = d.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+          }
+          if (d.readyState === 'complete') {
+            l();
+          } else if (w.attachEvent) {
+            w.attachEvent('onload', l);
+          } else {
+            w.addEventListener('load', l, false);
+          }
+        }
+      })();
+    `,
+        }}
+      />
       <body className="bg-background text-foreground">
         <main className="min-h-screen flex flex-col items-center">
           {children}
