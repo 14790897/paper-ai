@@ -34,6 +34,11 @@ const Settings = ({ lng }: { lng: string }) => {
       upstreamUrl: "https://one.caifree.com",
     },
     {
+      name: t("configurations.linuxdo"),
+      apiKey: "nk-2311676378",
+      upstreamUrl: "https://chat.flssedu1.top/api/openai",
+    },
+    {
       name: t("configurations.custom"),
       apiKey: "",
       upstreamUrl: "",

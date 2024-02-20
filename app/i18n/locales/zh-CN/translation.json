@@ -25,6 +25,7 @@
     "cocopilot-gpt4": "cocopilot-gpt4（apiKey前面手动加上ghu，因为GitHub不允许上传完整的密钥）",
     "deepseek-chat": "deepseek-chat（需要手动修改模型为这个）",
     "caifree": "caifree（推荐）",
+    "linuxdo": "linuxdo(第二个推荐)",
     "custom": "自定义"
   },
   "鼠标点击段落中的上标跳转到文献引用？": "鼠标点击段落中的上标跳转到文献引用？"
