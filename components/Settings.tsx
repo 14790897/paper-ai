@@ -33,7 +33,7 @@ const Settings = ({ lng }: { lng: string }) => {
     },
     {
       name: t("configurations.caifree"),
-      apiKey: "sk-aiHrrRLYUUelHstX69E9484509254dBf92061d6744FfFaD1",
+      apiKey: "sk-XwZdwM7BiWsDcs5Z0d427d588b5b433aA29f5480613491F0",
       upstreamUrl: "https://one.caifree.com",
     },
     {
