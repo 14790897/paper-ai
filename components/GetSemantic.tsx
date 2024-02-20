@@ -32,7 +32,7 @@ async function getSemanticPapers(
       params: {
         query: query,
         offset: offset,
-        limit: 2,
+        limit: limit,
         year: year,
         fields: "title,year,authors.name,abstract,venue,url,journal",
       },

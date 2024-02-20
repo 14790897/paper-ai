@@ -29,6 +29,7 @@ const statePersistConfig = {
     "isVip",
     "language",
     "isJumpToReference",
+    "isEvaluateTopicMatch",
   ],
 };
 

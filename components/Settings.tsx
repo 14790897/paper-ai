@@ -7,7 +7,10 @@ import {
   setUpsreamUrl,
   setSystemPrompt,
 } from "@/app/store/slices/authSlice";
-import { setIsJumpToReference } from "@/app/store/slices/stateSlice";
+import {
+  setIsJumpToReference,
+  setIsEvaluateTopicMatch,
+} from "@/app/store/slices/stateSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -53,14 +56,16 @@ const Settings = ({ lng }: { lng: string }) => {
   const isJumpToReference = useAppSelector(
     (state) => state.state.isJumpToReference
   );
+  const isEvaluateTopicMatch = useAppSelector(
+    (state) => state.state.isEvaluateTopicMatch
+  );
   //state
   const [userConfigNumber, setUserConfigNumber] = useLocalStorage(
     "userConfigNumber",
     "2"
   );
-
-  const toggleSwitch = () => {
-    dispatch(setIsJumpToReference(!isJumpToReference));
+  const toggleSwitch = (currentState: any, setState: any) => {
+    setState(!currentState);
   };
   return (
     <div className="max-w-md rounded overflow-hidden shadow-lg bg-blue-gray-100 z-1000  mx-auto ">
@@ -153,7 +158,11 @@ const Settings = ({ lng }: { lng: string }) => {
           type="checkbox"
           className="sr-only peer"
           checked={isJumpToReference}
-          onChange={toggleSwitch}
+          onChange={() =>
+            toggleSwitch(isJumpToReference, (value: any) =>
+              dispatch(setIsJumpToReference(value))
+            )
+          }
         />
         <div className="w-10 h-4 bg-gray-200 rounded-full peer-checked:bg-blue-600 peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 transition-colors ease-in-out duration-200"></div>
         <span
@@ -162,6 +171,25 @@ const Settings = ({ lng }: { lng: string }) => {
           } -translate-y-1/2 top-1/2`}
         ></span>
         {t("鼠标点击段落中的上标跳转到文献引用？")}
+      </label>
+      <label className="relative inline-flex items-center cursor-pointer">
+        <input
+          type="checkbox"
+          className="sr-only peer"
+          checked={isEvaluateTopicMatch}
+          onChange={() =>
+            toggleSwitch(isEvaluateTopicMatch, (value: any) =>
+              dispatch(setIsEvaluateTopicMatch(value))
+            )
+          }
+        />
+        <div className="w-10 h-4 bg-gray-200 rounded-full peer-checked:bg-blue-600 peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 transition-colors ease-in-out duration-200"></div>
+        <span
+          className={`absolute block bg-white w-3 h-3 rounded-full transition ease-in-out duration-200 transform ${
+            isJumpToReference ? "translate-x-6" : "translate-x-1"
+          } -translate-y-1/2 top-1/2`}
+        ></span>
+        {t("是否检查文献与主题相关性(如果不相关则不会传给AI引用)")}
       </label>
     </div>
   );

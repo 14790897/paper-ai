@@ -105,10 +105,12 @@ const sendMessageToOpenAI = async (
   }
 };
 
-const getTopicFromAI = async (
+const getAI = async (
   userMessage: string,
-  prompt: string,
-  apiKey: string
+  systemPrompt: string,
+  apiKey: string,
+  upsreamUrl: string,
+  selectedModel: string
 ) => {
   // 设置API请求参数
   const requestOptions = {
@@ -122,12 +124,12 @@ const getTopicFromAI = async (
           : process.env.NEXT_PUBLIC_OPENAI_API_KEY),
     },
     body: JSON.stringify({
-      model: "gpt-3.5-turbo",
+      model: selectedModel || "gpt-3.5-turbo",
       stream: false,
       messages: [
         {
           role: "system",
-          content: prompt,
+          content: systemPrompt,
         },
         {
           role: "user",
@@ -137,16 +139,13 @@ const getTopicFromAI = async (
     }),
   };
   const response = await fetch(
-    process.env.NEXT_PUBLIC_AI_URL + "/v1/chat/completions",
+    (upsreamUrl || process.env.NEXT_PUBLIC_AI_URL) + "/v1/chat/completions",
     requestOptions
   );
   const data = await response.json();
   const topic = data.choices[0].message.content;
   return topic; // 获取并返回回复
 };
-
-// 给getTopicFromAI函数创建别名
-// export const getFromAI = sendMessageToOpenAI;
 
 async function processResult(reader, decoder, editor) {
   let buffer = "";
@@ -207,4 +206,4 @@ async function processResult(reader, decoder, editor) {
   }
 }
 
-export { getTopicFromAI, sendMessageToOpenAI };
+export { getAI, sendMessageToOpenAI };

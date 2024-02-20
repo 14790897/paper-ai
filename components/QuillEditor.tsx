@@ -10,7 +10,7 @@ import Link from "next/link";
 import getArxivPapers from "./GetArxiv";
 import getSemanticPapers from "./GetSemantic";
 import { fetchPubMedData } from "./GetPubMed ";
-import { getTopicFromAI, sendMessageToOpenAI } from "./chatAI";
+import { getAI, sendMessageToOpenAI } from "./chatAI";
 import {
   getTextBeforeCursor,
   convertToSuperscript,
@@ -19,6 +19,7 @@ import {
   getNumberBeforeCursor,
   formatJournalReference,
 } from "@/utils/others/quillutils";
+import { evaluateTopicMatch } from "@/utils/others/aiutils";
 //组件
 import ExportDocx from "./Export";
 import ReferenceList from "./ReferenceList";
@@ -73,6 +74,9 @@ const QEditor = ({ lng }) => {
   const upsreamUrl = useAppSelector((state: any) => state.auth.upsreamUrl);
   const isJumpToReference = useAppSelector(
     (state) => state.state.isJumpToReference
+  );
+  const isEvaluateTopicMatch = useAppSelector(
+    (state) => state.state.isEvaluateTopicMatch
   );
   const [quill, setQuill] = useState<Quill | null>(null);
   const contentUpdatedFromNetwork = useAppSelector(
@@ -269,8 +273,14 @@ const QEditor = ({ lng }) => {
   async function paper2AI(topic: string) {
     quill!.setSelection(cursorPosition!, 0); // 将光标移动到原来的位置
     let offset = -1;
-    if (generatedPaperNumber) offset = 0;
-    setOpenProgressBar(true);
+    if (generatedPaperNumber != 1) offset = 0; //如果生成的数量不为1，则从0开始
+    setOpenProgressBar(true); //开启进度条
+    //如果说要评估主题是否匹配的话,就要多获取一些文献
+    let limit = 2;
+    if (isEvaluateTopicMatch) {
+      limit = 4;
+    }
+
     for (let i = 0; i < generatedPaperNumber!; i++) {
       try {
         if (!topic) {
@@ -278,7 +288,13 @@ const QEditor = ({ lng }) => {
           const prompt =
             "As a topic extraction assistant, you can help me extract the current discussion of the paper topic, I will enter the content of the paper, you extract the paper topic , no more than two, Hyphenated query terms yield no matches (replace it with space to find matches) return format is: topic1 topic2";
           const userMessage = getTextBeforeCursor(quill!, 2000);
-          topic = await getTopicFromAI(userMessage, prompt, apiKey);
+          topic = await getAI(
+            userMessage,
+            prompt,
+            apiKey,
+            upsreamUrl,
+            selectedModel!
+          );
           console.log("topic in AI before removeSpecialCharacters", topic);
           topic = removeSpecialCharacters(topic);
           topic = topic.split(" ").slice(0, 2).join(" ");
@@ -290,7 +306,19 @@ const QEditor = ({ lng }) => {
         console.log("topic in AI", topic);
         let rawData, dataString, newReferences;
         if (selectedSource === "arxiv") {
-          rawData = await getArxivPapers(topic);
+          rawData = await getArxivPapers(topic, limit, offset);
+          //判断返回的文献是否跟用户输入的主题相关
+          if (isEvaluateTopicMatch) {
+            const { relevantPapers, nonRelevantPapers } =
+              await evaluateTopicMatch(
+                rawData,
+                apiKey,
+                upsreamUrl,
+                selectedModel!,
+                topic
+              );
+            rawData = relevantPapers;
+          }
           console.log("arxiv rawdata:", rawData);
           // 将 rawData 转换为引用数组
           newReferences = rawData.map((entry: any) => ({
@@ -305,7 +333,19 @@ const QEditor = ({ lng }) => {
             })
             .join("");
         } else if (selectedSource === "semanticScholar") {
-          rawData = await getSemanticPapers(topic, "2015-2023", offset);
+          rawData = await getSemanticPapers(topic, "2015-2023", offset, limit);
+          //判断返回的文献是否跟用户输入的主题相关
+          if (isEvaluateTopicMatch) {
+            const { relevantPapers, nonRelevantPapers } =
+              await evaluateTopicMatch(
+                rawData,
+                apiKey,
+                upsreamUrl,
+                selectedModel!,
+                topic
+              );
+            rawData = relevantPapers;
+          }
           // 将 rawData 转换为引用数组
           newReferences = rawData.map((entry: any) => ({
             url: entry.url,
@@ -321,9 +361,21 @@ const QEditor = ({ lng }) => {
             })
             .join("");
         } else if (selectedSource === "pubmed") {
-          rawData = await fetchPubMedData(topic, 2020, offset, 2);
+          rawData = await fetchPubMedData(topic, 2020, offset, limit);
           if (!rawData) {
             throw new Error("未搜索到文献 from PubMed.");
+          }
+          //判断返回的文献是否跟用户输入的主题相关
+          if (isEvaluateTopicMatch) {
+            const { relevantPapers, nonRelevantPapers } =
+              await evaluateTopicMatch(
+                rawData,
+                apiKey,
+                upsreamUrl,
+                selectedModel!,
+                topic
+              );
+            rawData = relevantPapers;
           }
           newReferences = rawData.map((entry: any) => ({
             id: entry.id, // 文章的 PubMed ID
@@ -336,9 +388,8 @@ const QEditor = ({ lng }) => {
             source: "PubMed", // 指示这些引用来自 PubMed
           }));
 
-          // 打印或进一步处理 newReferences
+          // 打印 newReferences
           console.log(newReferences);
-
           dataString = rawData
             .map((entry: any) => {
               return `Time: ${entry.year}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
