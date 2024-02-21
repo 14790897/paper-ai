@@ -54,6 +54,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className}>
       <Script src="//fw-cdn.com/11368617/4047428.js" chat="true"></Script>
+      <Script>{`
+            if ('serviceWorker' in navigator) {
+              window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+                  // 注册成功
+                  console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                  // 注册失败 :(
+                  console.log('ServiceWorker registration failed: ', err);
+                });
+              });
+            }
+          `}</Script>
       <body className="bg-background text-foreground">
         <main className="min-h-screen flex flex-col items-center">
           {children}
