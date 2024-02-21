@@ -6,7 +6,14 @@ import Script from "next/script";
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
+import type { Viewport } from "next";
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 export const metadata = {
   manifest: "/manifest.json",
   metadataBase: new URL(defaultUrl),
