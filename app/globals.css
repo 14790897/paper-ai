@@ -123,23 +123,24 @@
   #editor {
     width: 100%; /* 适应屏幕宽度 */
     min-height: 200px; /* 调整为更适合移动设备的尺寸 */
-    padding: 5px; /* 减少内边距 */
   }
 
   #Qtoolbar {
-    flex-direction: column; /* 在较小屏幕上垂直堆叠工具栏元素 */
     display: flex; /* 使用弹性盒布局 */
     flex-direction: row; /* 项目水平排列 */
     flex-wrap: wrap; /* 允许项目换行 */
     align-items: center; /* 项目在交叉轴上居中对齐 */
-    justify-content: flex-start; /* 项目在主轴上靠左对齐 */
+    justify-content: center; /* 项目在主轴上靠左对齐 */
   }
-
+  #Qtoolbar > textarea {
+    width: 100%;
+    min-height: 60px; /* 调整输入框的高度 */
+  }
   #Qtoolbar > button,
-  #Qtoolbar > select {
+  #Qtoolbar > select,
+  #Qtoolbar > input {
     margin-bottom: 10px; /* 增加元素之间的间距 */
     margin-right: 10px; /* 右边距，增加元素之间的间距 */
-    margin-bottom: 10px; /* 下边距，增加换行元素之间的间距 */
   }
 }
 
