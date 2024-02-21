@@ -54,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className}>
       <Script src="//fw-cdn.com/11368617/4047428.js" chat="true"></Script>
-      <Script>{`
+      {/* <Script>{`
             if ('serviceWorker' in navigator) {
               window.addEventListener('load', function() {
                 navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
@@ -66,7 +66,7 @@ export default function RootLayout({
                 });
               });
             }
-          `}</Script>
+          `}</Script> */}
       <body className="bg-background text-foreground">
         <main className="min-h-screen flex flex-col items-center">
           {children}
