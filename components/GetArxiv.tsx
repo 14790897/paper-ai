@@ -37,13 +37,15 @@ interface Author {
 
 async function getArxivPapers(
   query: string,
-  maxResults = 5,
+  maxResults = 2,
+  offset = -1,
   sortBy = "submittedDate",
   sortOrder = "descending"
 ) {
-  const maxOffset = 30 - maxResults; // 假设总记录数为 100
-  const start = getRandomOffset(maxOffset);
-  const url = `https://export.arxiv.org/api/query?search_query=${query}&start=${start}&max_results=${maxResults}&sortBy=${sortBy}&sortOrder=${sortOrder}`;
+  const maxOffset = 30 - maxResults; // 假设总记录数为 20
+  if (offset === -1) offset = getRandomOffset(maxOffset);
+  console.log("offset in arxiv", offset);
+  const url = `https://export.arxiv.org/api/query?search_query=${query}&start=${offset}&max_results=${maxResults}&sortBy=${sortBy}&sortOrder=${sortOrder}`;
 
   try {
     const response = await axios.get(url);
@@ -74,7 +76,7 @@ function extractArxivData(data: ArxivFeed) {
       id: entry.id[0],
       published: entry.published[0],
       title: entry.title[0],
-      summary: entry.summary[0],
+      abstract: entry.summary[0],
       authors: entry.author.map((author) => author.name[0]),
     };
   });

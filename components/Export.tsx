@@ -1,3 +1,4 @@
+"use client";
 import { useCallback } from "react";
 import { saveAs } from "file-saver";
 import * as quillToWord from "quill-to-word";

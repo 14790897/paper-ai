@@ -35,7 +35,7 @@ export default async function Login({
     });
     //sentry
     const user = data?.user;
-    if (user) {
+    if (user && process.env.NODE_ENV === "production") {
       Sentry.setUser({
         email: user.email,
         id: user.id,

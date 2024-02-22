@@ -1,9 +1,12 @@
 import { Transforms } from "slate";
 import { Editor } from "slate";
+import Quill from "quill";
+
 import { extractText } from "@/utils/others/slateutils";
 import {
   updateBracketNumbersInDeltaKeepSelection,
   convertToSuperscript,
+  deleteSameBracketNumber,
 } from "@/utils/others/quillutils";
 //redux不能在普通函数使用
 
@@ -20,11 +23,13 @@ function isValidApiKey(apiKey: string) {
 
 const sendMessageToOpenAI = async (
   content: string,
-  editor: Editor,
-  selectedModel: "gpt3.5",
+  editor: Quill | null,
+  selectedModel: string,
   apiKey: string,
   upsreamUrl: string,
-  prompt?: string
+  prompt: string,
+  cursorPosition: number | null,
+  useEditorFlag = true // 新增的标志，用于决定操作
 ) => {
   //识别应该使用的模型
   let model = selectedModel;
@@ -43,7 +48,7 @@ const sendMessageToOpenAI = async (
     },
     body: JSON.stringify({
       model: model,
-      stream: true,
+      stream: useEditorFlag, // 根据标志确定是否使用streaming
       messages: [
         {
           role: "system",
@@ -54,7 +59,7 @@ const sendMessageToOpenAI = async (
           2.文献引用：只引用与主题紧密相关的论文。在引用文献时，文末应使用方括号内的数字来标注引用来源，如 [1]。。请确保每个引用在文章中都有其对应的编号，*无需在文章末尾提供参考文献列表*。*每个文献对应的序号只应该出现一次，比如说引用了第一篇文献文中就只能出现一次[1]*。
           3.忽略无关文献：对于与主题无关的论文，请不要包含在您的写作中。只关注对理解和阐述主题有实质性帮助的资料。
           4.来源明确：在文章中，清楚地指出每个引用的具体来源。引用的信息应准确无误，确保读者能够追溯到原始文献。
-          5.使用用户所说的语言完成回答,不超过三百字
+          5.使用用户所说的语言完成回答，不超过五百字
           6.只能对给出的文献进行引用，坚决不能虚构文献。
           返回格式举例：
           在某个方面，某论文实现了以下突破...[1],在另一篇论文中，研究了...[2]`,
@@ -79,15 +84,23 @@ const sendMessageToOpenAI = async (
     if (!response.ok || !response.body) {
       throw new Error("");
     }
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    //开始前先进行换行
-    // editor.focus();
-    editor.insertText(editor.getSelection(true).index, "\n");
-    await processResult(reader, decoder, editor);
-
-    convertToSuperscript(editor);
-    updateBracketNumbersInDeltaKeepSelection(editor);
+    if (useEditorFlag && editor && cursorPosition !== null) {
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      //开始前先进行换行
+      // editor.focus();
+      editor.insertText(editor.getSelection(true).index, "\n");
+      await processResult(reader, decoder, editor);
+      //搜索是否有相同的括号编号，如果有相同的则删除到只剩一个
+      convertToSuperscript(editor);
+      deleteSameBracketNumber(editor, cursorPosition);
+      updateBracketNumbersInDeltaKeepSelection(editor);
+    } else {
+      // 直接返回结果的逻辑
+      const data = await response.json();
+      const content = data.choices[0].message.content;
+      return content; // 或根据需要处理并返回数据
+    }
   } catch (error) {
     console.error("Error:", error);
     // 如果有响应，返回响应的原始内容
@@ -100,10 +113,12 @@ const sendMessageToOpenAI = async (
   }
 };
 
-const getTopicFromAI = async (
+const getAI = async (
   userMessage: string,
-  prompt: string,
-  apiKey: string
+  systemPrompt: string,
+  apiKey: string,
+  upsreamUrl: string,
+  selectedModel: string
 ) => {
   // 设置API请求参数
   const requestOptions = {
@@ -117,12 +132,12 @@ const getTopicFromAI = async (
           : process.env.NEXT_PUBLIC_OPENAI_API_KEY),
     },
     body: JSON.stringify({
-      model: "gpt-3.5-turbo",
+      model: selectedModel || "gpt-3.5-turbo",
       stream: false,
       messages: [
         {
           role: "system",
-          content: prompt,
+          content: systemPrompt,
         },
         {
           role: "user",
@@ -132,16 +147,13 @@ const getTopicFromAI = async (
     }),
   };
   const response = await fetch(
-    process.env.NEXT_PUBLIC_AI_URL + "/v1/chat/completions",
+    (upsreamUrl || process.env.NEXT_PUBLIC_AI_URL) + "/v1/chat/completions",
     requestOptions
   );
   const data = await response.json();
   const topic = data.choices[0].message.content;
   return topic; // 获取并返回回复
 };
-
-// 给getTopicFromAI函数创建别名
-// export const getFromAI = sendMessageToOpenAI;
 
 async function processResult(reader, decoder, editor) {
   let buffer = "";
@@ -184,13 +196,6 @@ async function processResult(reader, decoder, editor) {
             }
           }
         } catch (error) {
-          // console.error(
-          //   "there is a error in parse JSON object:",
-          //   jsonStr,
-          //   "error reason",
-          //   error
-          // );
-          // break;
           throw new Error(`
             there is a error in parse JSON object: ${jsonStr},
             error reason: ${error}`);
@@ -202,4 +207,4 @@ async function processResult(reader, decoder, editor) {
   }
 }
 
-export { getTopicFromAI, sendMessageToOpenAI };
+export { getAI, sendMessageToOpenAI };

@@ -6,6 +6,7 @@ export interface APIState {
   isVip: boolean;
   language: string;
   isJumpToReference: boolean;
+  isEvaluateTopicMatch: boolean;
 }
 
 const initialState: APIState = {
@@ -15,6 +16,7 @@ const initialState: APIState = {
   isVip: false,
   language: "en",
   isJumpToReference: false,
+  isEvaluateTopicMatch: false,
 };
 
 export const stateSlice = createSlice({
@@ -45,6 +47,9 @@ export const stateSlice = createSlice({
     setIsJumpToReference: (state, action: PayloadAction<boolean>) => {
       state.isJumpToReference = action.payload;
     },
+    setIsEvaluateTopicMatch: (state, action: PayloadAction<boolean>) => {
+      state.isEvaluateTopicMatch = action.payload;
+    },
   },
 });
 
@@ -56,6 +61,7 @@ export const {
   setIsVip,
   setLanguage,
   setIsJumpToReference,
+  setIsEvaluateTopicMatch,
 } = stateSlice.actions;
 
 export const stateReducer = stateSlice.reducer;

@@ -183,6 +183,67 @@ function convertToSuperscript(quill: Quill) {
   }
 }
 
+function removeDuplicateBracketNumbersInDelta(delta: any) {
+  let seenNumbers = new Set(); // 用于记录已经看到的编号
+
+  const updatedOps = delta.ops.map((op: any) => {
+    if (typeof op.insert === "string") {
+      // 使用正则表达式和replace方法来找到并处理[数字]
+      return {
+        ...op,
+        insert: op.insert.replace(/\[\d+\]/g, (match) => {
+          const number = match.slice(1, -1); // 提取括号中的数字
+          if (seenNumbers.has(number)) {
+            // 如果这个编号已经处理过，就删除它（用空字符串替换）
+            return "";
+          } else {
+            // 如果是首次见到这个编号，就记录并保留它
+            seenNumbers.add(number);
+            console.log("seenNumbers", seenNumbers);
+            return match;
+          }
+        }),
+      };
+    }
+    return op;
+  });
+
+  return { ops: updatedOps };
+}
+
+export function deleteSameBracketNumber(
+  quill: Quill,
+  cursorOldPosition: number
+) {
+  //搜索是否有相同的括号编号，如果有相同的则删除到只剩一个
+  const selection = quill.getSelection(true);
+  if (selection) {
+    // 获取整个文档的内容
+    const delta = quill.getContents();
+
+    // 仅获取选区中的Delta片段
+    const selectionDelta = delta.slice(cursorOldPosition, selection.index);
+    console.log("cursorOldPosition", cursorOldPosition);
+    console.log("selection.index", selection.index);
+    console.log("selectionDelta", selectionDelta);
+    // 对选区中的Delta片段进行处理，移除重复的括号编号
+    const updatedSelectionDelta =
+      removeDuplicateBracketNumbersInDelta(selectionDelta);
+
+    // 构建一个新的Delta，包括未修改的选区前部分和处理后的选区后部分
+    const updatedDelta = delta
+      .slice(0, cursorOldPosition)
+      .concat(updatedSelectionDelta)
+      .concat(delta.slice(selection.index));
+
+    // 设置更新后的内容
+    quill.setContents(updatedDelta);
+
+    // 恢复选区
+    quill.setSelection(selection.index, selection.length);
+  }
+}
+
 function getRandomOffset(max: number) {
   return Math.floor(Math.random() * max);
 }

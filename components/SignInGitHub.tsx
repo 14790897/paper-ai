@@ -7,6 +7,10 @@ export function SignInGitHub() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "github",
     });
+    if (error) {
+      console.error("GitHub authentication failed:", error.message);
+      return; // 如果出现错误，不再继续执行
+    }
     //profiles表 插入用户信息
     await insertUserProfile(data, supabase);
   };

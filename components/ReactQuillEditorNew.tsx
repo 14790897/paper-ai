@@ -1,16 +1,23 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import Quill from "quill";
-import "quill/dist/quill.snow.css";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
+
+import "react-quill/dist/quill.snow.css"; // 导入Quill的snow主题样式
 import { useLocalStorage } from "react-use";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
 // 一些工具函数导入
 import getArxivPapers from "./GetArxiv";
 import getSemanticPapers from "./GetSemantic";
 import { fetchPubMedData } from "./GetPubMed ";
-import { sendMessageToOpenAI } from "./chatAI";
+import { getAI, sendMessageToOpenAI } from "./chatAI";
 import {
   getTextBeforeCursor,
   convertToSuperscript,
@@ -66,6 +73,12 @@ const toolbarOptions = [
 ];
 
 const QEditor = ({ lng }) => {
+  //quill初始化
+  const ReactQuill = useMemo(
+    () => dynamic(() => import("react-quill"), { ssr: false }),
+    []
+  );
+
   //i18n
   const { t } = useTranslation(lng);
 
@@ -78,7 +91,7 @@ const QEditor = ({ lng }) => {
   const isEvaluateTopicMatch = useAppSelector(
     (state) => state.state.isEvaluateTopicMatch
   );
-  const [quill, setQuill] = useState<Quill | null>(null);
+  const [quill, setQuill] = useState<any>(null);
   const contentUpdatedFromNetwork = useAppSelector(
     (state) => state.state.contentUpdatedFromNetwork
   );
@@ -95,7 +108,7 @@ const QEditor = ({ lng }) => {
   //
   // 初始化 Quill 编辑器
   const isMounted = useRef(false);
-  const editor = useRef<Quill | null>(null);
+  const editor = useRef<any>(null);
   // 选择论文来源
   const [selectedSource, setSelectedSource] = useLocalStorage(
     "学术引擎",
@@ -121,44 +134,46 @@ const QEditor = ({ lng }) => {
   const paperNumberRedux = useAppSelector(
     (state) => state.state.paperNumberRedux
   );
+  //quill配置
+  const modules = {
+    toolbar: toolbarOptions,
+    history: {
+      delay: 2000,
+      maxStack: 500, // 调整撤销和重做堆栈的大小
+      userOnly: false,
+    },
+  };
+  // 监听selection-change事件
+  const handleSelectionChange = useCallback(
+    (range: any) => {
+      if (range) {
+        // 如果有选区或光标位置变化，则更新光标位置
+        setCursorPosition(range.index);
+      } else {
+        // 没有选区或光标不在编辑器内
+        console.log("No selection or cursor in the editor.");
+      }
+    },
+    [setCursorPosition]
+  ); // 把setCursorPosition添加到依赖数组中
+
   //supabase
   const supabase = createClient();
   useEffect(() => {
     if (!isMounted.current) {
-      editor.current = new Quill("#editor", {
-        modules: {
-          toolbar: toolbarOptions,
-          history: {
-            delay: 2000,
-            maxStack: 500, // 调整撤销和重做堆栈的大小
-            userOnly: false,
-          },
-        },
-        theme: "snow",
-      });
-
       if (editorContent) {
-        editor.current.root.innerHTML = editorContent;
+        editor.current.getEditor().root.innerHTML = editorContent;
       }
 
       isMounted.current = true;
-      setQuill(editor.current);
+      setQuill(editor.current.getEditor());
 
-      // 监听selection-change事件
-      editor.current.on("selection-change", function (range) {
-        if (range) {
-          // console.log('User has made a new selection', range);
-          setCursorPosition(range.index); // 更新光标位置
-        } else {
-          console.log("No selection or cursor in the editor.");
-        }
-      });
       // 添加点击事件监听器
       const handleEditorClick = (e) => {
         if (isJumpToReference) {
-          const range = editor.current!.getSelection();
-          if (range && range.length === 0 && editor.current) {
-            const [leaf, offset] = editor.current.getLeaf(range.index);
+          const range = quill!.getSelection();
+          if (range && range.length === 0 && quill) {
+            const [leaf, offset] = quill.getLeaf(range.index);
             if (leaf.text) {
               const textWithoutSpaces = leaf.text.replace(/\s+/g, ""); // 去掉所有空格
               if (/^\[\d+\]$/.test(textWithoutSpaces)) {
@@ -176,7 +191,9 @@ const QEditor = ({ lng }) => {
         }
       };
 
-      editor.current.root.addEventListener("click", handleEditorClick);
+      editor.current
+        ?.getEditor()
+        .root.addEventListener("click", handleEditorClick);
 
       // 清理函数
       // return () => {
@@ -187,13 +204,13 @@ const QEditor = ({ lng }) => {
 
   // 监听editorContent变化(redux的变量)，并使用Quill API更新内容
   useEffect(() => {
-    if (editor.current) {
+    if (quill) {
       if (editorContent) {
         if (contentUpdatedFromNetwork) {
           // 清空当前内容
-          editor.current.setContents([]);
+          quill.setContents([]);
           // 插入新内容
-          editor.current.clipboard.dangerouslyPasteHTML(editorContent);
+          quill.clipboard.dangerouslyPasteHTML(editorContent);
           // 重置标志
           dispatch(setContentUpdatedFromNetwork(false));
         } else {
@@ -203,7 +220,7 @@ const QEditor = ({ lng }) => {
         console.log("No editorContent to update in useEffect.");
       }
     } else {
-      console.log("No editor.current to update in useEffect.");
+      console.log("No quill to update in useEffect.");
     }
   }, [editorContent, contentUpdatedFromNetwork]);
 
@@ -288,15 +305,12 @@ const QEditor = ({ lng }) => {
           const prompt =
             "As a topic extraction assistant, you can help me extract the current discussion of the paper topic, I will enter the content of the paper, you extract the paper topic , no more than two, Hyphenated query terms yield no matches (replace it with space to find matches) return format is: topic1 topic2";
           const userMessage = getTextBeforeCursor(quill!, 2000);
-          topic = await sendMessageToOpenAI(
+          topic = await getAI(
             userMessage,
-            null,
-            selectedModel!,
+            prompt,
             apiKey,
             upsreamUrl,
-            prompt,
-            null,
-            false
+            selectedModel!
           );
           console.log("topic in AI before removeSpecialCharacters", topic);
           topic = removeSpecialCharacters(topic);
@@ -307,8 +321,6 @@ const QEditor = ({ lng }) => {
           }
         }
         console.log("topic in AI", topic);
-        console.log("offset in paper2AI", offset);
-        console.log("limit in paper2AI", limit);
         let rawData, dataString, newReferences;
         if (selectedSource === "arxiv") {
           rawData = await getArxivPapers(topic, limit, offset);
@@ -334,7 +346,7 @@ const QEditor = ({ lng }) => {
           }));
           dataString = rawData
             .map((entry: any) => {
-              return `ID: ${entry.id}\nTime: ${entry.published}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
+              return `ID: ${entry.id}\nTime: ${entry.published}\nTitle: ${entry.title}\nSummary: ${entry.summary}\n\n`;
             })
             .join("");
         } else if (selectedSource === "semanticScholar") {
@@ -519,7 +531,13 @@ const QEditor = ({ lng }) => {
         />
       ) : null}
       <div>
-        <div id="editor"></div>
+        <ReactQuill
+          id="editor"
+          ref={editor}
+          modules={modules}
+          theme="snow"
+          onChangeSelection={handleSelectionChange}
+        />
         <ReferenceList editor={quill} lng={lng} />
         <ExportDocx editor={quill} />
       </div>

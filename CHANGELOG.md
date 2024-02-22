@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.6.0](https://www.github.com/14790897/paper-ai/compare/v1.5.0...v1.6.0) (2024-02-19)
+
+
+### Features
+
+* github登录（测试中） ([4ee0816](https://www.github.com/14790897/paper-ai/commit/4ee08169df05a9bcf487a25c4b56c3785edbea7a))
+* 可以进行多轮文献查询 ([9d799f1](https://www.github.com/14790897/paper-ai/commit/9d799f1736a7ff72e09f9e36e916c0ab9e04cec4))
+* 增加了一个显示当前任务进度的进度条 ([c55a93c](https://www.github.com/14790897/paper-ai/commit/c55a93c79b20c7fb4b5ff15027110267d6874c24))
+* 如果AI多次引用同一文献则只返回第一个文献的引用数字 ([763a106](https://www.github.com/14790897/paper-ai/commit/763a1062f982b5f0b96da5afb3b3bb96fd66eaef))
+
+
+### Bug Fixes
+
+* ai对话 ([96d780d](https://www.github.com/14790897/paper-ai/commit/96d780dd3a1c04e4c4adbd61cd87d07a42fa3eaa))
+* pubmed参数写反 ([07070bf](https://www.github.com/14790897/paper-ai/commit/07070bf253044958931e138b5af0099ddc3fb8dd))
+* translation ([03febb1](https://www.github.com/14790897/paper-ai/commit/03febb136415fcd48a4248d19c1086bfc0c95f8d))
+* 修复lemon路由 ([5e7afea](https://www.github.com/14790897/paper-ai/commit/5e7afea400af03716d08e2d6d7aadb6eccd3448e))
+* 去除暗色模式 ([da5cb4f](https://www.github.com/14790897/paper-ai/commit/da5cb4fac84e800e4e8bcc105a395088af615631))
+* 只有在AI返回的内容没有错之后才能添加文献 ([3040c11](https://www.github.com/14790897/paper-ai/commit/3040c11ea1b843f923475ac117516e82de3f4458))
+* 图标正常显示 ([8ab1bdd](https://www.github.com/14790897/paper-ai/commit/8ab1bdd3935713595d35ed41471146cfa83cc4f0))
+* 导出word时文献不更新，因为usecallback没有添加变量 ([01d3ffe](https://www.github.com/14790897/paper-ai/commit/01d3ffebf7a86c27161d97b73a949a1f0d73a62b))
+* 论文引用格式 ([b603365](https://www.github.com/14790897/paper-ai/commit/b603365265314f61122a8bab0da1561bc1c0c5a2))
+
 ## [1.5.0](https://www.github.com/14790897/paper-ai/compare/v1.4.0...v1.5.0) (2024-02-13)
 
 

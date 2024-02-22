@@ -24,7 +24,11 @@
     "cocopilot-gpt4": "cocopilot-gpt4 (apiKey prefix with ghu, as GitHub does not allow uploading complete keys)",
     "deepseek-chat": "deepseek-chat (Model needs to be manually changed to this one)",
     "caifree": "caifree (Recommended)",
+    "linuxdo": "linuxdo(Recommended)",
+    "vv佬": "vv giant(Recommended)",
+    "蒙恬大将军": "Mengtian General(Recommended)",
     "custom": "Custom"
   },
-  "鼠标点击段落中的上标跳转到文献引用？": "Click the superscript in the paragraph to jump to the reference?"
+  "鼠标点击段落中的上标跳转到文献引用？": "Click the superscript in the paragraph to jump to the reference?",
+  "是否检查文献与主题相关性(如果不相关则不会传给AI引用)": "Check the relevance of the literature to the topic (if it is not relevant, it will not be passed to the AI reference)"
 }
