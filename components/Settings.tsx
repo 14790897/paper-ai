@@ -48,6 +48,11 @@ const Settings = ({ lng }: { lng: string }) => {
     },
     {
       name: t("configurations.custom"),
+      apiKey: "sk-jokVJ90l5Swxr5dt2f3b0988C8A442A69f97Ee4eAf7aDcF4",
+      upstreamUrl: "https://freeapi.iil.im",
+    },
+    {
+      name: t("configurations.custom"),
       apiKey: "",
       upstreamUrl: "",
     },
