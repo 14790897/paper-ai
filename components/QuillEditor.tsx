@@ -10,7 +10,7 @@ import Link from "next/link";
 import getArxivPapers from "./GetArxiv";
 import getSemanticPapers from "./GetSemantic";
 import { fetchPubMedData } from "./GetPubMed ";
-import { getAI, sendMessageToOpenAI } from "./chatAI";
+import { sendMessageToOpenAI } from "./chatAI";
 import {
   getTextBeforeCursor,
   convertToSuperscript,
@@ -288,12 +288,15 @@ const QEditor = ({ lng }) => {
           const prompt =
             "As a topic extraction assistant, you can help me extract the current discussion of the paper topic, I will enter the content of the paper, you extract the paper topic , no more than two, Hyphenated query terms yield no matches (replace it with space to find matches) return format is: topic1 topic2";
           const userMessage = getTextBeforeCursor(quill!, 2000);
-          topic = await getAI(
+          topic = await sendMessageToOpenAI(
             userMessage,
-            prompt,
+            null,
+            selectedModel!,
             apiKey,
             upsreamUrl,
-            selectedModel!
+            prompt,
+            null,
+            false
           );
           console.log("topic in AI before removeSpecialCharacters", topic);
           topic = removeSpecialCharacters(topic);
@@ -304,6 +307,8 @@ const QEditor = ({ lng }) => {
           }
         }
         console.log("topic in AI", topic);
+        console.log("offset in paper2AI", offset);
+        console.log("limit in paper2AI", limit);
         let rawData, dataString, newReferences;
         if (selectedSource === "arxiv") {
           rawData = await getArxivPapers(topic, limit, offset);
@@ -329,7 +334,7 @@ const QEditor = ({ lng }) => {
           }));
           dataString = rawData
             .map((entry: any) => {
-              return `ID: ${entry.id}\nTime: ${entry.published}\nTitle: ${entry.title}\nSummary: ${entry.summary}\n\n`;
+              return `ID: ${entry.id}\nTime: ${entry.published}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
             })
             .join("");
         } else if (selectedSource === "semanticScholar") {

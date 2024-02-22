@@ -77,7 +77,7 @@ async function getPubMedPaperDetails(idList: IDList) {
     const articles = result.PubmedArticleSet.PubmedArticle.map((article) => {
       const medlineCitation = article.MedlineCitation;
       const articleDetails = medlineCitation.Article;
-
+      console.log("atricledetails", articleDetails);
       const abstractTexts = articleDetails.Abstract.AbstractText;
 
       let abstract;
@@ -155,8 +155,7 @@ async function getPubMedPaperDetails(idList: IDList) {
 
     return articles;
   } catch (error) {
-    console.error("Error fetching paper details from PubMed:", error);
-    return null;
+    throw new Error(`Error fetching paper details from PubMed:", ${error}`);
   }
 }
 

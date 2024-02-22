@@ -76,7 +76,7 @@ function extractArxivData(data: ArxivFeed) {
       id: entry.id[0],
       published: entry.published[0],
       title: entry.title[0],
-      summary: entry.summary[0],
+      abstract: entry.summary[0],
       authors: entry.author.map((author) => author.name[0]),
     };
   });

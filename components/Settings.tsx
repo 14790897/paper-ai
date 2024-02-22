@@ -47,7 +47,7 @@ const Settings = ({ lng }: { lng: string }) => {
       upstreamUrl: "https://cocopilot-pool.aivvm.com",
     },
     {
-      name: t("configurations.custom"),
+      name: t("configurations.蒙恬大将军"),
       apiKey: "sk-jokVJ90l5Swxr5dt2f3b0988C8A442A69f97Ee4eAf7aDcF4",
       upstreamUrl: "https://freeapi.iil.im",
     },

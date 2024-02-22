@@ -23,12 +23,13 @@ function isValidApiKey(apiKey: string) {
 
 const sendMessageToOpenAI = async (
   content: string,
-  editor: Quill,
+  editor: Quill | null,
   selectedModel: string,
   apiKey: string,
   upsreamUrl: string,
   prompt: string,
-  cursorPosition: number
+  cursorPosition: number | null,
+  useEditorFlag = true // 新增的标志，用于决定操作
 ) => {
   //识别应该使用的模型
   let model = selectedModel;
@@ -47,7 +48,7 @@ const sendMessageToOpenAI = async (
     },
     body: JSON.stringify({
       model: model,
-      stream: true,
+      stream: useEditorFlag, // 根据标志确定是否使用streaming
       messages: [
         {
           role: "system",
@@ -83,16 +84,23 @@ const sendMessageToOpenAI = async (
     if (!response.ok || !response.body) {
       throw new Error("");
     }
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    //开始前先进行换行
-    // editor.focus();
-    editor.insertText(editor.getSelection(true).index, "\n");
-    await processResult(reader, decoder, editor);
-    //搜索是否有相同的括号编号，如果有相同的则删除到只剩一个
-    convertToSuperscript(editor);
-    deleteSameBracketNumber(editor, cursorPosition);
-    updateBracketNumbersInDeltaKeepSelection(editor);
+    if (useEditorFlag && editor && cursorPosition !== null) {
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      //开始前先进行换行
+      // editor.focus();
+      editor.insertText(editor.getSelection(true).index, "\n");
+      await processResult(reader, decoder, editor);
+      //搜索是否有相同的括号编号，如果有相同的则删除到只剩一个
+      convertToSuperscript(editor);
+      deleteSameBracketNumber(editor, cursorPosition);
+      updateBracketNumbersInDeltaKeepSelection(editor);
+    } else {
+      // 直接返回结果的逻辑
+      const data = await response.json();
+      const content = data.choices[0].message.content;
+      return content; // 或根据需要处理并返回数据
+    }
   } catch (error) {
     console.error("Error:", error);
     // 如果有响应，返回响应的原始内容
@@ -188,13 +196,6 @@ async function processResult(reader, decoder, editor) {
             }
           }
         } catch (error) {
-          // console.error(
-          //   "there is a error in parse JSON object:",
-          //   jsonStr,
-          //   "error reason",
-          //   error
-          // );
-          // break;
           throw new Error(`
             there is a error in parse JSON object: ${jsonStr},
             error reason: ${error}`);
