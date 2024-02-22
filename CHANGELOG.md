@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.7.0](https://www.github.com/14790897/paper-ai/compare/v1.6.0...v1.7.0) (2024-02-22)
+
+
+### Features
+
+* pwa可离线访问 service worker ([ff09eee](https://www.github.com/14790897/paper-ai/commit/ff09eee99343cfa6ee6da301428c4a0b3c790bf6))
+* seo优化 ([bedc8a3](https://www.github.com/14790897/paper-ai/commit/bedc8a3ce0a314fd2cc7add65defdce372a1c432))
+* 加了个用户反馈组件 ([cef12f3](https://www.github.com/14790897/paper-ai/commit/cef12f31a026be9ccc6229943f6a64b3ebf930db))
+* 可选的对文献相关性检验 ([6cda6d1](https://www.github.com/14790897/paper-ai/commit/6cda6d176aac29b3972dfde305a62c0be0dc2437))
+
+
+### Bug Fixes
+
+* 用户反馈组件 ([8155299](https://www.github.com/14790897/paper-ai/commit/81552993bed272a5a05b19edd41aeb10106124b8))
+
 ## [1.6.0](https://www.github.com/14790897/paper-ai/compare/v1.5.0...v1.6.0) (2024-02-19)
 
 
