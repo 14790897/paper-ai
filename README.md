@@ -1,16 +1,17 @@
 [English Documentation](./README_en.md)
 
 <a href="https://paperai.life">
-<div style="text-align: center;">
-    <img src="./app/favicon.ico" alt="the fastest way to create a paper with real references" style="display: block; margin-left: auto; margin-right: auto;">
-</div>  <h1 align="center">paper-ai</h1>
+<div align="center">
+    <img src="./public/android-chrome-192x192.png" alt="the fastest way to create a paper with real references">
+</div>
+<h1 align="center">paper-ai</h1>
 </a>
 
 <p align="center">
  使用真实文献最快速完成论文的方法
 </p>
 
-<p style="text-align: center;">
+<p align="center">
 <a href='https://docs.paperai.life/' style='font-size: 20px;'><strong>文档网站(教程比较详细,推荐在这里观看)</strong></a>
 </p>
 
