@@ -22,9 +22,9 @@ const Settings = ({ lng }: { lng: string }) => {
   const { t } = useTranslation(lng);
   const CONFIG_OPTIONS = [
     {
-      name: t("configurations.cocopilot-gpt4"),
-      apiKey: "_pXVxLPBzcvCjSvG0Mv4K7G9ffw3xsM2ZKolZ",
-      upstreamUrl: "https://proxy.cocopilot.org",
+      name: t("configurations.蒙恬大将军"),
+      apiKey: "sk-jokVJ90l5Swxr5dt2f3b0988C8A442A69f97Ee4eAf7aDcF4",
+      upstreamUrl: "https://freeapi.iil.im",
     },
     {
       name: t("configurations.deepseek-chat"),
@@ -46,11 +46,7 @@ const Settings = ({ lng }: { lng: string }) => {
       apiKey: "nk-23118",
       upstreamUrl: "https://cocopilot-pool.aivvm.com",
     },
-    {
-      name: t("configurations.蒙恬大将军"),
-      apiKey: "sk-jokVJ90l5Swxr5dt2f3b0988C8A442A69f97Ee4eAf7aDcF4",
-      upstreamUrl: "https://freeapi.iil.im",
-    },
+
     {
       name: t("configurations.custom"),
       apiKey: "",
