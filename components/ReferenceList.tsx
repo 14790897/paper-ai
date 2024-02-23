@@ -277,7 +277,9 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
             <button
               className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded "
               type="button"
-              onClick={() => copyToClipboard(getAllFullReferences(references))}
+              onClick={() =>
+                copyToClipboard(getAllFullReferences(references, citationStyle))
+              }
             >
               {t("复制所有引用")}
             </button>
