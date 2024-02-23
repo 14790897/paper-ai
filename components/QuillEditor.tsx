@@ -44,6 +44,10 @@ import {
 import { debounce } from "lodash";
 //i18n
 import { useTranslation } from "@/app/i18n/client";
+//notification
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import NotifyButton from "@/components/Notification"; // 确保路径正确
 
 const toolbarOptions = [
   ["bold", "italic", "underline", "strike"], // 加粗、斜体、下划线和删除线
@@ -110,6 +114,8 @@ const QEditor = ({ lng }) => {
     "生成次数",
     1
   ); // 初始值设为1
+  //选择时间范围
+  const [timeRange, setTimeRange] = useLocalStorage("时间范围", "2019");
   const [generateNumber, setGenerateNumber] = useState(0); //当前任务的进行数
   const [openProgressBar, setOpenProgressBar] = useState(false);
 
@@ -338,7 +344,12 @@ const QEditor = ({ lng }) => {
             })
             .join("");
         } else if (selectedSource === "semanticScholar") {
-          rawData = await getSemanticPapers(topic, "2015-2023", offset, limit);
+          rawData = await getSemanticPapers(
+            topic,
+            `${timeRange}-2024`,
+            offset,
+            limit
+          );
           //判断返回的文献是否跟用户输入的主题相关
           if (isEvaluateTopicMatch) {
             const { relevantPapers, nonRelevantPapers } =
@@ -367,7 +378,12 @@ const QEditor = ({ lng }) => {
             })
             .join("");
         } else if (selectedSource === "pubmed") {
-          rawData = await fetchPubMedData(topic, 2020, offset, limit);
+          rawData = await fetchPubMedData(
+            topic,
+            Number(timeRange)!,
+            offset,
+            limit
+          );
           if (!rawData) {
             throw new Error("未搜索到文献 from PubMed.");
           }
@@ -501,10 +517,20 @@ const QEditor = ({ lng }) => {
           <option value="gpt-4">gpt-4</option>
           <option value="deepseek-chat">deepseek-chat</option>
         </select>
+        {/* 进行几轮生成 */}
         <input
           type="number"
+          title={t("生成轮数")}
           value={generatedPaperNumber}
           onChange={handleGeneratedPaperNumberChange}
+          className="border border-gray-300 text-gray-700 text-sm p-1 rounded w-16"
+        />
+        {/* 时间范围 */}
+        <input
+          type="number"
+          title={t("时间范围")}
+          value={timeRange}
+          onChange={(e) => setTimeRange(e.target.value)}
           className="border border-gray-300 text-gray-700 text-sm p-1 rounded w-16"
         />
         <button
@@ -525,6 +551,7 @@ const QEditor = ({ lng }) => {
         <ReferenceList editor={quill} lng={lng} />
         <ExportDocx editor={quill} />
       </div>
+      <ToastContainer />
     </div>
   );
 };

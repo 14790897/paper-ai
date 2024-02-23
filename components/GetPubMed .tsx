@@ -23,7 +23,7 @@ async function getPubMedPapers(
     const retMax = limit; // 检索的最大记录数
     const maxOffset = 20 - limit; // 假设总记录数为 20
     if (offset === -1) offset = getRandomOffset(maxOffset);
-    const url = `${baseURL}?db=${db}&term=${query}[Title/Abstract]+AND+2018:3000[Date - Publication]&retMax=${retMax}&retStart=${offset}&api_key=${process.env.NEXT_PUBLIC_PUBMED_API_KEY}`;
+    const url = `${baseURL}?db=${db}&term=${query}[Title/Abstract]+AND+${year}:3000[Date - Publication]&retMax=${retMax}&retStart=${offset}&api_key=${process.env.NEXT_PUBLIC_PUBMED_API_KEY}`;
     const response = await axios.get(url, { responseType: "text" });
     console.log(response.data);
     // 解析XML数据
