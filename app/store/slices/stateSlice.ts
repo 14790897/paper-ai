@@ -7,6 +7,7 @@ export interface APIState {
   language: string;
   isJumpToReference: boolean;
   isEvaluateTopicMatch: boolean;
+  citationStyle: string;
 }
 
 const initialState: APIState = {
@@ -17,6 +18,7 @@ const initialState: APIState = {
   language: "en",
   isJumpToReference: false,
   isEvaluateTopicMatch: false,
+  citationStyle: "custom-chinese",
 };
 
 export const stateSlice = createSlice({
@@ -50,6 +52,9 @@ export const stateSlice = createSlice({
     setIsEvaluateTopicMatch: (state, action: PayloadAction<boolean>) => {
       state.isEvaluateTopicMatch = action.payload;
     },
+    setCitationStyle: (state, action: PayloadAction<string>) => {
+      state.citationStyle = action.payload;
+    },
   },
 });
 
@@ -62,6 +67,7 @@ export const {
   setLanguage,
   setIsJumpToReference,
   setIsEvaluateTopicMatch,
+  setCitationStyle,
 } = stateSlice.actions;
 
 export const stateReducer = stateSlice.reducer;

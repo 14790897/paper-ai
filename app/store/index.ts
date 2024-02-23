@@ -30,6 +30,7 @@ const statePersistConfig = {
     "language",
     "isJumpToReference",
     "isEvaluateTopicMatch",
+    "citationStyle",
   ],
 };
 

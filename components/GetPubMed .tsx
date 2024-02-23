@@ -66,18 +66,18 @@ async function getPubMedPaperDetails(idList: IDList) {
     // 解析XML数据
     const parser = new xml2js.Parser({
       explicitArray: false,
-      ignoreAttrs: true, // 忽略XML属性
+      ignoreAttrs: false, // 忽略XML属性
       charkey: "text", // 字符数据的键
       trim: true, // 去除文本前后空格
     });
     let result = await parser.parseStringPromise(data);
 
-    console.log(result);
+    // console.log(result);
     // 提取并处理文章详细信息
     const articles = result.PubmedArticleSet.PubmedArticle.map((article) => {
       const medlineCitation = article.MedlineCitation;
       const articleDetails = medlineCitation.Article;
-      console.log("atricledetails", articleDetails);
+      // console.log("atricledetails", articleDetails);
       const abstractTexts = articleDetails.Abstract.AbstractText;
 
       let abstract;
@@ -85,7 +85,7 @@ async function getPubMedPaperDetails(idList: IDList) {
       if (Array.isArray(abstractTexts)) {
         // 如果是数组，遍历数组并连接每个元素的文本
         abstract = abstractTexts
-          .map((text) => (typeof text === "object" ? text._ : text))
+          .map((text) => (typeof text === "object" ? text.text : text))
           .join(" ");
       } else if (typeof abstractTexts === "string") {
         // 如果 abstractTexts 直接就是字符串
@@ -133,7 +133,7 @@ async function getPubMedPaperDetails(idList: IDList) {
         journalTitle += `: ${articleDetails.Pagination.StartPage}-${articleDetails.Pagination.EndPage}`;
       }
       // 构建文章的 PubMed URL
-      const articleUrl = `https://pubmed.ncbi.nlm.nih.gov/${medlineCitation.PMID}/`;
+      const articleUrl = `https://pubmed.ncbi.nlm.nih.gov/${medlineCitation.PMID.text}/`;
       // console.log("medlineCitation", medlineCitation);
       console.log("\n,journalTitle", journalTitle);
       let title = articleDetails.ArticleTitle;
@@ -141,14 +141,36 @@ async function getPubMedPaperDetails(idList: IDList) {
       if (title.endsWith(".")) {
         title = title.slice(0, -1);
       }
+      // 提取DOI
+      let doi = null;
+      if (
+        article.PubmedData &&
+        article.PubmedData.ArticleIdList &&
+        Array.isArray(article.PubmedData.ArticleIdList.ArticleId)
+      ) {
+        const doiObject = article.PubmedData.ArticleIdList.ArticleId.find(
+          (idObj) => idObj.$.IdType === "doi"
+        );
+        if (doiObject) {
+          doi = doiObject.text; // 获取DOI值
+        }
+      }
+      console.log("doi", doi);
+      console.log(
+        "链接",
+        medlineCitation.PMID.text,
+        "属性",
+        typeof medlineCitation.PMID.text
+      );
       return {
-        id: medlineCitation.PMID._,
+        id: Number(medlineCitation.PMID.text),
         title: title,
         abstract: abstract,
         authors: authors,
         url: articleUrl,
         year: publishedDate,
         journal: journalTitle,
+        doi: doi,
         // 其他需要的字段可以继续添加
       };
     });

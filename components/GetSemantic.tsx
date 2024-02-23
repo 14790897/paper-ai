@@ -34,7 +34,8 @@ async function getSemanticPapers(
         offset: offset,
         limit: limit,
         year: year,
-        fields: "title,year,authors.name,abstract,venue,url,journal",
+        fields:
+          "title,year,authors.name,abstract,venue,url,journal,externalIds",
       },
     });
     // 提取并处理论文数据

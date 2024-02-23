@@ -323,12 +323,23 @@ export function getFullReference(reference: Reference) {
   fullReference += formatReference(reference);
   return fullReference;
 }
-export function getAllFullReferences(references: Reference[]) {
+export function getAllFullReferences(references: Reference[], style: string) {
   return references
     .map((reference, index) => {
-      return `[${index + 1}] ${getFullReference(reference)}`;
+      return `[${index + 1}] ${renderCitation(reference, style)}`;
     })
     .join("\n");
+}
+
+export function renderCitation(reference: any, style: string) {
+  // 检查当前的引用风格
+  if (style === "custom-chinese") {
+    // 如果是“custom-chinese”，则调用 getFullReference 来渲染引用
+    return getFullReference(reference);
+  } else {
+    // 否则，返回引用对象中对应风格的引用文本
+    return reference[style];
+  }
 }
 
 export {

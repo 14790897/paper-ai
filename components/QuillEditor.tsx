@@ -359,6 +359,7 @@ const QEditor = ({ lng }) => {
             author: entry.authors?.slice(0, 3).join(", "),
             venue: entry.venue,
             journal: formatJournalReference(entry),
+            doi: entry.externalIds.DOI,
           }));
           dataString = rawData
             .map((entry: any) => {
@@ -391,6 +392,7 @@ const QEditor = ({ lng }) => {
             journal: entry.journal, // 文章的发表杂志
             url: entry.url, // 文章的 URL
             source: "PubMed", // 指示这些引用来自 PubMed
+            doi: entry.doi, // 文章的 DOI
           }));
 
           // 打印 newReferences
@@ -411,7 +413,7 @@ const QEditor = ({ lng }) => {
         // )}`;
         const content = `之前用户已经完成的内容上下文：${getTextBeforeCursor(
           quill!,
-          900
+          800
         )},搜索到的论文内容:${trimmedMessage},需要完成的论文主题：${topic},请根据搜索到的论文内容完成用户的论文`;
         await sendMessageToOpenAI(
           content,

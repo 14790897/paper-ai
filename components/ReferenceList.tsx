@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocalStorage } from "react-use";
 
 import { Reference } from "@/utils/global";
 import {
   copyToClipboard,
   getFullReference,
+  renderCitation,
   getAllFullReferences,
   delteIndexUpdateBracketNumbersInDeltaKeepSelection,
 } from "@/utils/others/quillutils";
@@ -17,7 +19,9 @@ import {
   removeReferenceRedux,
   clearReferencesRedux,
   swapReferencesRedux,
+  setReferencesRedux,
 } from "@/app/store/slices/authSlice";
+import { setCitationStyle } from "@/app/store/slices/stateSlice";
 //supabase
 import { submitPaper } from "@/utils/supabase/supabaseutils";
 import { createClient } from "@/utils/supabase/client";
@@ -27,10 +31,22 @@ type ReferenceListProps = {
   editor: any;
   lng: string;
 };
+//引用转换
+import Cite from "citation-js";
 
+const citationStyles = [
+  { name: "中文", template: "custom-chinese" }, // 假设你有一个自定义的“中文”格式
+  { name: "APA", template: "apa" },
+  { name: "MLA", template: "mla" },
+  { name: "Chicago", template: "chicago" },
+  { name: "Harvard", template: "harvard" },
+  { name: "Vancouver", template: "vancouver" },
+  { name: "IEEE", template: "ieee" },
+];
 function ReferenceList({ editor, lng }: ReferenceListProps) {
   //i18n
   const { t } = useTranslation(lng);
+  //自定义文献
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newYear, setNewYear] = useState("");
@@ -43,6 +59,7 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
     (state) => state.state.paperNumberRedux
   );
   const isVip = useAppSelector((state) => state.state.isVip);
+  const citationStyle = useAppSelector((state) => state.state.citationStyle);
   //supabase
   const supabase = createClient();
 
@@ -95,6 +112,44 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
     }
   }, [references]);
 
+  async function generateCitation(doi, style) {
+    try {
+      const citation = await Cite.async(doi);
+      const output = citation.format("bibliography", {
+        format: "text",
+        template: style,
+        lang: "en-US",
+      });
+      return output;
+    } catch (error) {
+      console.error("Error generating citation:", error);
+      return ""; // Return an empty string in case of error
+    }
+  }
+
+  useEffect(() => {
+    const fetchCitations = async () => {
+      const updatedReferences = await Promise.all(
+        references.map(async (ref) => {
+          // 检查是否已经有当前风格的引用
+          if (!ref[citationStyle]) {
+            // 如果没有，则生成新的引用
+            const citationText = await generateCitation(ref.doi, citationStyle);
+            return { ...ref, [citationStyle]: citationText }; // 添加新的引用到对象
+          }
+          return ref; // 如果已有引用，则不做改变
+        })
+      );
+      dispatch(setReferencesRedux(updatedReferences));
+    };
+
+    fetchCitations();
+  }, [citationStyle]);
+
+  const handleStyleChange = (event) => {
+    dispatch(setCitationStyle(event.target.value));
+  };
+
   return (
     <div className=" mx-auto p-4">
       {/* 引用列表显示区域 */}
@@ -106,7 +161,9 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
                 <li key={index} className="mb-3 p-2 border-b">
                   {/* 显示序号 */}
                   <span className="font-bold mr-2">[{index + 1}].</span>
-                  {getFullReference(reference)}
+                  {/* {getFullReference(reference)} */}
+                  {/* 根据当前风格渲染引用 */}
+                  {renderCitation(reference, citationStyle)}
                   {reference.url && (
                     <a
                       href={reference.url}
@@ -133,7 +190,9 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
                   </button>
                   <button
                     className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
-                    onClick={() => copyToClipboard(getFullReference(reference))}
+                    onClick={() =>
+                      copyToClipboard(renderCitation(reference, citationStyle))
+                    }
                   >
                     {t("复制")}
                   </button>
@@ -230,6 +289,29 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
             >
               {t("删除所有引用")}
             </button>
+            {/* 下拉框用于更改引用风格 */}
+            <div className="mt-4">
+              <label
+                htmlFor="citation-style"
+                className="block text-sm font-medium text-gray-700"
+              >
+                选择引用格式:
+              </label>
+              <select
+                id="citation-style"
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                value={citationStyle}
+                onChange={handleStyleChange}
+              >
+                <option value="apa">APA</option>
+                <option value="mla">MLA</option>
+                <option value="chicago">Chicago</option>
+                <option value="harvard">Harvard</option>
+                <option value="vancouver">Vancouver</option>
+                <option value="ieee">IEEE</option>
+                <option value="custom-chinese">中文</option>
+              </select>
+            </div>
           </div>
         </div>
       </form>
