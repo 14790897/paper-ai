@@ -19,6 +19,7 @@
     "add": "^2.0.6",
     "autoprefixer": "10.4.15",
     "axios": "^1.6.5",
+    "citation-js": "^0.7.8",
     "file-saver": "^2.0.5",
     "geist": "^1.0.0",
     "i": "^0.3.7",
