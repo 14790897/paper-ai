@@ -499,6 +499,7 @@ const QEditor = ({ lng }) => {
         </button>
         {/* 论文网站 */}
         <select
+          title={t("选择论文来源")}
           value={selectedSource}
           onChange={(e) => setSelectedSource(e.target.value)}
           className=" border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -509,6 +510,7 @@ const QEditor = ({ lng }) => {
         </select>
         {/* AI模型 */}
         <select
+          title={t("选择AI模型")}
           value={selectedModel}
           onChange={(e) => setSelectedModel(e.target.value)}
           className=" border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 "
@@ -536,6 +538,7 @@ const QEditor = ({ lng }) => {
         <button
           onClick={() => formatTextInEditor(quill)} // 假设 updateIndex 是处理更新操作的函数
           className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+          title={t("更新文中的上标，使得数字顺序排列")}
         >
           {t("更新索引")}
         </button>
