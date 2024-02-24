@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.8.0](https://www.github.com/14790897/paper-ai/compare/v1.7.0...v1.8.0) (2024-02-24)
+
+
+### Features
+
+* 优雅的报错提示 ([93f8889](https://www.github.com/14790897/paper-ai/commit/93f8889c5798b6f47dfb3a3831c051a11078786d))
+* 可以切换多种引用格式 ([9b835bb](https://www.github.com/14790897/paper-ai/commit/9b835bbadd89763ab63fa159f35dd7ed657296c6))
+* 增加了时间范围选择,除arxiv ([49a757f](https://www.github.com/14790897/paper-ai/commit/49a757f6c7d2a18bbde0e95cf57d4aaf5127e24c))
+* 论文搜索完成进行提示 ([6c37459](https://www.github.com/14790897/paper-ai/commit/6c37459fe3b35f379e5b0b4d3c65224f32efb04d))
+
+
+### Bug Fixes
+
+* 复制文献问题 ([a38b9ce](https://www.github.com/14790897/paper-ai/commit/a38b9cee529a04100c4ebb8ba4129c2caa86f2d6))
+
 ## [1.7.0](https://www.github.com/14790897/paper-ai/compare/v1.6.0...v1.7.0) (2024-02-22)
 
 
