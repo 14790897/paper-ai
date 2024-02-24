@@ -45,9 +45,8 @@ import { debounce } from "lodash";
 //i18n
 import { useTranslation } from "@/app/i18n/client";
 //notification
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import NotifyButton from "@/components/Notification"; // 确保路径正确
 
 const toolbarOptions = [
   ["bold", "italic", "underline", "strike"], // 加粗、斜体、下划线和删除线
@@ -431,6 +430,10 @@ const QEditor = ({ lng }) => {
           quill!,
           800
         )},搜索到的论文内容:${trimmedMessage},需要完成的论文主题：${topic},请根据搜索到的论文内容完成用户的论文`;
+        // toast.info(`搜索论文完成，内容:${content}`, {
+        //   position: "top-right",
+        //   autoClose: 5000,
+        // });
         await sendMessageToOpenAI(
           content,
           quill!,
@@ -465,9 +468,13 @@ const QEditor = ({ lng }) => {
         offset += 2;
         setGenerateNumber(i + 1);
       } catch (error) {
-        // console.error("Error fetching data:", error);
+        console.error("Paper2AI出现错误", error);
         // 在处理错误后，再次抛出这个错误
-        throw new Error(`Paper2AI出现错误: ${error}`);
+        // throw new Error(`Paper2AI出现错误: ${error}`);
+        toast.error(`Paper2AI出现错误: ${error}`, {
+          position: "top-center",
+          autoClose: 5000,
+        });
       }
     }
     setOpenProgressBar(false);

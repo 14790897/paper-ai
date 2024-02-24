@@ -16,6 +16,7 @@
     "@sentry/nextjs": "^7.101.1",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
+    "@types/react-toastify": "^4.1.0",
     "add": "^2.0.6",
     "autoprefixer": "10.4.15",
     "axios": "^1.6.5",
