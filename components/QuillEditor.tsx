@@ -471,7 +471,7 @@ const QEditor = ({ lng }) => {
         // throw new Error(`Paper2AI出现错误: ${error}`);
         toast.error(`Paper2AI出现错误: ${error}`, {
           position: "top-center",
-          autoClose: 5000,
+          autoClose: 3000,
           pauseOnHover: true,
         });
       }
