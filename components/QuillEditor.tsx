@@ -47,6 +47,7 @@ import { useTranslation } from "@/app/i18n/client";
 //notification
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { showExpandableToast } from "@/components/Notification";
 
 const toolbarOptions = [
   ["bold", "italic", "underline", "strike"], // 加粗、斜体、下划线和删除线
@@ -430,10 +431,7 @@ const QEditor = ({ lng }) => {
           quill!,
           800
         )},搜索到的论文内容:${trimmedMessage},需要完成的论文主题：${topic},请根据搜索到的论文内容完成用户的论文`;
-        // toast.info(`搜索论文完成，内容:${content}`, {
-        //   position: "top-right",
-        //   autoClose: 5000,
-        // });
+        showExpandableToast(`搜索论文完成，搜索到的论文:${trimmedMessage}`);
         await sendMessageToOpenAI(
           content,
           quill!,
@@ -474,6 +472,7 @@ const QEditor = ({ lng }) => {
         toast.error(`Paper2AI出现错误: ${error}`, {
           position: "top-center",
           autoClose: 5000,
+          pauseOnHover: true,
         });
       }
     }

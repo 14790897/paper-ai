@@ -167,3 +167,8 @@
   transform: scale(1.2); /* 放大到原大小的1.2倍 */
   transition: transform 0.3s ease; /* 平滑过渡效果 */
 }
+
+/* 去除toast的最大宽度限制 */
+.Toastify__toast-container--top-center:has(div.toastDetail) {
+  width: 80%;
+}
