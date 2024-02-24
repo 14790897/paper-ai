@@ -273,6 +273,11 @@ const QEditor = ({ lng }) => {
     // 重新获取更新后的内容并更新 Redux store
     const updatedContent = quill!.root.innerHTML;
     dispatch(setEditorContent(updatedContent));
+    toast.success(`AI写作完成`, {
+      position: "top-center",
+      autoClose: 2000,
+      pauseOnHover: true,
+    });
   };
 
   // 处理paper2AI
@@ -465,6 +470,11 @@ const QEditor = ({ lng }) => {
         //修改offset使得按照接下来的顺序进行获取文献
         offset += 2;
         setGenerateNumber(i + 1);
+        toast.success(`AI写作完成`, {
+          position: "top-center",
+          autoClose: 2000,
+          pauseOnHover: true,
+        });
       } catch (error) {
         console.error("Paper2AI出现错误", error);
         // 在处理错误后，再次抛出这个错误
