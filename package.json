@@ -67,5 +67,5 @@
     "@types/redux-logger": "^3.0.12",
     "encoding": "^0.1.13"
   },
-  "version": "1.7.0"
+  "version": "1.8.0"
 }
