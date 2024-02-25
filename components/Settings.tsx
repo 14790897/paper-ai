@@ -36,11 +36,7 @@ const Settings = ({ lng }: { lng: string }) => {
       apiKey: "sk-pg92xYjZA208m6gnD56118E299B5448eB71f892cF68351D9",
       upstreamUrl: "https://one.caifree.com",
     },
-    {
-      name: t("configurations.linuxdo"),
-      apiKey: "nk-2311676378",
-      upstreamUrl: "https://chat.flssedu1.top/api/openai",
-    },
+
     {
       name: t("configurations.vv佬"),
       apiKey: "nk-23118",
