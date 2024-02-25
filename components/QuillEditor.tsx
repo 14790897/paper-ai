@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { useLocalStorage } from "react-use";
-import Link from "next/link";
 
 // 一些工具函数导入
 import getArxivPapers from "./GetArxiv";
@@ -118,6 +117,10 @@ const QEditor = ({ lng }) => {
   const [timeRange, setTimeRange] = useLocalStorage("时间范围", "2019");
   const [generateNumber, setGenerateNumber] = useState(0); //当前任务的进行数
   const [openProgressBar, setOpenProgressBar] = useState(false);
+  const [showAnnouncement, setShowAnnouncement] = useLocalStorage(
+    "显示公告",
+    true
+  ); // 是否显示公告
 
   //redux
   const dispatch = useAppDispatch();
@@ -212,7 +215,35 @@ const QEditor = ({ lng }) => {
       console.log("No editor.current to update in useEffect.");
     }
   }, [editorContent, contentUpdatedFromNetwork]);
-
+  //日常通知可以放在这里
+  useEffect(() => {
+    if (showAnnouncement) {
+      toast(
+        "📢 如果遇到模型无法响应的情况，建议右上角切换为deepseek模型（强于3.5，弱于4），同时这里也要选择deepseek",
+        {
+          position: "top-center",
+          autoClose: false, // 设置为 false，使得公告需要用户手动关闭，确保用户看到公告信息
+          closeOnClick: false, // 防止用户意外点击关闭公告
+          pauseOnHover: true, // 鼠标悬停时暂停自动关闭，因为 autoClose 已设为 false，此设置可保留或去除
+          draggable: true, // 允许用户拖动公告
+          progress: undefined,
+          closeButton: true, // 显示关闭按钮，让用户可以在阅读完毕后关闭公告
+          hideProgressBar: true, // 隐藏进度条，因为公告不会自动关闭
+          style: {
+            // 自定义样式，使公告更加显眼
+            backgroundColor: "#fffae6", // 浅黄色背景
+            color: "#333333", // 文字颜色
+            fontWeight: "bold",
+            fontSize: "16px",
+            border: "1px solid #ffd700", // 边框颜色
+            boxShadow: "0px 0px 10px #ffd700", // 添加阴影，增加显眼度
+          },
+          // 当公告被关闭时，设置 localStorage，以防再次显示
+          onClose: () => setShowAnnouncement(false),
+        }
+      );
+    }
+  }, []);
   const handleTextChange = debounce(async function (delta, oldDelta, source) {
     if (source === "user") {
       // 获取编辑器内容

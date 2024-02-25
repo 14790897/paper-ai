@@ -16,6 +16,10 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useLocalStorage } from "react-use";
 import { useTranslation } from "@/app/i18n/client";
+import { useEffect } from "react";
+//公告
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 const Settings = ({ lng }: { lng: string }) => {
   //i18n
@@ -36,7 +40,6 @@ const Settings = ({ lng }: { lng: string }) => {
       apiKey: "sk-pg92xYjZA208m6gnD56118E299B5448eB71f892cF68351D9",
       upstreamUrl: "https://one.caifree.com",
     },
-
     {
       name: t("configurations.vv佬"),
       apiKey: "nk-23118",
@@ -69,6 +72,18 @@ const Settings = ({ lng }: { lng: string }) => {
   const toggleSwitch = (currentState: any, setState: any) => {
     setState(!currentState);
   };
+
+  // useEffect(() => {
+  //   toast("这是一个公告消息!", {
+  //     position: "top-center",
+  //     autoClose: 5000, // 持续时间
+  //     hideProgressBar: false,
+  //     closeOnClick: true,
+  //     pauseOnHover: true,
+  //     draggable: true,
+  //     progress: undefined,
+  //   });
+  // }, []);
   return (
     <div className="max-w-md rounded overflow-hidden shadow-lg bg-blue-gray-100 z-1000  mx-auto ">
       <h1 className="font-bold text-3xl">settings</h1>
@@ -194,6 +209,7 @@ const Settings = ({ lng }: { lng: string }) => {
         ></span>
         {t("是否检查文献与主题相关性(如果不相关则不会传给AI引用)")}
       </label>
+      {/* <ToastContainer /> */}
     </div>
   );
 };
