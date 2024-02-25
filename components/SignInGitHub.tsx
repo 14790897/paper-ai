@@ -1,7 +1,26 @@
 "use client";
 import { insertUserProfile } from "@/utils/supabase/supabaseutils";
 import { createClient } from "@/utils/supabase/client";
+import { useEffect } from "react";
+
 export function SignInGitHub() {
+  useEffect(() => {
+    const supabase = createClient();
+    const { data: data } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === "SIGNED_IN") {
+          // 用户登录成功，执行后续操作
+          await insertUserProfile(session!.user, supabase);
+        }
+      }
+    );
+
+    return () => {
+      // call unsubscribe to remove the callback
+      data.subscription.unsubscribe();
+    };
+  }, []);
+
   const signInWithGithub = async () => {
     const supabase = createClient();
     const { data, error } = await supabase.auth.signInWithOAuth({

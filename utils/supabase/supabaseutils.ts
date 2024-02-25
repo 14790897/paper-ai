@@ -182,7 +182,7 @@ export async function insertUserProfile(data: any, supabase: SupabaseClient) {
   if (user) {
     const { data, error: profileError } = await supabase
       .from("profiles")
-      .insert([{ id: user.id, email: user.email }]);
+      .upsert([{ id: user.id, email: user.email }]);
 
     if (profileError) {
       console.error("Failed to create user profile:", profileError);
