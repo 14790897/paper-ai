@@ -1,5 +1,15 @@
 # Changelog
 
+### [1.8.1](https://www.github.com/14790897/paper-ai/compare/v1.8.0...v1.8.1) (2024-02-26)
+
+
+### Bug Fixes
+
+* github登录无法将用户数据插入数据库 ([65db119](https://www.github.com/14790897/paper-ai/commit/65db119a9ac97009f15238e6ef26236bc6be14c7))
+* quilleditor ssr加载失败 ([8a25248](https://www.github.com/14790897/paper-ai/commit/8a25248c29c578c75ec9e05fd1cdd339f131e5d6))
+* seo ([72300bf](https://www.github.com/14790897/paper-ai/commit/72300bf6eb23757845734ccfcfb99d40274c9257))
+* seo图片问题 ([6e807a7](https://www.github.com/14790897/paper-ai/commit/6e807a703d2a72f6ce557f043abefc44d746992c))
+
 ## [1.8.0](https://www.github.com/14790897/paper-ai/compare/v1.7.0...v1.8.0) (2024-02-24)
 
 
