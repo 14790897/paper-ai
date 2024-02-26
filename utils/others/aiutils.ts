@@ -74,7 +74,8 @@ export async function evaluateTopicMatch(
   apiKey: string,
   upsreamUrl: string,
   selectedModel: string,
-  topic: string
+  topic: string,
+  signal: AbortSignal
 ): Promise<{ relevantPapers: string[]; nonRelevantPapers: string[] }> {
   const prompt =
     "请判断文献是否跟用户输入的主题相关,只需要返回true或false的数组";
@@ -117,7 +118,8 @@ export async function evaluateTopicMatch(
         upsreamUrl,
         prompt,
         null,
-        false
+        false,
+        signal
       );
       console.log("isrelevantResults in 相关性检查", isRelevantResults);
       // 处理每篇文献的相关性结果

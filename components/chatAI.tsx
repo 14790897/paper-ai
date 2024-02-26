@@ -8,6 +8,7 @@ import {
   convertToSuperscript,
   deleteSameBracketNumber,
 } from "@/utils/others/quillutils";
+import { faSignal } from "@fortawesome/free-solid-svg-icons";
 //redux不能在普通函数使用
 
 interface ChatData {
@@ -29,7 +30,8 @@ const sendMessageToOpenAI = async (
   upsreamUrl: string,
   prompt: string,
   cursorPosition: number | null,
-  useEditorFlag = true // 新增的标志，用于决定操作
+  useEditorFlag = true, // 新增的标志，用于决定操作
+  signal: AbortSignal
 ) => {
   //识别应该使用的模型
   let model = selectedModel;
@@ -37,6 +39,7 @@ const sendMessageToOpenAI = async (
   // 设置API请求参数
   const requestOptions = {
     method: "POST",
+    signal: signal,
     headers: {
       "Content-Type": "application/json",
       // "Upstream-Url": upsreamUrl,
@@ -106,7 +109,12 @@ const sendMessageToOpenAI = async (
       const content = data.choices[0].message.content;
       return content; // 或根据需要处理并返回数据
     }
-  } catch (error) {
+  } catch (error: any) {
+    if (error.name === "AbortError") {
+      console.log("Fetch operation was aborted");
+      //这里不用产生报错因为是手动停止
+      return;
+    }
     console.error("Error:", error);
     // 如果有响应，返回响应的原始内容
     if (response) {

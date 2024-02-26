@@ -116,11 +116,12 @@ const QEditor = ({ lng }) => {
   //选择时间范围
   const [timeRange, setTimeRange] = useLocalStorage("时间范围", "2019");
   const [generateNumber, setGenerateNumber] = useState(0); //当前任务的进行数
-  const [openProgressBar, setOpenProgressBar] = useState(false);
+  const [openProgressBar, setOpenProgressBar] = useState(false); //设置进度条是否打开
   const [showAnnouncement, setShowAnnouncement] = useLocalStorage(
     "显示公告",
     true
   ); // 是否显示公告
+  const [controller, setController] = useState<AbortController | null>(null); // 创建 AbortController 的状态
 
   //redux
   const dispatch = useAppDispatch();
@@ -287,240 +288,280 @@ const QEditor = ({ lng }) => {
   };
   // 处理AI写作
   const handleAIWrite = async () => {
-    quill!.setSelection(cursorPosition!, 0); // 将光标移动到原来的位置
+    try {
+      setOpenProgressBar(true); //开启进度条
+      // 创建一个新的 AbortController 实例
+      const newController = new AbortController();
+      setController(newController);
+      quill!.setSelection(cursorPosition!, 0); // 将光标移动到原来的位置
 
-    const prompt = "请帮助用户完成论文写作，使用用户所说的语言完成";
-    await sendMessageToOpenAI(
-      userInput,
-      quill!,
-      selectedModel!,
-      apiKey,
-      upsreamUrl,
-      prompt,
-      cursorPosition!
-    );
-    // 清空input内容
-    setUserInput("");
-    // 重新获取更新后的内容并更新 Redux store
-    const updatedContent = quill!.root.innerHTML;
-    dispatch(setEditorContent(updatedContent));
-    toast.success(`AI写作完成`, {
-      position: "top-center",
-      autoClose: 2000,
-      pauseOnHover: true,
-    });
+      const prompt = "请帮助用户完成论文写作，使用用户所说的语言完成";
+      await sendMessageToOpenAI(
+        userInput,
+        quill!,
+        selectedModel!,
+        apiKey,
+        upsreamUrl,
+        prompt,
+        cursorPosition!,
+        true,
+        newController.signal // 传递 AbortSignal
+      );
+      // 清空input内容
+      setUserInput("");
+      // 重新获取更新后的内容并更新 Redux store
+      const updatedContent = quill!.root.innerHTML;
+      dispatch(setEditorContent(updatedContent));
+      toast.success(`AI写作完成`, {
+        position: "top-center",
+        autoClose: 2000,
+        pauseOnHover: true,
+      });
+    } catch (error) {
+      toast.error(`AI写作出现错误: ${error}`, {
+        position: "top-center",
+        autoClose: 3000,
+        pauseOnHover: true,
+      });
+    } finally {
+      setOpenProgressBar(false); //关闭进度条
+    }
   };
 
   // 处理paper2AI
   async function paper2AI(topic: string) {
-    quill!.setSelection(cursorPosition!, 0); // 将光标移动到原来的位置
-    let offset = -1;
-    if (generatedPaperNumber != 1) offset = 0; //如果生成的数量不为1，则从0开始
-    setOpenProgressBar(true); //开启进度条
-    //如果说要评估主题是否匹配的话,就要多获取一些文献
-    let limit = 2;
-    if (isEvaluateTopicMatch) {
-      limit = 4;
-    }
+    try {
+      // 创建一个新的 AbortController 实例
+      const newController = new AbortController();
+      setController(newController);
+      quill!.setSelection(cursorPosition!, 0); // 将光标移动到原来的位置
+      let offset = -1;
+      if (generatedPaperNumber != 1) offset = 0; //如果生成的数量不为1，则从0开始
+      setOpenProgressBar(true); //开启进度条
+      //如果说要评估主题是否匹配的话,就要多获取一些文献
+      let limit = 2;
+      if (isEvaluateTopicMatch) {
+        limit = 4;
+      }
 
-    for (let i = 0; i < generatedPaperNumber!; i++) {
-      try {
-        if (!topic) {
-          //使用ai提取当前要请求的论文主题
-          const prompt =
-            "As a topic extraction assistant, you can help me extract the current discussion of the paper topic, I will enter the content of the paper, you extract the paper topic , no more than two, Hyphenated query terms yield no matches (replace it with space to find matches) return format is: topic1 topic2";
-          const userMessage = getTextBeforeCursor(quill!, 2000);
-          topic = await sendMessageToOpenAI(
-            userMessage,
-            null,
+      for (let i = 0; i < generatedPaperNumber!; i++) {
+        try {
+          if (!topic) {
+            //使用ai提取当前要请求的论文主题
+            const prompt =
+              "As a topic extraction assistant, you can help me extract the current discussion of the paper topic, I will enter the content of the paper, you extract the paper topic , no more than two, Hyphenated query terms yield no matches (replace it with space to find matches) return format is: topic1 topic2";
+            const userMessage = getTextBeforeCursor(quill!, 2000);
+            topic = await sendMessageToOpenAI(
+              userMessage,
+              null,
+              selectedModel!,
+              apiKey,
+              upsreamUrl,
+              prompt,
+              null,
+              false,
+              newController.signal // 传递 AbortSignal
+            );
+            console.log("topic in AI before removeSpecialCharacters", topic);
+            topic = removeSpecialCharacters(topic);
+            topic = topic.split(" ").slice(0, 2).join(" ");
+            //如果超过十个字符就截断
+            if (topic.length > 10) {
+              topic = topic.slice(0, 10);
+            }
+          }
+          console.log("topic in AI", topic);
+          console.log("offset in paper2AI", offset);
+          console.log("limit in paper2AI", limit);
+          let rawData, dataString, newReferences;
+          if (selectedSource === "arxiv") {
+            rawData = await getArxivPapers(topic, limit, offset);
+            //判断返回的文献是否跟用户输入的主题相关
+            if (isEvaluateTopicMatch) {
+              const { relevantPapers, nonRelevantPapers } =
+                await evaluateTopicMatch(
+                  rawData,
+                  apiKey,
+                  upsreamUrl,
+                  selectedModel!,
+                  topic,
+                  newController.signal
+                );
+              rawData = relevantPapers;
+            }
+            console.log("arxiv rawdata:", rawData);
+            // 将 rawData 转换为引用数组
+            newReferences = rawData.map((entry: any) => ({
+              url: entry.id,
+              title: entry.title,
+              year: entry.published,
+              author: entry.authors?.slice(0, 3).join(", "),
+            }));
+            dataString = rawData
+              .map((entry: any) => {
+                return `ID: ${entry.id}\nTime: ${entry.published}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
+              })
+              .join("");
+          } else if (selectedSource === "semanticScholar") {
+            rawData = await getSemanticPapers(
+              topic,
+              `${timeRange}-2024`,
+              offset,
+              limit
+            );
+            //判断返回的文献是否跟用户输入的主题相关
+            if (isEvaluateTopicMatch) {
+              const { relevantPapers, nonRelevantPapers } =
+                await evaluateTopicMatch(
+                  rawData,
+                  apiKey,
+                  upsreamUrl,
+                  selectedModel!,
+                  topic,
+                  newController.signal
+                );
+              rawData = relevantPapers;
+            }
+            // 将 rawData 转换为引用数组
+            newReferences = rawData.map((entry: any) => ({
+              url: entry.url,
+              title: entry.title,
+              year: entry.year,
+              author: entry.authors?.slice(0, 3).join(", "),
+              venue: entry.venue,
+              journal: formatJournalReference(entry),
+              doi: entry.externalIds.DOI,
+            }));
+            dataString = rawData
+              .map((entry: any) => {
+                return `Time: ${entry.year}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
+              })
+              .join("");
+          } else if (selectedSource === "pubmed") {
+            rawData = await fetchPubMedData(
+              topic,
+              Number(timeRange)!,
+              offset,
+              limit
+            );
+            if (!rawData) {
+              throw new Error("未搜索到文献 from PubMed.");
+            }
+            //判断返回的文献是否跟用户输入的主题相关
+            if (isEvaluateTopicMatch) {
+              const { relevantPapers, nonRelevantPapers } =
+                await evaluateTopicMatch(
+                  rawData,
+                  apiKey,
+                  upsreamUrl,
+                  selectedModel!,
+                  topic,
+                  newController.signal
+                );
+              rawData = relevantPapers;
+            }
+            newReferences = rawData.map((entry: any) => ({
+              id: entry.id, // 文章的 PubMed ID
+              title: entry.title, // 文章的标题
+              abstract: entry.abstract, // 文章的摘要
+              author: entry.authors?.slice(0, 3).join(", "), // 文章的作者列表，假设为字符串数组
+              year: entry.year, // 文章的发表日期
+              journal: entry.journal, // 文章的发表杂志
+              url: entry.url, // 文章的 URL
+              source: "PubMed", // 指示这些引用来自 PubMed
+              doi: entry.doi, // 文章的 DOI
+            }));
+
+            // 打印 newReferences
+            console.log(newReferences);
+            dataString = rawData
+              .map((entry: any) => {
+                return `Time: ${entry.year}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
+              })
+              .join("");
+          }
+
+          // 确保搜索到的论文不超过 3000 个字符
+          const trimmedMessage =
+            dataString.length > 3000 ? dataString.slice(0, 3000) : dataString;
+          //slate的方法
+          // const content = `需要完成的论文主题：${topic},  搜索到的论文内容:${trimmedMessage},之前已经完成的内容上下文：${extractText(
+          //   editorValue
+          // )}`;
+          const content = `之前用户已经完成的内容上下文：${getTextBeforeCursor(
+            quill!,
+            800
+          )},搜索到的论文内容:${trimmedMessage},需要完成的论文主题：${topic},请根据搜索到的论文内容完成用户的论文`;
+          showExpandableToast(`搜索论文完成，搜索到的论文:${trimmedMessage}`);
+          await sendMessageToOpenAI(
+            content,
+            quill!,
             selectedModel!,
             apiKey,
             upsreamUrl,
-            prompt,
-            null,
-            false
+            systemPrompt,
+            cursorPosition!,
+            true,
+            newController.signal // 传递 AbortSignal
           );
-          console.log("topic in AI before removeSpecialCharacters", topic);
-          topic = removeSpecialCharacters(topic);
-          topic = topic.split(" ").slice(0, 2).join(" ");
-          //如果超过十个字符就截断
-          if (topic.length > 10) {
-            topic = topic.slice(0, 10);
-          }
-        }
-        console.log("topic in AI", topic);
-        console.log("offset in paper2AI", offset);
-        console.log("limit in paper2AI", limit);
-        let rawData, dataString, newReferences;
-        if (selectedSource === "arxiv") {
-          rawData = await getArxivPapers(topic, limit, offset);
-          //判断返回的文献是否跟用户输入的主题相关
-          if (isEvaluateTopicMatch) {
-            const { relevantPapers, nonRelevantPapers } =
-              await evaluateTopicMatch(
-                rawData,
-                apiKey,
-                upsreamUrl,
-                selectedModel!,
-                topic
-              );
-            rawData = relevantPapers;
-          }
-          console.log("arxiv rawdata:", rawData);
-          // 将 rawData 转换为引用数组
-          newReferences = rawData.map((entry: any) => ({
-            url: entry.id,
-            title: entry.title,
-            year: entry.published,
-            author: entry.authors?.slice(0, 3).join(", "),
-          }));
-          dataString = rawData
-            .map((entry: any) => {
-              return `ID: ${entry.id}\nTime: ${entry.published}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
+          setUserInput("");
+          // 重新获取更新后的内容并更新 Redux store
+          const updatedContent = quill!.root.innerHTML;
+          dispatch(setEditorContent(updatedContent));
+          //在对应的位置添加文献
+          const nearestNumber = getNumberBeforeCursor(quill!);
+          dispatch(
+            addReferencesRedux({
+              references: newReferences,
+              position: nearestNumber,
             })
-            .join("");
-        } else if (selectedSource === "semanticScholar") {
-          rawData = await getSemanticPapers(
-            topic,
-            `${timeRange}-2024`,
-            offset,
-            limit
           );
-          //判断返回的文献是否跟用户输入的主题相关
-          if (isEvaluateTopicMatch) {
-            const { relevantPapers, nonRelevantPapers } =
-              await evaluateTopicMatch(
-                rawData,
-                apiKey,
-                upsreamUrl,
-                selectedModel!,
-                topic
-              );
-            rawData = relevantPapers;
+          if (isVip) {
+            //在云端同步supabase
+            const data = await submitPaper(
+              supabase,
+              updatedContent,
+              references,
+              paperNumberRedux
+            );
           }
-          // 将 rawData 转换为引用数组
-          newReferences = rawData.map((entry: any) => ({
-            url: entry.url,
-            title: entry.title,
-            year: entry.year,
-            author: entry.authors?.slice(0, 3).join(", "),
-            venue: entry.venue,
-            journal: formatJournalReference(entry),
-            doi: entry.externalIds.DOI,
-          }));
-          dataString = rawData
-            .map((entry: any) => {
-              return `Time: ${entry.year}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
-            })
-            .join("");
-        } else if (selectedSource === "pubmed") {
-          rawData = await fetchPubMedData(
-            topic,
-            Number(timeRange)!,
-            offset,
-            limit
-          );
-          if (!rawData) {
-            throw new Error("未搜索到文献 from PubMed.");
-          }
-          //判断返回的文献是否跟用户输入的主题相关
-          if (isEvaluateTopicMatch) {
-            const { relevantPapers, nonRelevantPapers } =
-              await evaluateTopicMatch(
-                rawData,
-                apiKey,
-                upsreamUrl,
-                selectedModel!,
-                topic
-              );
-            rawData = relevantPapers;
-          }
-          newReferences = rawData.map((entry: any) => ({
-            id: entry.id, // 文章的 PubMed ID
-            title: entry.title, // 文章的标题
-            abstract: entry.abstract, // 文章的摘要
-            author: entry.authors?.slice(0, 3).join(", "), // 文章的作者列表，假设为字符串数组
-            year: entry.year, // 文章的发表日期
-            journal: entry.journal, // 文章的发表杂志
-            url: entry.url, // 文章的 URL
-            source: "PubMed", // 指示这些引用来自 PubMed
-            doi: entry.doi, // 文章的 DOI
-          }));
-
-          // 打印 newReferences
-          console.log(newReferences);
-          dataString = rawData
-            .map((entry: any) => {
-              return `Time: ${entry.year}\nTitle: ${entry.title}\nSummary: ${entry.abstract}\n\n`;
-            })
-            .join("");
+          //修改offset使得按照接下来的顺序进行获取文献
+          offset += 2;
+          setGenerateNumber(i + 1);
+          toast.success(`AI写作完成`, {
+            position: "top-center",
+            autoClose: 2000,
+            pauseOnHover: true,
+          });
+        } catch (error) {
+          console.error("Paper2AI出现错误", error);
+          // 在处理错误后，再次抛出这个错误
+          // throw new Error(`Paper2AI出现错误: ${error}`);
+          toast.error(`Paper2AI出现错误: ${error}`, {
+            position: "top-center",
+            autoClose: 3000,
+            pauseOnHover: true,
+          });
         }
-
-        // 确保搜索到的论文不超过 3000 个字符
-        const trimmedMessage =
-          dataString.length > 3000 ? dataString.slice(0, 3000) : dataString;
-        //slate的方法
-        // const content = `需要完成的论文主题：${topic},  搜索到的论文内容:${trimmedMessage},之前已经完成的内容上下文：${extractText(
-        //   editorValue
-        // )}`;
-        const content = `之前用户已经完成的内容上下文：${getTextBeforeCursor(
-          quill!,
-          800
-        )},搜索到的论文内容:${trimmedMessage},需要完成的论文主题：${topic},请根据搜索到的论文内容完成用户的论文`;
-        showExpandableToast(`搜索论文完成，搜索到的论文:${trimmedMessage}`);
-        await sendMessageToOpenAI(
-          content,
-          quill!,
-          selectedModel!,
-          apiKey,
-          upsreamUrl,
-          systemPrompt,
-          cursorPosition!
-        );
-        setUserInput("");
-        // 重新获取更新后的内容并更新 Redux store
-        const updatedContent = quill!.root.innerHTML;
-        dispatch(setEditorContent(updatedContent));
-        //在对应的位置添加文献
-        const nearestNumber = getNumberBeforeCursor(quill!);
-        dispatch(
-          addReferencesRedux({
-            references: newReferences,
-            position: nearestNumber,
-          })
-        );
-        if (isVip) {
-          //在云端同步supabase
-          const data = await submitPaper(
-            supabase,
-            updatedContent,
-            references,
-            paperNumberRedux
-          );
-        }
-        //修改offset使得按照接下来的顺序进行获取文献
-        offset += 2;
-        setGenerateNumber(i + 1);
-        toast.success(`AI写作完成`, {
-          position: "top-center",
-          autoClose: 2000,
-          pauseOnHover: true,
-        });
-      } catch (error) {
-        console.error("Paper2AI出现错误", error);
-        // 在处理错误后，再次抛出这个错误
-        // throw new Error(`Paper2AI出现错误: ${error}`);
-        toast.error(`Paper2AI出现错误: ${error}`, {
-          position: "top-center",
-          autoClose: 3000,
-          pauseOnHover: true,
-        });
       }
+    } catch (error) {
+      toast.error(`Paper2AI出现错误: ${error}`, {
+        position: "top-center",
+        autoClose: 3000,
+        pauseOnHover: true,
+      });
+    } finally {
+      setOpenProgressBar(false);
+      setGenerateNumber(0); //总的已经生成的数量
     }
-    setOpenProgressBar(false);
-    setGenerateNumber(0); //总的已经生成的数量
   }
 
+  const handleStop = () => {
+    if (controller) {
+      controller.abort(); // 取消请求
+      setController(null); // 重置 controller 状态
+    }
+  };
   return (
     <div className="flex   flex-col ">
       <div id="Qtoolbar" className="space-y-2 flex justify-between">
@@ -601,6 +642,16 @@ const QEditor = ({ lng }) => {
         <ReferenceList editor={quill} lng={lng} />
         <ExportDocx editor={quill} />
       </div>
+      {/* 停止生成的按钮只有在开始对话之后才会出现 */}
+      {openProgressBar ? (
+        <button
+          onClick={handleStop}
+          className="fixed bottom-4 left-4 bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 active:bg-red-700 text-white font-bold py-2 px-4 rounded transition ease-in-out duration-150 shadow-lg hover:shadow-xl"
+        >
+          {t("停止生成")}
+        </button>
+      ) : null}
+
       <ToastContainer />
     </div>
   );
