@@ -76,7 +76,7 @@ const Settings = ({ lng }: { lng: string }) => {
   //state
   const [userConfigNumber, setUserConfigNumber] = useLocalStorage(
     "userConfigNumber",
-    "2"
+    "3"
   );
   const toggleSwitch = (currentState: any, setState: any) => {
     setState(!currentState);

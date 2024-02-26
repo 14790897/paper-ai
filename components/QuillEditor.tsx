@@ -220,7 +220,7 @@ const QEditor = ({ lng }) => {
   useEffect(() => {
     if (showAnnouncement) {
       toast(
-        "📢 如果遇到模型无法响应的情况，建议右上角切换为deepseek模型（强于3.5，弱于4），同时这里也要选择deepseek",
+        "📢 如果遇到模型无法响应的情况，建议右上角切换为coze模型（也是gpt4）",
         {
           position: "top-center",
           autoClose: false, // 设置为 false，使得公告需要用户手动关闭，确保用户看到公告信息
