@@ -201,8 +201,8 @@ async function processResult(reader, decoder, editor) {
           // 处理 dataObject 中的 content
           if (dataObject.choices && dataObject.choices.length > 0) {
             let content =
-              dataObject.choices[0].message?.content ||
-              dataObject.choices[0].delta?.content;
+              dataObject.choices[0].delta?.content ??
+              dataObject.choices[0].message?.content;
             if (content) {
               // 在当前光标位置插入文本
               // editor.focus();
