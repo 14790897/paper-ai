@@ -41,6 +41,11 @@ const Settings = ({ lng }: { lng: string }) => {
       upstreamUrl: "https://one.caifree.com",
     },
     {
+      name: t("configurations.coze"),
+      apiKey: "MTIwMjE2ODMyODA1NTk1MTM2MA",
+      upstreamUrl: "https://coze.liuweiqing.top",
+    },
+    {
       name: t("configurations.vv佬"),
       apiKey: "nk-23118",
       upstreamUrl: "https://cocopilot-pool.aivvm.com",
