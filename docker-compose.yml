@@ -1,0 +1,11 @@
+version: "3.8" # 使用 Docker Compose 文件版本 3.8，根据需要可以更改
+services:
+  paperai:
+    image: 14790897/paperai:latest
+    container_name: paperai_app
+    ports:
+      - "3000:3000" # 映射宿主机和容器的端口
+    # environment: # 设置环境变量
+    #   NEXT_PUBLIC_AI_URL: "自定义AI模型地址"
+    #   NEXT_PUBLIC_OPENAI_API_KEY: "自定义API KEY"
+    restart: unless-stopped # 容器退出时重启策略
