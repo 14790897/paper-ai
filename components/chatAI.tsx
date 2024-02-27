@@ -1,14 +1,10 @@
-import { Transforms } from "slate";
-import { Editor } from "slate";
 import Quill from "quill";
 
-import { extractText } from "@/utils/others/slateutils";
 import {
   updateBracketNumbersInDeltaKeepSelection,
   convertToSuperscript,
   deleteSameBracketNumber,
 } from "@/utils/others/quillutils";
-import { faSignal } from "@fortawesome/free-solid-svg-icons";
 //redux不能在普通函数使用
 
 interface ChatData {
@@ -128,48 +124,6 @@ const sendMessageToOpenAI = async (
   }
 };
 
-const getAI = async (
-  userMessage: string,
-  systemPrompt: string,
-  apiKey: string,
-  upsreamUrl: string,
-  selectedModel: string
-) => {
-  // 设置API请求参数
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization:
-        "Bearer " +
-        (isValidApiKey(apiKey)
-          ? apiKey
-          : process.env.NEXT_PUBLIC_OPENAI_API_KEY),
-    },
-    body: JSON.stringify({
-      model: selectedModel || "gpt-3.5-turbo",
-      stream: false,
-      messages: [
-        {
-          role: "system",
-          content: systemPrompt,
-        },
-        {
-          role: "user",
-          content: userMessage,
-        },
-      ],
-    }),
-  };
-  const response = await fetch(
-    (upsreamUrl || process.env.NEXT_PUBLIC_AI_URL) + "/v1/chat/completions",
-    requestOptions
-  );
-  const data = await response.json();
-  const topic = data.choices[0].message.content;
-  return topic; // 获取并返回回复
-};
-
 async function processResult(reader, decoder, editor) {
   let buffer = "";
   while (true) {
@@ -222,4 +176,4 @@ async function processResult(reader, decoder, editor) {
   }
 }
 
-export { getAI, sendMessageToOpenAI };
+export { sendMessageToOpenAI };
