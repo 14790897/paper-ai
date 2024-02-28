@@ -25,10 +25,15 @@ const Settings = ({ lng }: { lng: string }) => {
   //i18n
   const { t } = useTranslation(lng);
   const CONFIG_OPTIONS = [
+    // {
+    //   name: t("configurations.蒙恬大将军"),
+    //   apiKey: "sk-jokVJ90l5Swxr5dt2f3b0988C8A442A69f97Ee4eAf7aDcF4",
+    //   upstreamUrl: "https://freeapi.iil.im",
+    // },
     {
-      name: t("configurations.蒙恬大将军"),
-      apiKey: "sk-jokVJ90l5Swxr5dt2f3b0988C8A442A69f97Ee4eAf7aDcF4",
-      upstreamUrl: "https://freeapi.iil.im",
+      name: t("configurations.coze"),
+      apiKey: "MTIwMjE2ODMyODA1NTk1MTM2MA",
+      upstreamUrl: "https://coze.liuweiqing.top",
     },
     {
       name: t("configurations.deepseek-chat"),
@@ -39,11 +44,6 @@ const Settings = ({ lng }: { lng: string }) => {
       name: t("configurations.caifree"),
       apiKey: "sk-MaEuOo9qIeWKK3PRCdCb9b3d47E64e36Ad6022724b780592",
       upstreamUrl: "https://one.caifree.com",
-    },
-    {
-      name: t("configurations.coze"),
-      apiKey: "MTIwMjE2ODMyODA1NTk1MTM2MA",
-      upstreamUrl: "https://coze.liuweiqing.top",
     },
     {
       name: t("configurations.vv佬"),
