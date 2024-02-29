@@ -119,7 +119,7 @@ const QEditor = ({ lng }) => {
   const [openProgressBar, setOpenProgressBar] = useState(false); //设置进度条是否打开
   const [showAnnouncement, setShowAnnouncement] = useLocalStorage(
     "显示公告",
-    true
+    false
   ); // 是否显示公告
   const [controller, setController] = useState<AbortController | null>(null); // 创建 AbortController 的状态
 
