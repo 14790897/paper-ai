@@ -6,13 +6,18 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-
+// 配置 @next/bundle-analyzer
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+// 首先使用withBundleAnalyzer包装nextConfig
+const enhancedConfig = withBundleAnalyzer(nextConfig);
 // Injected content via Sentry wizard below
 
 const { withSentryConfig } = require("@sentry/nextjs");
-
+// 然后使用withSentryConfig包装已增强的配置
 module.exports = withSentryConfig(
-  module.exports,
+  enhancedConfig,
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
