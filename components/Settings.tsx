@@ -40,25 +40,30 @@ const Settings = ({ lng }: { lng: string }) => {
       apiKey: "sk-ffe19ebe9fa44d00884330ff1c18cf82",
       upstreamUrl: "https://api.deepseek.com",
     },
-    {
-      name: t("configurations.caifree"),
-      apiKey: "sk-MaEuOo9qIeWKK3PRCdCb9b3d47E64e36Ad6022724b780592",
-      upstreamUrl: "https://one.caifree.com",
-    },
+    // {
+    //   name: t("configurations.caifree"),
+    //   apiKey: "sk-MaEuOo9qIeWKK3PRCdCb9b3d47E64e36Ad6022724b780592",
+    //   upstreamUrl: "https://one.caifree.com",
+    // },
     {
       name: t("configurations.官网反代"),
       apiKey: "3b73ec02-3255-4b27-a202-42ab9a6e85ba",
       upstreamUrl: "https://plus.liuweiqing.top",
     },
+    // {
+    //   name: t("configurations.vv佬"),
+    //   apiKey: "nk-23118",
+    //   upstreamUrl: "https://cocopilot-pool.aivvm.com",
+    // },
+    // {
+    //   name: t("configurations.linuxdo"),
+    //   apiKey: "nk-2311676378",
+    //   upstreamUrl: "https://chat.flss.world/api/openai",
+    // },
     {
-      name: t("configurations.vv佬"),
-      apiKey: "nk-23118",
-      upstreamUrl: "https://cocopilot-pool.aivvm.com",
-    },
-    {
-      name: t("configurations.linuxdo"),
-      apiKey: "nk-2311676378",
-      upstreamUrl: "https://chat.flss.world/api/openai",
+      name: t("configurations.oneapi"),
+      apiKey: "sk-GHuPUV6ERD8wVmmr36FeB8D809D34d93Bb857c009f6aF9Fe",
+      upstreamUrl: "https://one.liuweiqing.top",
     },
     {
       name: t("configurations.custom"),
