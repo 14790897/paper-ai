@@ -24,7 +24,7 @@ async function getSemanticPapers(
   try {
     const maxOffset = 20 - limit; // 假设总记录数为 20
     if (offset === -1) offset = getRandomOffset(maxOffset);
-    const url = `https://api.semanticscholar.org/graph/v1/paper/search`;
+    const url = `https://proxy.paperai.life/proxy/https://api.semanticscholar.org/graph/v1/paper/search`;
     const response = await axios.get(url, {
       headers: {
         "x-api-key": process.env.NEXT_PUBLIC_SEMANTIC_API_KEY,
