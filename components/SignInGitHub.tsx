@@ -34,6 +34,9 @@ export function SignInGitHub() {
     const supabase = createClient();
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "github",
+      options: {
+        redirectTo: "https://www.paperai.life/welcome",
+      },
     });
     if (error) {
       console.error("GitHub authentication failed:", error.message);
