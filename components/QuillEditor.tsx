@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { useLocalStorage } from "react-use";
+import * as Sentry from "@sentry/react";
 
 // 一些工具函数导入
 import getArxivPapers from "./GetArxiv";
@@ -93,7 +94,7 @@ const QEditor = ({ lng }) => {
   //quill编辑器鼠标位置
   const [cursorPosition, setCursorPosition] = useLocalStorage<number | null>(
     "光标位置",
-    null
+    0
   );
   //
   // 初始化 Quill 编辑器
@@ -508,6 +509,7 @@ const QEditor = ({ lng }) => {
         autoClose: 3000,
         pauseOnHover: true,
       });
+      Sentry.captureMessage(`AI写作出现错误: ${error}`, "error");
     } finally {
       // 通用的后处理逻辑
       const updatedContent = quill!.root.innerHTML;

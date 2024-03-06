@@ -90,7 +90,7 @@ const sendMessageToOpenAI = async (
     }
     // 克隆响应以备后用
     responseClone = response.clone();
-    if (useEditorFlag) {
+    if (useEditorFlag && editor && cursorPosition !== null) {
       const reader = response.body!.getReader();
       const decoder = new TextDecoder();
       //开始前先进行换行

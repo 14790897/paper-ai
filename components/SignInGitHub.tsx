@@ -9,18 +9,18 @@ export function SignInGitHub() {
     const supabase = createClient();
     const { data: data } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        if (event === "SIGNED_IN") {
+        if (session && session.provider_token) {
           // 用户登录成功，执行后续操作
           await insertUserProfile(session!.user, supabase);
-          Sentry.captureMessage("SignInGitHub中的SIGNED_IN成功", "info");
-          console.log("SignInGitHub中的SIGNED_IN成功");
-        } else {
-          Sentry.captureMessage(
-            `SignInGitHub中的非SIGNED_IN的event：${event}`,
-            "warning"
-          );
-          console.log("SignInGitHub中的非SIGNED_IN的event：", event);
+          Sentry.captureMessage("SignInGitHub中成功", "info");
+          console.log("SignInGitHub中成功");
         }
+
+        Sentry.captureMessage(
+          `SignInGitHub中的非SIGNED_IN的event：${event}`,
+          "warning"
+        );
+        console.log("SignInGitHub中的非SIGNED_IN的event：", event);
       }
     );
 
