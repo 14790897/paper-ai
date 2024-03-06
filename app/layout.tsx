@@ -53,7 +53,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className}>
-      <Script src="//fw-cdn.com/11368617/4047428.js" chat="true"></Script>
       {/* <Script>{`
             if ('serviceWorker' in navigator) {
               window.addEventListener('load', function() {
