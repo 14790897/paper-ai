@@ -577,6 +577,8 @@ const QEditor = ({ lng }) => {
           <option value="gpt-4">gpt-4</option>
           <option value="deepseek-chat">deepseek-chat</option>
           <option value="gemini-pro">gemini-pro</option>
+          <option value="mixtral-8x7b-32768">mixtral-8x7b-32768</option>
+          <option value="llama2-70b-4096">llama2-70b-4096</option>
         </select>
         {/* 进行几轮生成 */}
         <input

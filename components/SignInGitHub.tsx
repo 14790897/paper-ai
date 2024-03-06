@@ -2,6 +2,7 @@
 import { insertUserProfile } from "@/utils/supabase/supabaseutils";
 import { createClient } from "@/utils/supabase/client";
 import { useEffect } from "react";
+import * as Sentry from "@sentry/react";
 
 export function SignInGitHub() {
   useEffect(() => {
@@ -11,6 +12,14 @@ export function SignInGitHub() {
         if (event === "SIGNED_IN") {
           // 用户登录成功，执行后续操作
           await insertUserProfile(session!.user, supabase);
+          Sentry.captureMessage("SignInGitHub中的SIGNED_IN成功", "info");
+          console.log("SignInGitHub中的SIGNED_IN成功");
+        } else {
+          Sentry.captureMessage(
+            `SignInGitHub中的非SIGNED_IN的event：${event}`,
+            "warning"
+          );
+          console.log("SignInGitHub中的非SIGNED_IN的event：", event);
         }
       }
     );
