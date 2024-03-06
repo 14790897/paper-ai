@@ -74,7 +74,7 @@ const sendMessageToOpenAI = async (
   // 发送API请求
 
   let response;
-
+  let responseClone = null; // 用于保存响应内容的变量
   try {
     response = await fetch(
       (upsreamUrl || process.env.NEXT_PUBLIC_AI_URL) + "/v1/chat/completions",
@@ -88,7 +88,9 @@ const sendMessageToOpenAI = async (
       // 处理其他类型的HTTP错误
       throw new Error(`HTTP错误，状态码：${response.status}`);
     }
-    if (useEditorFlag && editor && cursorPosition !== null) {
+    // 克隆响应以备后用
+    responseClone = response.clone();
+    if (useEditorFlag) {
       const reader = response.body!.getReader();
       const decoder = new TextDecoder();
       //开始前先进行换行
@@ -112,15 +114,16 @@ const sendMessageToOpenAI = async (
       return;
     }
     console.error("Error:", error);
-    // 如果有响应，返回响应的原始内容
-    if (response) {
-      const rawResponse = await response.text();
+
+    // 根据是否成功读取响应体来抛出错误
+    if (responseClone) {
+      const textResponse = await responseClone.text(); // 从克隆的响应中读取数据
       throw new Error(
-        `请求发生错误: ${error.message}, Response: ${rawResponse}`
+        `请求发生错误: ${error.message}, Response: ${textResponse}`
       );
+    } else {
+      throw new Error(`请求发生错误: ${error.message}`);
     }
-    // 如果没有响应，只抛出错误
-    throw error;
   }
 };
 
