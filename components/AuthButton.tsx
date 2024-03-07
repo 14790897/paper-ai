@@ -18,7 +18,7 @@ export default async function AuthButton() {
   } = await supabase.auth.getUser();
   //profiles表 插入用户信息
   await insertUserProfile(data, supabase);
-
+  console.log("user", user);
   const signOut = async () => {
     "use server";
 
