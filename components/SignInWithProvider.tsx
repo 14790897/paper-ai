@@ -44,7 +44,7 @@ export function SignInWithProvider({ provider, redirectTo }) {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: provider,
       options: {
-        redirectTo: redirectTo,
+        // redirectTo: redirectTo,
         queryParams: {
           access_type: "offline",
           prompt: "consent",
