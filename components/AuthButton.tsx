@@ -1,12 +1,8 @@
-// "use server";
-
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { insertUserProfile } from "@/utils/supabase/supabaseutils";
-
-// import { signOut } from "@/utils/supabase/serversignout";
 
 export default async function AuthButton() {
   const cookieStore = cookies();
@@ -18,7 +14,7 @@ export default async function AuthButton() {
   } = await supabase.auth.getUser();
   //profiles表 插入用户信息
   await insertUserProfile(data, supabase);
-  console.log("user", user);
+  console.log("1111 in AuthButton   user:", user);
   const signOut = async () => {
     "use server";
 
