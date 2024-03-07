@@ -18,7 +18,13 @@ if (process.env.NODE_ENV === "production") {
     // This sets the sample rate to be 10%. You may want this to be 100% while
     // in development and sample at a lower rate in production
     replaysSessionSampleRate: 0.1,
-
+    beforeSend(event, hint) {
+      // 检查事件是否为通过 `captureMessage` 发送的
+      if (event.logger === "javascript" && event.message) {
+        return event; // 允许发送消息事件
+      }
+      return null; // 过滤掉其他类型的事件
+    },
     // You can remove this option if you're not planning to use the Sentry Session Replay feature:
     integrations: [
       Sentry.replayIntegration({

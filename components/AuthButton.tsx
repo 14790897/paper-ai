@@ -4,6 +4,8 @@ import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { insertUserProfile } from "@/utils/supabase/supabaseutils";
+
 // import { signOut } from "@/utils/supabase/serversignout";
 
 export default async function AuthButton() {
@@ -11,8 +13,11 @@ export default async function AuthButton() {
   const supabase = createClient(cookieStore);
 
   const {
+    data,
     data: { user },
   } = await supabase.auth.getUser();
+  //profiles表 插入用户信息
+  await insertUserProfile(data, supabase);
 
   const signOut = async () => {
     "use server";

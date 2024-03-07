@@ -178,7 +178,12 @@ export async function fetchUserVipStatus(userId: string) {
 
 //profiles表 插入用户信息
 export async function insertUserProfile(data: any, supabase: SupabaseClient) {
-  const user = data?.user;
+  let user;
+  if (data.user) {
+    user = data.user;
+  } else {
+    user = data;
+  }
   if (user) {
     const { data, error: profileError } = await supabase
       .from("profiles")
@@ -186,6 +191,7 @@ export async function insertUserProfile(data: any, supabase: SupabaseClient) {
 
     if (profileError) {
       console.error("Failed to create user profile:", profileError);
+      Sentry.captureException(profileError);
     }
     //sentry
     Sentry.setUser({
