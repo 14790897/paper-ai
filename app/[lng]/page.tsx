@@ -73,6 +73,13 @@ export default async function Index({ params: { lng } }: IndexProps) {
           >
             <strong>PrivacyPolicy</strong>
           </a>
+          <a
+            href="./service"
+            target="_blank"
+            className="font-bold text-blue-500 hover:underline hover:text-blue-700"
+          >
+            <strong>Service</strong>
+          </a>
           <FooterBase t={t} lng={lng} />
         </div>
       </footer>
