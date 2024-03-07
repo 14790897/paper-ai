@@ -10,8 +10,8 @@ import { useTranslation } from "@/app/i18n";
 import { FooterBase } from "@/components/Footer/FooterBase";
 //supabase
 import { insertUserProfile } from "@/utils/supabase/supabaseutils";
-// signingithub
-import { SignInGitHub } from "@/components/SignInGitHub";
+// SignInWithProvider
+import { SignInWithProvider } from "@/components/SignInWithProvider";
 export default async function Login({
   searchParams,
   params: { lng },
@@ -141,7 +141,16 @@ export default async function Login({
           </p>
         )}
       </form>
-      <SignInGitHub />
+      <div>
+        <SignInWithProvider
+          provider="github"
+          redirectTo="https://www.paperai.life/welcome"
+        />
+        <SignInWithProvider
+          provider="google"
+          redirectTo="https://www.paperai.life/welcome"
+        />
+      </div>
       <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
         <div className="flex items-center space-x-4">
           {" "}
