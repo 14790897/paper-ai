@@ -66,6 +66,13 @@ export default async function Index({ params: { lng } }: IndexProps) {
           >
             <strong>使用文档</strong>
           </a>
+          <a
+            href="./privacy"
+            target="_blank"
+            className="font-bold text-blue-500 hover:underline hover:text-blue-700"
+          >
+            <strong>PrivacyPolicy</strong>
+          </a>
           <FooterBase t={t} lng={lng} />
         </div>
       </footer>
