@@ -184,20 +184,29 @@ export async function insertUserProfile(data: any, supabase: SupabaseClient) {
   } else {
     user = data;
   }
+
   if (user) {
+    const currentTime = new Date().toISOString(); // 生成ISO格式的时间字符串
+
     const { data, error: profileError } = await supabase
       .from("profiles")
-      .upsert([{ id: user.id, email: user.email }]);
+      .upsert([
+        {
+          id: user.id,
+          email: user.email,
+          created_at: currentTime, // 添加创建时间
+        },
+      ]);
 
     if (profileError) {
       console.error("Failed to create user profile:", profileError);
       Sentry.captureException(profileError);
     }
-    //sentry
+
     Sentry.setUser({
       email: user.email,
       id: user.id,
-      ip_address: "{{auto}}}",
+      ip_address: "{{auto}}",
     });
   }
 }
