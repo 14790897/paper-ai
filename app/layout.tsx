@@ -82,33 +82,15 @@ export default function RootLayout({
       })(window, document, "clarity", "script", "l869naiex9");`}
       </Script>
       <Script src="https://accounts.google.com/gsi/client" async></Script>
-      <Script>{`async function handleSignInWithGoogle(response) {
+      {/* <Script>{`async function handleSignInWithGoogle(response) {
   const { data, error } = await supabase.auth.signInWithIdToken({
     provider: 'google',
     token: response.credential,
   })
-}`}</Script>
+}`}</Script> */}
       <body className="bg-background text-foreground">
         <main className="min-h-screen flex flex-col items-center">
           {children}
-          <div
-            id="g_id_onload"
-            data-client_id="646783243018-m2n9qfo12k70debpmkesevt5j2hi2itb.apps.googleusercontent.com"
-            data-context="signin"
-            data-ux_mode="popup"
-            data-callback="handleSignInWithGoogle"
-            data-itp_support="true"
-          ></div>
-
-          <div
-            class="g_id_signin"
-            data-type="standard"
-            data-shape="pill"
-            data-theme="outline"
-            data-text="signin_with"
-            data-size="large"
-            data-logo_alignment="left"
-          ></div>
         </main>
       </body>
       <GoogleAnalytics gaId="G-05DHTG9XQ5" />

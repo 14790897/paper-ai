@@ -14,6 +14,7 @@ import PaperManagementWrapper from "@/components/PaperManagementWrapper";
 import { useTranslation } from "@/app/i18n";
 import { FooterBase } from "@/components/Footer/FooterBase";
 import { IndexProps } from "@/utils/global";
+import GoogleSignIn from "@/components/GoogleSignIn";
 
 // import Error from "@/app/global-error";
 export default async function Index({ params: { lng } }: IndexProps) {
@@ -42,6 +43,7 @@ export default async function Index({ params: { lng } }: IndexProps) {
           {/* 用来表示是否显示论文列表页 */}
           <PaperListButtonWrapper />
           {isSupabaseConnected && <AuthButton />}
+          {isSupabaseConnected && <GoogleSignIn />}
           <SettingsLink />
         </div>
       </nav>
