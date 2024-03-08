@@ -86,7 +86,6 @@ export default function RootLayout({
   const { data, error } = await supabase.auth.signInWithIdToken({
     provider: 'google',
     token: response.credential,
-    nonce: 'NONCE', // must be the same one as provided in data-nonce (if any)
   })
 }`}</Script>
       <body className="bg-background text-foreground">
