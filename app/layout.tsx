@@ -81,13 +81,8 @@ export default function RootLayout({
         y.parentNode.insertBefore(t, y);
       })(window, document, "clarity", "script", "l869naiex9");`}
       </Script>
+      {/* google一键登录 */}
       <Script src="https://accounts.google.com/gsi/client" async></Script>
-      {/* <Script>{`async function handleSignInWithGoogle(response) {
-  const { data, error } = await supabase.auth.signInWithIdToken({
-    provider: 'google',
-    token: response.credential,
-  })
-}`}</Script> */}
       <body className="bg-background text-foreground">
         <main className="min-h-screen flex flex-col items-center">
           {children}
