@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+// import React, { useEffect } from "react";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 
@@ -6,33 +6,33 @@ const GoogleSignIn = () => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   // 加载Google身份验证库并初始化
-  useEffect(() => {
-    // 确保gapi脚本只被加载一次
-    if (!window.gapi) {
-      const script = document.createElement("script");
-      script.src = "https://accounts.google.com/gsi/client";
-      script.async = true;
-      script.defer = true;
-      script.onload = initGoogleSignIn;
-      document.body.appendChild(script);
-    } else {
-      initGoogleSignIn();
-    }
-  }, []);
+  // useEffect(() => {
+  //   // 确保gapi脚本只被加载一次
+  //   if (!window.gapi) {
+  //     const script = document.createElement("script");
+  //     script.src = "https://accounts.google.com/gsi/client";
+  //     script.async = true;
+  //     script.defer = true;
+  //     script.onload = initGoogleSignIn;
+  //     document.body.appendChild(script);
+  //   } else {
+  //     initGoogleSignIn();
+  //   }
+  // }, []);
 
   // 初始化Google登录
-  const initGoogleSignIn = () => {
-    window.google.accounts.id.initialize({
-      client_id: "<your-client-id>.apps.googleusercontent.com", // 替换为你的客户端ID
-      callback: handleSignInWithGoogle,
-      auto_select: true, // 根据需要设置
-      itp_support: true,
-    });
-    window.google.accounts.id.renderButton(
-      document.getElementById("g_id_signin"),
-      { theme: "outline", size: "large" }
-    );
-  };
+  // const initGoogleSignIn = () => {
+  //   window.google.accounts.id.initialize({
+  //     client_id: "<your-client-id>.apps.googleusercontent.com", // 替换为你的客户端ID
+  //     callback: handleSignInWithGoogle,
+  //     auto_select: true, // 根据需要设置
+  //     itp_support: true,
+  //   });
+  //   window.google.accounts.id.renderButton(
+  //     document.getElementById("g_id_signin"),
+  //     { theme: "outline", size: "large" }
+  //   );
+  // };
 
   // 处理登录响应
   const handleSignInWithGoogle = async (response) => {
