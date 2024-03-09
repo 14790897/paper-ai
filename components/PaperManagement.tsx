@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useRef, useEffect } from "react";
 //redux
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import {
@@ -11,6 +11,7 @@ import {
   setPaperNumberRedux,
   setContentUpdatedFromNetwork,
   setIsVip,
+  setShowPaperManagement,
 } from "@/app/store/slices/stateSlice";
 //supabase
 import { createClient } from "@/utils/supabase/client";
@@ -134,6 +135,33 @@ const PaperManagement = ({ lng }) => {
   //   from: { opacity: 0 },
   // });
 
+  //用于判断点击有没有落在区域中
+  const paperManagementRef = useRef(null); // 用于引用PaperManagement组件的根元素
+  const handleClickOutside = (event) => {
+    if (
+      paperManagementRef.current &&
+      !paperManagementRef.current.contains(event.target) &&
+      showPaperManagement
+    ) {
+      // 如果点击事件的目标不是PaperManagement组件内的元素
+      // 隐藏组件
+      console.log("Clicked outside of the PaperManagement component.");
+      dispatch(setShowPaperManagement());
+    }
+  };
+
+  useEffect(() => {
+    if (showPaperManagement) {
+      // 只有当组件可见时，才添加事件监听器
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    // 组件卸载或状态改变时移除事件监听器
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPaperManagement]); // 依赖项数组包含showPaperManagement状态
+
   return (
     <CSSTransition
       in={showPaperManagement}
@@ -144,7 +172,10 @@ const PaperManagement = ({ lng }) => {
       {/* showPaperManagement ? ( */}
       {/* <animated.div style={animations}> */}
       <>
-        <div className="paper-management-container flex flex-col items-center space-y-4">
+        <div
+          ref={paperManagementRef}
+          className="paper-management-container flex flex-col items-center space-y-4"
+        >
           <div className="max-w-md w-full bg-blue-gray-100 rounded overflow-hidden shadow-lg mx-auto p-5">
             <h1 className="font-bold text-3xl text-center">
               {" "}
