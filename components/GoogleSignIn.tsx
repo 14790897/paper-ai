@@ -8,24 +8,33 @@ const GoogleSignIn = () => {
 
   // 加载Google身份验证库并初始化
   useEffect(() => {
-    // 检查用户是否已经登录
-    const session = supabase.auth.getSession();
-    if (session) {
-      console.log("用户已登录", session);
-    } else {
-      // 确保gapi脚本只被加载一次
-      if (!window.gapi) {
-        const script = document.createElement("script");
-        script.src = "https://accounts.google.com/gsi/client";
-        script.async = true;
-        script.defer = true;
-        script.onload = initGoogleSignIn;
-        document.body.appendChild(script);
+    // 异步检查用户是否已经登录
+    const checkSession = async () => {
+      const session = await supabase.auth.getSession();
+
+      if (session) {
+        console.log("用户已登录", session);
       } else {
-        initGoogleSignIn();
+        loadGoogleSignInScript();
       }
-    }
+    };
+
+    checkSession();
   }, []);
+
+  const loadGoogleSignInScript = () => {
+    // 确保gapi脚本只被加载一次
+    if (!window.gapi) {
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.defer = true;
+      script.onload = initGoogleSignIn;
+      document.body.appendChild(script);
+    } else {
+      initGoogleSignIn();
+    }
+  };
 
   // 初始化Google登录
   const initGoogleSignIn = () => {
