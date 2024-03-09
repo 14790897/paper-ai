@@ -1,16 +1,16 @@
+"use client";
 import { useState } from "react";
-import { supabase } from "@/utils/supabaseClient";
+import { createClient } from "@/utils/supabase/client";
 
 const RequestResetPassword = () => {
+  const supabase = createClient();
+
   const [email, setEmail] = useState("");
 
   const handleResetPassword = async () => {
-    const { data, error } = await supabase.auth.api.resetPasswordForEmail(
-      email,
-      {
-        redirectTo: `${window.location.origin}/reset-password`, // 确保这个URL是你重置密码页面的地址
-      }
-    );
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`, // 确保这个URL是你重置密码页面的地址
+    });
 
     if (error) {
       alert("Error sending password reset email: " + error.message);

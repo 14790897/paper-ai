@@ -1,8 +1,11 @@
+"use client";
 import { useState } from "react";
-import { supabase } from "@/utils/supabaseClient";
+import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/router";
 
 const ResetPassword = () => {
+  const supabase = createClient();
+
   const [newPassword, setNewPassword] = useState("");
   const router = useRouter();
   const { access_token } = router.query; // 获取URL中的access_token参数
@@ -13,7 +16,7 @@ const ResetPassword = () => {
       return;
     }
 
-    const { error } = await supabase.auth.api.updateUser(access_token, {
+    const { error } = await supabase.auth.updateUser(access_token, {
       password: newPassword,
     });
 
