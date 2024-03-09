@@ -22,34 +22,30 @@ const GoogleSignIn = () => {
     checkSession();
   }, []);
 
-  const loadGoogleSignInScript = () => {
-    // 确保gapi脚本只被加载一次
-    if (!window.gapi) {
-      const script = document.createElement("script");
-      script.src = "https://accounts.google.com/gsi/client";
-      script.async = true;
-      script.defer = true;
-      script.onload = initGoogleSignIn;
-      document.body.appendChild(script);
-    } else {
-      initGoogleSignIn();
-    }
-  };
+  // const loadGoogleSignInScript = () => {
+  //   // 确保gapi脚本只被加载一次
+  //   if (!window.gapi) {
+  //     const script = document.createElement("script");
+  //     script.src = "https://accounts.google.com/gsi/client";
+  //     script.async = true;
+  //     script.defer = true;
+  //     script.onload = initGoogleSignIn;
+  //     document.body.appendChild(script);
+  //   } else {
+  //     initGoogleSignIn();
+  //   }
+  // };
 
-  // 初始化Google登录
-  const initGoogleSignIn = () => {
-    window.google.accounts.id.initialize({
-      client_id:
-        "646783243018-m2n9qfo12k70debpmkesevt5j2hi2itb.apps.googleusercontent.com", // 替换为你的客户端ID
-      callback: handleSignInWithGoogle,
-      auto_select: true, // 根据需要设置
-      itp_support: true,
-    });
-    window.google.accounts.id.renderButton(
-      document.getElementById("g_id_signin"),
-      { theme: "outline", size: "large" }
-    );
-  };
+  // // 初始化Google登录
+  // const initGoogleSignIn = () => {
+  //   window.google.accounts.id.initialize({
+  //     client_id:
+  //       "646783243018-m2n9qfo12k70debpmkesevt5j2hi2itb.apps.googleusercontent.com", // 替换为你的客户端ID
+  //     callback: handleSignInWithGoogle,
+  //     auto_select: false, // 根据需要设置
+  //     itp_support: true,
+  //   });
+  // };
 
   // 处理登录响应
   const handleSignInWithGoogle = async (response) => {
@@ -70,6 +66,16 @@ const GoogleSignIn = () => {
 
   return (
     <div>
+      <div
+        id="g_id_onload"
+        data-client_id="646783243018-m2n9qfo12k70debpmkesevt5j2hi2itb.apps.googleusercontent.com"
+        data-context="signin"
+        data-ux_mode="popup"
+        data-callback="handleSignInWithGoogle"
+        data-nonce=""
+        data-auto_select="false"
+        data-itp_support="true"
+      ></div>
       <div
         id="g_id_signin"
         className="g_id_signin"
