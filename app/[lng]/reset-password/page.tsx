@@ -1,22 +1,16 @@
 "use client";
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const ResetPassword = () => {
   const supabase = createClient();
 
   const [newPassword, setNewPassword] = useState("");
   const router = useRouter();
-  const { access_token } = router.query; // 获取URL中的access_token参数
 
   const handleNewPassword = async () => {
-    if (!access_token) {
-      alert("Token is not provided or invalid");
-      return;
-    }
-
-    const { error } = await supabase.auth.updateUser(access_token, {
+    const { error } = await supabase.auth.updateUser({
       password: newPassword,
     });
 
@@ -29,14 +23,20 @@ const ResetPassword = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center space-y-4 bg-gray-50 p-6 rounded-lg shadow-md">
       <input
         type="password"
         placeholder="New password"
         value={newPassword}
         onChange={(e) => setNewPassword(e.target.value)}
+        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <button onClick={handleNewPassword}>Update Password</button>
+      <button
+        onClick={handleNewPassword}
+        className="px-4 py-2 w-full text-white bg-blue-500 hover:bg-blue-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
+      >
+        Update Password（更新密码）
+      </button>
     </div>
   );
 };
