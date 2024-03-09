@@ -21,12 +21,12 @@ export default async function Index({ params: { lng } }: IndexProps) {
   const { t } = await useTranslation(lng);
 
   const cookieStore = cookies();
-
+  let supabase: any, user;
   const canInitSupabaseClient = () => {
     // This function is just for the interactive tutorial.
     // Feel free to remove it once you have Supabase connected.
     try {
-      createClient(cookieStore);
+      supabase = createClient(cookieStore);
       return true;
     } catch (e) {
       return false;
@@ -34,7 +34,12 @@ export default async function Index({ params: { lng } }: IndexProps) {
   };
 
   const isSupabaseConnected = canInitSupabaseClient();
-
+  if (supabase) {
+    ({
+      data: { user },
+    } = await supabase.auth.getUser());
+  }
+  console.log("user in page", user);
   return (
     <div className="flex-1 w-full flex flex-col gap-5 items-center">
       <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
@@ -43,7 +48,7 @@ export default async function Index({ params: { lng } }: IndexProps) {
           {/* 用来表示是否显示论文列表页 */}
           <PaperListButtonWrapper />
           {isSupabaseConnected && <AuthButton />}
-          {isSupabaseConnected && <GoogleSignIn />}
+          {!user && <GoogleSignIn />}
           <SettingsLink />
         </div>
       </nav>
