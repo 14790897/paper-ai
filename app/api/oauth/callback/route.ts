@@ -89,7 +89,7 @@ export async function GET(request: Request) {
         {
           headers: {
             Authorization: `Basic ${Buffer.from(
-              `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`
+              `${process.env.NEXT_PUBLIC_CLIENT_ID}:${process.env.CLIENT_SECRET}`
             ).toString("base64")}`,
             "Content-Type": "application/x-www-form-urlencoded",
           },
