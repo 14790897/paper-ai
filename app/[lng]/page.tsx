@@ -48,6 +48,7 @@ export default async function Index({ params: { lng } }: IndexProps) {
           {/* 用来表示是否显示论文列表页 */}
           <PaperListButtonWrapper />
           {isSupabaseConnected && <AuthButton />}
+          {/* 如果用户没有登录会出现谷歌的sign in按钮登录之后不会出现 */}
           {!user && <GoogleSignIn />}
           <SettingsLink />
         </div>

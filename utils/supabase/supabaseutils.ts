@@ -186,6 +186,7 @@ export async function insertUserProfile(data: any, supabase: SupabaseClient) {
   }
 
   if (user) {
+    // console.log("user in insertUserProfile:", user);
     const currentTime = new Date().toISOString(); // 生成ISO格式的时间字符串
 
     const { data, error: profileError } = await supabase

@@ -12,6 +12,7 @@ import { FooterBase } from "@/components/Footer/FooterBase";
 import { insertUserProfile } from "@/utils/supabase/supabaseutils";
 // SignInWithProvider
 import { SignInWithProvider } from "@/components/SignInWithProvider";
+import LinuxdoSignin from "@/components/LinuxdoSignin";
 export default async function Login({
   searchParams,
   params: { lng },
@@ -146,6 +147,7 @@ export default async function Login({
         )}
       </form>
       <div>
+        <LinuxdoSignin />
         <SignInWithProvider
           provider="github"
           redirectTo="https://www.paperai.life/welcome"
