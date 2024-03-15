@@ -52,7 +52,7 @@ async function getSemanticPapers(
   } catch (error: any) {
     // console.error("Error fetching data from Semantic Scholar API:", error);
     throw new Error(
-      `Error fetching data from Semantic Scholar API:${JSON.stringify(
+      `Semantic Scholar fail（请使用英文并缩短关键词）:${JSON.stringify(
         error.response,
         null,
         2

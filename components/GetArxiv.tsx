@@ -57,7 +57,7 @@ async function getArxivPapers(
     return result;
   } catch (error: any) {
     throw new Error(
-      `Error fetching data from Arxiv API:${JSON.stringify(
+      `Arxiv失败（请使用英文并缩短关键词）:${JSON.stringify(
         error.response,
         null,
         2
