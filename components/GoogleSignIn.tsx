@@ -71,7 +71,7 @@ const GoogleSignIn = () => {
         data-client_id="646783243018-m2n9qfo12k70debpmkesevt5j2hi2itb.apps.googleusercontent.com"
         data-context="signin"
         data-ux_mode="popup"
-        data-callback="handleSignInWithGoogle"
+        // data-callback="handleSignInWithGoogle"
         data-nonce=""
         data-auto_select="false"
         data-itp_support="true"
