@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://www.github.com/14790897/paper-ai/compare/v1.9.0...v1.10.0) (2024-03-28)
+
+
+### Features
+
+* 优化未找到文献的提示 ([6bf8061](https://www.github.com/14790897/paper-ai/commit/6bf8061f0fc9614ebec396f27822f0c347826eb2))
+
 ## [1.9.0](https://www.github.com/14790897/paper-ai/compare/v1.8.0...v1.9.0) (2024-03-13)
 
 
