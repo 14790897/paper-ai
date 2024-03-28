@@ -10,7 +10,7 @@ export interface APIState {
 }
 
 const initialState: APIState = {
-  apiKey: "sk-GHuPUV6ERD8wVmmr36FeB8D809D34d93Bb857c009f6aF9Fe", //sk-ffe19ebe9fa44d00884330ff1c18cf82
+  apiKey: "sk-iTOqyxQNMk4S8xiOF1C3Ca4dD7Db41F7B8Fc1b70B4A2DeBf", //sk-ffe19ebe9fa44d00884330ff1c18cf82
   referencesRedux: [],
   editorContent: "",
   upsreamUrl: "https://one.liuweiqing.top", //https://api.openai.com  https://one.caifree.com https://chatserver.3211000.xyz https://api.deepseek.com
