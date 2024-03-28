@@ -37,7 +37,7 @@ async function getPubMedPapers(
     // 这里只返回了ID列表，你可能需要根据实际需要进行调整
     return idList;
   } catch (error) {
-    console.error("Error fetching data from PubMed API:", error);
+    console.error(" PubMed API失败（请使用英文并缩短关键词）:", error);
     return null; // 或根据需要处理错误
   }
 }

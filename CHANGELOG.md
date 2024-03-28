@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.9.0](https://www.github.com/14790897/paper-ai/compare/v1.8.0...v1.9.0) (2024-03-13)
+
+
+### Features
+
+* google登录 ([15c3a1f](https://www.github.com/14790897/paper-ai/commit/15c3a1f0acae8f5d6e610382b4fb886cc637d4f9))
+* 允许重置密码 ([939f5c2](https://www.github.com/14790897/paper-ai/commit/939f5c28e9f658f2899cb262c16e78d42601a320))
+* 可以手动停止AI的输出(左下角按钮) ([a72329d](https://www.github.com/14790897/paper-ai/commit/a72329d4a209aba4a0111093ece3b8cf89113ad2))
+* 完成linuxdo oauth ([0090ffd](https://www.github.com/14790897/paper-ai/commit/0090ffd3bbe83a99a4de15e733619569cd78a69b))
+
+
+### Bug Fixes
+
+* GitHub登入可以插入信息 ([559b401](https://www.github.com/14790897/paper-ai/commit/559b4010c276f45dec791aaea17133d6690aac63))
+* github登录无法将用户数据插入数据库 ([65db119](https://www.github.com/14790897/paper-ai/commit/65db119a9ac97009f15238e6ef26236bc6be14c7))
+* quilleditor ssr加载失败 ([8a25248](https://www.github.com/14790897/paper-ai/commit/8a25248c29c578c75ec9e05fd1cdd339f131e5d6))
+* remove .env.local ([0bfaacf](https://www.github.com/14790897/paper-ai/commit/0bfaacf6ee52309aaa55961037aba29a1558e6a6))
+* remove freshwork ([f8e4cfd](https://www.github.com/14790897/paper-ai/commit/f8e4cfd205cfb5b5ec105f662c0ff0b6d8590429))
+* seo ([72300bf](https://www.github.com/14790897/paper-ai/commit/72300bf6eb23757845734ccfcfb99d40274c9257))
+* seo图片问题 ([6e807a7](https://www.github.com/14790897/paper-ai/commit/6e807a703d2a72f6ce557f043abefc44d746992c))
+* 使用cf反代解决semantic cors问题 ([836aa49](https://www.github.com/14790897/paper-ai/commit/836aa49847ec7bc4fd2686a324a82ab19173fc83))
+* 前端环境变量需要使用NEXT_PUBLIC_ ([6243aa5](https://www.github.com/14790897/paper-ai/commit/6243aa5401f7689aa7e4caf81a39a87578484299))
+* 应用id问题 ([64cab48](https://www.github.com/14790897/paper-ai/commit/64cab48ae34ebb5500553dd3908167a95f1cbaf4))
+* 新用户没有获得编辑器焦点会导致报错 ([4b64827](https://www.github.com/14790897/paper-ai/commit/4b64827c1d3c77dc05ebad359f0f4d384145211f))
+* 点击空白页面可以可以取消论文列表页 ([b5bd878](https://www.github.com/14790897/paper-ai/commit/b5bd878cdafb6a54826f8aeafb16e6e6bc1e95bb))
+* 读取ai响应 ([e7aa998](https://www.github.com/14790897/paper-ai/commit/e7aa998ca7dafe38a0c12ada4f168717c6e45439))
+* 谷歌登陆后不再弹出 ([5f3252d](https://www.github.com/14790897/paper-ai/commit/5f3252da6e2715e4afbb7ab0b648112c22604230))
+* 通过判断user是否登陆来决定是否one tap ([8730415](https://www.github.com/14790897/paper-ai/commit/87304153526200a2c3340c433c87348d5199287b))
+
 ## [1.8.0](https://www.github.com/14790897/paper-ai/compare/v1.7.0...v1.8.0) (2024-02-24)
 
 
