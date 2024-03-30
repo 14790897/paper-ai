@@ -504,7 +504,7 @@ const QEditor = ({ lng }) => {
         }
       );
     } catch (error) {
-      toast.error(`AI写作出现错误: ${error}`, {
+      toast.error(`AI写作出现错误(持续无法使用请切换deepseek模型): ${error}`, {
         position: "top-center",
         autoClose: 3000,
         pauseOnHover: true,
