@@ -37,7 +37,7 @@ next-env.d.ts
 
 pass
 .env
-.env.local
+# .env.local
 
 .vercel
 post.md
