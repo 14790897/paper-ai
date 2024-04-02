@@ -66,7 +66,7 @@ const GoogleSignIn = () => {
 
   return (
     <div>
-      <div
+      {/* <div
         id="g_id_onload"
         data-client_id="646783243018-m2n9qfo12k70debpmkesevt5j2hi2itb.apps.googleusercontent.com"
         data-context="signin"
@@ -75,7 +75,7 @@ const GoogleSignIn = () => {
         data-nonce=""
         data-auto_select="false"
         data-itp_support="true"
-      ></div>
+      ></div> */}
       <div
         id="g_id_signin"
         className="g_id_signin"
