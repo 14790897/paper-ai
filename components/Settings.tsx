@@ -33,7 +33,7 @@ const Settings = ({ lng }: { lng: string }) => {
     {
       name: t("configurations.coze"),
       apiKey: "MTIwMjE2ODMyODA1NTk1MTM2MA",
-      upstreamUrl: "https://coze.liuweiqing.top",
+      upstreamUrl: "https://coze.paperai.life",
     },
     {
       name: t("configurations.deepseek-chat"),
@@ -63,7 +63,7 @@ const Settings = ({ lng }: { lng: string }) => {
     {
       name: t("configurations.oneapi"),
       apiKey: "sk-GHuPUV6ERD8wVmmr36FeB8D809D34d93Bb857c009f6aF9Fe",
-      upstreamUrl: "https://one.liuweiqing.top",
+      upstreamUrl: "https://one.paperai.life",
     },
     {
       name: t("configurations.custom"),
