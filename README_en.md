@@ -10,6 +10,10 @@
 </p>
 
 <p align="center">
+<a href='https://docs.paperai.life/' style='font-size: 20px;'><strong>Try Our Online Website (detailed tutorials, highly recommended)</strong></a>
+</p>
+
+<p align="center">
   <a href="#features"><strong>Features</strong></a> ·
   <a href="#demo"><strong>Demo</strong></a> ·
   <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
@@ -60,4 +64,6 @@ npm run dev
  ```
 
 ## LICENSE
-MIT
+This repository is licensed under the MIT License
+
+See the [LICENSE](LICENSE) file for details.
