@@ -1,11 +1,11 @@
-[English Documentation](./README_en.md)
-
 <a href="https://paperai.life">
 <div align="center">
     <img src="./public/android-chrome-192x192.png" alt="the fastest way to create a paper with real references">
 </div>
 <h1 align="center">paper-ai</h1>
 </a>
+
+[English Documentation](./README_en.md)
 
 <p align="center">
  使用真实文献最快速完成论文的方法
