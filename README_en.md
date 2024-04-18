@@ -12,6 +12,7 @@
 <p align="center">
 <a href='https://docs.paperai.life/' style='font-size: 20px;'><strong>Try Our Online Website (detailed tutorials, highly recommended)</strong></a>
 </p>
+<br />
 
 <p align="center">
   <a href="#features"><strong>Features</strong></a> ·
