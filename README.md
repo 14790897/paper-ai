@@ -5,6 +5,8 @@
 <h1 align="center">paper-ai</h1>
 </a>
 
+<p align="center"> [English Documentation](./README_en.md) </p>
+
 <p align="center">
  使用真实文献最快速完成论文的方法
 </p>
@@ -20,8 +22,6 @@
   <a href="#克隆并在本地运行"><strong>克隆并在本地运行</strong></a> ·
 </p>
 <br/>
-
-[English Documentation](./README_en.md)
 
 ## 功能
 
