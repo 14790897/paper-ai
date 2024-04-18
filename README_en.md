@@ -58,10 +58,12 @@ docker pull 14790897/paperai:latest
 
 ```sh
 docker run -d -p 3000:3000 \
-  -e NEXT_PUBLIC_AI_URL=自定义AI模型地址\
-  -e NEXT_PUBLIC_OPENAI_API_KEY=自定义API KEY \
+  -e NEXT_PUBLIC_AI_URL=/custom/AI/model/path/ \
+  -e NEXT_PUBLIC_OPENAI_API_KEY=CUSTOM_API_KEY \
   14790897/paperai:latest
 ```
+
+Replace `/custom/AI/model/path/` and `CUSTOM_API_KEY` to your own model path and API key
 
 ## Clone and run locally
 
