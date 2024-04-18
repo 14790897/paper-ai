@@ -1,6 +1,8 @@
 <a href="https://paperai.life">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://paperai.life/opengraph-image.png">
-  <h1 align="center">paper-ai</h1>
+<div align="center">
+    <img src="./public/android-chrome-192x192.png" alt="the fastest way to create a paper with real references">
+</div>
+<h1 align="center">paper-ai</h1>
 </a>
 
 <p align="center">
