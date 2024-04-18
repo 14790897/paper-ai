@@ -46,6 +46,23 @@ The above will also clone the repo to your GitHub, you can clone that locally an
 
 If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
 
+## Using Docker
+
+1. Using `docker pull` command
+
+```sh
+docker pull 14790897/paperai:latest
+```
+
+2. Run Docker
+
+```sh
+docker run -d -p 3000:3000 \
+  -e NEXT_PUBLIC_AI_URL=自定义AI模型地址\
+  -e NEXT_PUBLIC_OPENAI_API_KEY=自定义API KEY \
+  14790897/paperai:latest
+```
+
 ## Clone and run locally
 
 ```bash
