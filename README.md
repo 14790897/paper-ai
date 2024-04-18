@@ -1,11 +1,11 @@
-[English Documentation](./README_en.md)
-
 <a href="https://paperai.life">
 <div align="center">
     <img src="./public/android-chrome-192x192.png" alt="the fastest way to create a paper with real references">
 </div>
 <h1 align="center">paper-ai</h1>
 </a>
+
+<p align="center"> <a href="./README_en.md"><b>English Documentation </b></a> </p>
 
 <p align="center">
  使用真实文献最快速完成论文的方法
@@ -96,4 +96,4 @@ npm run dev
 
 ## 许可证
 
-MIT
+该项目已获得[MIT License](LICENSE)的许可
