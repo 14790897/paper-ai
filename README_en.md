@@ -65,7 +65,9 @@ docker run -d -p 3000:3000 \
 
 Replace `CUSTOM_AI_URL` and `CUSTOM_API_KEY` to your own model path and API key
 
-## Clone and run locally
+## Using the Souce Code
+
+**Clone and run locally**
 
 ```bash
 # Clone the repository
