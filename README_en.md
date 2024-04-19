@@ -65,6 +65,12 @@ docker run -d -p 3000:3000 \
 
 Replace `CUSTOM_AI_URL` and `CUSTOM_API_KEY` to your own model path and API key
 
+## Environment variable description
+1. NEXT_PUBLIC_OPENAI_API_KEY sets the key. As long as the corresponding position in the setting interface (the gear in the upper right corner) is left blank, the predetermined variable will be used.
+2. NEXT_PUBLIC_AI_URL sets the upstream url. As long as the corresponding position in the settings interface (the gear in the upper right corner) is left blank, the predetermined variable will be used.
+3. NEXT_PUBLIC_SEMANTIC_API_KEY sets the `semantic scholar` key to increase the number of requests
+4. NEXT_PUBLIC_PUBMED_API_KEY sets the `pubmed` key to increase the number of requests
+
 ## Clone and run locally
 
 ```bash
