@@ -63,7 +63,7 @@ docker run -d -p 3000:3000 \
   14790897/paperai:latest
 ```
 
-Replace `CUSTOM_AI_URL` and `CUSTOM_API_KEY` to your own model path and API key
+Replace `CUSTOM_AI_URL` and `CUSTOM_API_KEY` to your own AI URL and API key
 
 ## Environment variable description
 1. NEXT_PUBLIC_OPENAI_API_KEY sets the key. As long as the corresponding position in the setting interface (the gear in the upper right corner) is left blank, the predetermined variable will be used.
