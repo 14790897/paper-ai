@@ -1,10 +1,16 @@
 <a href="https://paperai.life">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://paperai.life/opengraph-image.png">
-  <h1 align="center">paper-ai</h1>
+<div align="center">
+    <img src="./public/android-chrome-192x192.png" alt="the fastest way to create a paper with real references">
+</div>
+<h1 align="center">paper-ai</h1>
 </a>
 
 <p align="center">
  The fastest way to write a paper with true references
+</p>
+
+<p align="center">
+<a href='https://docs.paperai.life/' style='font-size: 20px;'><strong> Website Documentation (detailed tutorials, highly recommended)</strong></a>
 </p>
 
 <p align="center">
@@ -40,6 +46,25 @@ The above will also clone the repo to your GitHub, you can clone that locally an
 
 If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
 
+## Using Docker
+
+1. Using `docker pull` command
+
+```sh
+docker pull 14790897/paperai:latest
+```
+
+2. Run Docker
+
+```sh
+docker run -d -p 3000:3000 \
+  -e NEXT_PUBLIC_AI_URL=CUSTOM_AI_URL \
+  -e NEXT_PUBLIC_OPENAI_API_KEY=CUSTOM_API_KEY \
+  14790897/paperai:latest
+```
+
+Replace `CUSTOM_AI_URL` and `CUSTOM_API_KEY` to your own model path and API key
+
 ## Clone and run locally
 
 ```bash
@@ -58,4 +83,6 @@ npm run dev
  ```
 
 ## LICENSE
-MIT
+This repository is licensed under the MIT License
+
+See the [LICENSE](LICENSE) file for details.
