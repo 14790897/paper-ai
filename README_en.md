@@ -10,14 +10,15 @@
 </p>
 
 <p align="center">
-<a href='https://docs.paperai.life/' style='font-size: 20px;'><strong> Website Documentation (detailed tutorials, highly recommended)</strong></a>
+<a href='https://docs.paperai.life/' style='font-size: 20px;'><strong> Website Documentation (detailed tutorials, highly recommended)</strong></a> ·
+<a href='https://www.bilibili.com/video/BV1Ya4y1k75V'><strong>bilibili Video Tutorial</strong></a>
 </p>
 
 <p align="center">
   <a href="#features"><strong>Features</strong></a> ·
   <a href="#demo"><strong>Demo</strong></a> ·
   <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
+  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a>
   <!-- <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
   <a href="#more-supabase-examples"><strong>More Examples</strong></a> -->
 </p>
