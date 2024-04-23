@@ -12,14 +12,15 @@
 </p>
 
 <p align="center">
-<a href='https://docs.paperai.life/' style='font-size: 20px;'><strong>文档网站(教程比较详细,推荐在这里观看)</strong></a>
+<a href='https://docs.paperai.life/' style='font-size: 20px;'><strong>文档网站(教程比较详细,推荐阅读这里)</strong></a> ·
+<a href='https://www.bilibili.com/video/BV1Ya4y1k75V'><strong>bilibili视频教程</strong></a>
 </p>
 
 <p align="center">
   <a href="#功能"><strong>功能</strong></a> ·
   <a href="#演示"><strong>演示</strong></a> ·
   <a href="#部署到Vercel"><strong>部署到 Vercel</strong></a> ·
-  <a href="#克隆并在本地运行"><strong>克隆并在本地运行</strong></a> ·
+  <a href="#克隆并在本地运行"><strong>克隆并在本地运行</strong></a>
 </p>
 <br/>
 
