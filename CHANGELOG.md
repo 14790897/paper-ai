@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.10.0](https://www.github.com/14790897/paper-ai/compare/v1.9.0...v1.10.0) (2024-05-11)
+
+
+### Features
+
+* 优化未找到文献的提示 ([6bf8061](https://www.github.com/14790897/paper-ai/commit/6bf8061f0fc9614ebec396f27822f0c347826eb2))
+* 增加commandr模型 ([b3c8dc1](https://www.github.com/14790897/paper-ai/commit/b3c8dc1d4a75fe70261051f52ed7958feb6472d9))
+
+
+### Bug Fixes
+
+* linuxdo登录环境变量 ([9b31268](https://www.github.com/14790897/paper-ai/commit/9b31268cdae455a847c39cff6e4fb046645476d2))
+* 去除google sigin ([a5ec623](https://www.github.com/14790897/paper-ai/commit/a5ec62320d19cbaf18091522322196d925949502))
+* 图片源替换 ([cd4181c](https://www.github.com/14790897/paper-ai/commit/cd4181c89754240fda19dcc3235cb403715324d5))
+* 如果api是旧域名就改为新域名 ([a8c5392](https://www.github.com/14790897/paper-ai/commit/a8c5392616393b48cc8c4945cf56a786cbeb4695))
+* 本地开发需要环境变量 ([9ff111e](https://www.github.com/14790897/paper-ai/commit/9ff111edaf3ddd8dd0bf019eff84bba4168736a8))
+
 ## [1.9.0](https://www.github.com/14790897/paper-ai/compare/v1.8.0...v1.9.0) (2024-03-13)
 
 
