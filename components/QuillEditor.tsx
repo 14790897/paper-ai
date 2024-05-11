@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, use } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { useLocalStorage } from "react-use";
@@ -253,6 +253,14 @@ const QEditor = ({ lng }) => {
   //   dispatch(setApiKey("sk-GHuPUV6ERD8wVmmr36FeB8D809D34d93Bb857c009f6aF9Fe"));
   //   dispatch(setUpsreamUrl("https://one.paperai.life"));
   // });
+  useEffect(() => {
+    if (upsreamUrl === "https://one.liuweiqing.top") {
+      dispatch(
+        setApiKey("sk-GHuPUV6ERD8wVmmr36FeB8D809D34d93Bb857c009f6aF9Fe")
+      );
+      dispatch(setUpsreamUrl("https://one.paperai.life"));
+    }
+  }, [upsreamUrl]);
   const handleTextChange = debounce(async function (delta, oldDelta, source) {
     if (source === "user") {
       // 获取编辑器内容
