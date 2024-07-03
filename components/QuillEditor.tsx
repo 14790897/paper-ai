@@ -110,7 +110,7 @@ const QEditor = ({ lng }) => {
   //选择语言模型
   const [selectedModel, setSelectedModel] = useLocalStorage(
     "gpt语言模型",
-    "gpt-4"
+    "deepseek-chat"
   ); // 默认选项
   const [generatedPaperNumber, setGeneratedPaperNumber] = useLocalStorage(
     "生成次数",
@@ -591,7 +591,7 @@ const QEditor = ({ lng }) => {
           className=" border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 "
         >
           <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-          <option value="gpt-4">gpt-4</option>
+          {/* <option value="gpt-4">gpt-4</option> */}
           <option value="deepseek-chat">deepseek-chat</option>
           <option value="commandr">commandr</option>
           <option value="gemini-pro">gemini-pro</option>
