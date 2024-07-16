@@ -30,11 +30,11 @@ const Settings = ({ lng }: { lng: string }) => {
     //   apiKey: "sk-jokVJ90l5Swxr5dt2f3b0988C8A442A69f97Ee4eAf7aDcF4",
     //   upstreamUrl: "https://freeapi.iil.im",
     // },
-    {
-      name: t("configurations.coze"),
-      apiKey: "MTIwMjE2ODMyODA1NTk1MTM2MA",
-      upstreamUrl: "https://coze.paperai.life",
-    },
+    // {
+    //   name: t("configurations.coze"),
+    //   apiKey: "MTIwMjE2ODMyODA1NTk1MTM2MA",
+    //   upstreamUrl: "https://coze.paperai.life",
+    // },
     {
       name: t("configurations.deepseek-chat"),
       apiKey: "sk-ffe19ebe9fa44d00884330ff1c18cf82",
