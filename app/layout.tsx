@@ -2,12 +2,13 @@ import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
+import type { Metadata } from "next";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "http://localhost:3000";
 
-export const metadata = {
+export const metadata: Metadata = {
   manifest: "/manifest.json",
   metadataBase: new URL(defaultUrl),
   title: "paper ai 使用真实文献让AI完成论文",
@@ -36,7 +37,7 @@ export const metadata = {
       "https://file.paperai.life/2024/02/540f3476ef43c831934ce0359c367acd.png",
   },
   twitter: {
-    card: "page",
+    card: "summary",
     title: "AI write",
     description: "The fastest way to write paper",
     creator: "@hahfrank",
