@@ -92,7 +92,7 @@ export default function RootLayout({
       {/* 谷歌分析 */}
       <GoogleAnalytics gaId="G-05DHTG9XQ5" />
       {/* vocechat聊天 */}
-      <Script
+      {/* <Script
         data-host-id="1"
         data-auto-reg="true"
         data-login-token=""
@@ -104,7 +104,7 @@ export default function RootLayout({
         data-welcome="欢迎提问"
         src="https://voce.paperai.life/widget.js"
         async
-      ></Script>
+      ></Script> */}
     </html>
   );
 }
