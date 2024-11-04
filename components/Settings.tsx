@@ -35,11 +35,11 @@ const Settings = ({ lng }: { lng: string }) => {
     //   apiKey: "MTIwMjE2ODMyODA1NTk1MTM2MA",
     //   upstreamUrl: "https://coze.paperai.life",
     // },
-    {
-      name: t("configurations.deepseek-chat"),
-      apiKey: "sk-ffe19ebe9fa44d00884330ff1c18cf82",
-      upstreamUrl: "https://api.deepseek.com",
-    },
+    // {
+    //   name: t("configurations.deepseek-chat"),
+    //   apiKey: "sk-ffe19ebe9fa44d00884330ff1c18cf82",
+    //   upstreamUrl: "https://api.deepseek.com",
+    // },
     // {
     //   name: t("configurations.caifree"),
     //   apiKey: "sk-MaEuOo9qIeWKK3PRCdCb9b3d47E64e36Ad6022724b780592",
