@@ -105,7 +105,7 @@ const QEditor = ({ lng }) => {
   // 选择论文来源
   const [selectedSource, setSelectedSource] = useLocalStorage(
     "学术引擎",
-    "pubmed"
+    "semanticScholar"
   ); // 默认选项
   //选择语言模型
   const [selectedModel, setSelectedModel] = useLocalStorage(
