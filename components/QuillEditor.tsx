@@ -593,6 +593,7 @@ const QEditor = ({ lng }) => {
           <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
           <option value="gpt-4">gpt-4</option>
           <option value="deepseek-chat">deepseek-chat</option>
+          <option value="grok">grok</option>
           <option value="commandr">commandr</option>
           <option value="gemini-pro">gemini-pro</option>
           <option value="mixtral-8x7b-32768">mixtral-8x7b-32768</option>
