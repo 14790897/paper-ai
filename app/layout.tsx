@@ -99,8 +99,8 @@ export default function RootLayout({
         async
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9877865887965092"
         crossOrigin="anonymous"
-        onLoad={() => console.log("adsense Script loaded successfully.")}
-        onError={(e) => console.error("Failed to load script adsense:", e)}
+        // onLoad={() => console.log("adsense Script loaded successfully.")}
+        // onError={(e) => console.error("Failed to load script adsense:", e)}
       ></Script>
       {/* vocechat聊天 */}
       {/* <Script
