@@ -45,6 +45,9 @@ export const metadata: Metadata = {
       "https://file.paperai.life/2024/02/540f3476ef43c831934ce0359c367acd.png",
     ],
   },
+  other: {
+    "google-adsense-account": "ca-pub-9877865887965092",
+  },
 };
 
 export default function RootLayout({
