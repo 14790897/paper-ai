@@ -91,6 +91,12 @@ export default function RootLayout({
       </body>
       {/* 谷歌分析 */}
       <GoogleAnalytics gaId="G-05DHTG9XQ5" />
+      {/* 谷歌adsense */}
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9877865887965092"
+        crossOrigin="anonymous"
+      ></Script>
       {/* vocechat聊天 */}
       {/* <Script
         data-host-id="1"
