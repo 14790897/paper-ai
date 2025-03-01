@@ -57,9 +57,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className}>
-      <head>
-        <meta name="google-adsense-account" content="ca-pub-9877865887965092" />
-      </head>
       {/* <Script>{`
             if ('serviceWorker' in navigator) {
               window.addEventListener('load', function() {
