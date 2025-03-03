@@ -590,12 +590,12 @@ const QEditor = ({ lng }) => {
           onChange={(e) => setSelectedModel(e.target.value)}
           className=" border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 "
         >
-          <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-          <option value="gpt-4">gpt-4</option>
+          {/* <option value="gpt-3.5-turbo">gpt-3.5-turbo</option> */}
+          <option value="gpt-4o">gpt-4o</option>
+          <option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp</option>
           <option value="deepseek-chat">deepseek-chat</option>
-          <option value="grok">grok</option>
+          {/* <option value="grok">grok</option> */}
           <option value="commandr">commandr</option>
-          <option value="gemini-pro">gemini-pro</option>
           <option value="mixtral-8x7b-32768">mixtral-8x7b-32768</option>
           <option value="llama2-70b-4096">llama2-70b-4096</option>
         </select>
