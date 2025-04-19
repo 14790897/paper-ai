@@ -595,9 +595,6 @@ const QEditor = ({ lng }) => {
           <option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp</option>
           <option value="deepseek-chat">deepseek-chat</option>
           {/* <option value="grok">grok</option> */}
-          <option value="commandr">commandr</option>
-          <option value="mixtral-8x7b-32768">mixtral-8x7b-32768</option>
-          <option value="llama2-70b-4096">llama2-70b-4096</option>
         </select>
         {/* 进行几轮生成 */}
         <input
