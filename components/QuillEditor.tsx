@@ -591,7 +591,7 @@ const QEditor = ({ lng }) => {
           className=" border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 "
         >
           {/* <option value="gpt-3.5-turbo">gpt-3.5-turbo</option> */}
-          <option value="gpt-4o">gpt-4o</option>
+          <option value="gpt-4.1">gpt-4.1</option>
           <option value="gemini-2.0-flash-exp">gemini-2.0-flash-exp</option>
           <option value="deepseek-chat">deepseek-chat</option>
           {/* <option value="grok">grok</option> */}
