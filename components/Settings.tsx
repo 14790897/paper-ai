@@ -31,11 +31,6 @@ const Settings = ({ lng }: { lng: string }) => {
     //   upstreamUrl: "https://freeapi.iil.im",
     // },
     // {
-    //   name: t("configurations.coze"),
-    //   apiKey: "MTIwMjE2ODMyODA1NTk1MTM2MA",
-    //   upstreamUrl: "https://coze.paperai.life",
-    // },
-    // {
     //   name: t("configurations.deepseek-chat"),
     //   apiKey: "sk-ffe19ebe9fa44d00884330ff1c18cf82",
     //   upstreamUrl: "https://api.deepseek.com",
@@ -63,7 +58,7 @@ const Settings = ({ lng }: { lng: string }) => {
     {
       name: t("configurations.oneapi"),
       apiKey: "sk-GHuPUV6ERD8wVmmr36FeB8D809D34d93Bb857c009f6aF9Fe",
-      upstreamUrl: "https://one.paperai.life",
+      upstreamUrl: "https://one.14790897.xyz",
     },
     {
       name: t("configurations.custom"),
