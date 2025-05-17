@@ -3,25 +3,25 @@ import { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://www.paperai.life",
+      url: "https://paperai.14790897.xyz",
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: "https://www.paperai.life/settings",
+      url: "https://paperai.14790897.xyz/settings",
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.5,
     },
     {
-      url: "https://docs.paperai.life",
+      url: "https://docs.paperai.14790897.xyz/",
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: "https://store.paperai.life",
+      url: "https://store.paperai.14790897.xyz",
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.5,

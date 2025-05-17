@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-<a href='https://docs.paperai.life/' style='font-size: 20px;'><strong>文档网站(教程比较详细,推荐阅读这里)</strong></a> ·
+<a href='https://docs.paperai.14790897.xyz/' style='font-size: 20px;'><strong>文档网站(教程比较详细,推荐阅读这里)</strong></a> ·
 <a href='https://www.bilibili.com/video/BV1Ya4y1k75V'><strong>bilibili视频教程</strong></a>
 </p>
 
