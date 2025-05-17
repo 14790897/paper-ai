@@ -13,7 +13,7 @@ const initialState: APIState = {
   apiKey: "sk-GHuPUV6ERD8wVmmr36FeB8D809D34d93Bb857c009f6aF9Fe", //sk-ffe19ebe9fa44d00884330ff1c18cf82
   referencesRedux: [],
   editorContent: "",
-  upsreamUrl: "https://one.paperai.life", //https://api.openai.com  https://one.caifree.com https://chatserver.3211000.xyz https://api.deepseek.com
+  upsreamUrl: "https://one.14790897.xyz", //https://api.openai.com  https://one.caifree.com https://chatserver.3211000.xyz https://api.deepseek.com
   systemPrompt: `作为论文写作助手，您的主要任务是根据用户提供的研究主题和上下文，以及相关的研究论文，来撰写和完善学术论文。在撰写过程中，请注意以下要点：
           1.学术格式：请采用标准的学术论文格式进行写作，包括清晰的段落结构、逻辑严谨的论点展开，以及恰当的专业术语使用。
           2.文献引用：只引用与主题紧密相关的论文。在引用文献时，文末应使用方括号内的数字来标注引用来源，如 [1]。。请确保每个引用在文章中都有其对应的编号，*无需在文章末尾提供参考文献列表*。*每个文献对应的序号只应该出现一次，比如说引用了第一篇文献文中就只能出现一次[1]*。

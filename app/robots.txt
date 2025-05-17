@@ -2,4 +2,4 @@ User-Agent: *
 Allow: /
 Disallow: /private/
 
-Sitemap: https://www.paperai.life/sitemap.xml
+Sitemap: https://paperai.14790897.xyz/sitemap.xml

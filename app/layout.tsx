@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     images:
-      "https://file.paperai.life/2024/02/540f3476ef43c831934ce0359c367acd.png",
+      "https://file.14790897.xyz/2024/02/540f3476ef43c831934ce0359c367acd.png",
   },
   twitter: {
     card: "summary",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     description: "The fastest way to write paper",
     creator: "@hahfrank",
     images: [
-      "https://file.paperai.life/2024/02/540f3476ef43c831934ce0359c367acd.png",
+      "https://file.14790897.xyz/2024/02/540f3476ef43c831934ce0359c367acd.png",
     ],
   },
   other: {

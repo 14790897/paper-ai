@@ -150,11 +150,11 @@ export default async function Login({
         <LinuxdoSignin />
         <SignInWithProvider
           provider="github"
-          redirectTo="https://www.paperai.life/welcome"
+          redirectTo="https://paperai.14790897.xyz/welcome"
         />
         <SignInWithProvider
           provider="google"
-          redirectTo="https://www.paperai.life/welcome"
+          redirectTo="https://paperai.14790897.xyz/welcome"
         />
       </div>
       <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
