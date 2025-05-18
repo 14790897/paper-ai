@@ -68,6 +68,7 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
+     * 可以尝试排除一下这个路径：https://paperai.14790897.xyz/api/lemon/callback  这样的话可以直接在浏览器中看到一个尝试网页
      */
     "/((?!_next/static|_next/image|favicon.ico|twitter-image.png|opengraph-image.png|manifest.json|site.webmanifest|favicon-32x32.png|favicon-16x16.png|apple-touch-icon.png|android-chrome-512x512.png|android-chrome-192x192.png|service-worker.js|serviceregister.js|global.css|sitemap.xml|robots.txt|ads.txt|api/oauth/callback).*)",
   ],

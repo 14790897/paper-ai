@@ -7,7 +7,7 @@ function BuyVipButton({ lng }: { lng: string }) {
   //i18n
   const { t } = useTranslation(lng);
   // 这是购买VIP的目标URL
-  const targetUrl = "https://store.paperai.life";
+  const targetUrl = "https://store.paperai.14790897.xyz/";
   return (
     <a href={targetUrl} target="_blank" className="no-underline">
       <button
