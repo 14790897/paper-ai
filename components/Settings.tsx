@@ -58,7 +58,7 @@ const Settings = ({ lng }: { lng: string }) => {
     {
       name: t("configurations.oneapi"),
       apiKey: "sk-GHuPUV6ERD8wVmmr36FeB8D809D34d93Bb857c009f6aF9Fe",
-      upstreamUrl: "https://one.14790897.xyz",
+      upstreamUrl: "https://new.14790897.xyz",
     },
     {
       name: t("configurations.custom"),

@@ -254,11 +254,11 @@ const QEditor = ({ lng }) => {
   //   dispatch(setUpsreamUrl("https://one.14790897.xyz"));
   // });
   useEffect(() => {
-    if (upsreamUrl === "https://one.paperai.life") {
+    if (upsreamUrl === "https://one.paperai.life"|| upsreamUrl === "https://one.14790897.xyz") {
       dispatch(
         setApiKey("sk-GHuPUV6ERD8wVmmr36FeB8D809D34d93Bb857c009f6aF9Fe")
       );
-      dispatch(setUpsreamUrl("https://one.14790897.xyz"));
+      dispatch(setUpsreamUrl("https://new.14790897.xyz"));
     }
   }, [upsreamUrl]);
   const handleTextChange = debounce(async function (delta, oldDelta, source) {
