@@ -38,7 +38,7 @@
 
 ## 演示
 
-您可以在 [paperai.life](https://paperai.14790897.xyz) 查看完整的工作演示。
+您可以在 [paperai.14790897.xyz](https://paperai.14790897.xyz) 查看完整的工作演示。
 
 ## 部署到 Vercel
 

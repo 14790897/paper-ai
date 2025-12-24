@@ -37,7 +37,7 @@
 
 ## Demo
 
-You can view a fully working demo at [paperai.life](https://paperai.14790897.xyz).
+You can view a fully working demo at [paperai.14790897.xyz](https://paperai.14790897.xyz).
 
 ## Deploy to Vercel
 
