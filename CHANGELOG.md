@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.10.0](https://www.github.com/14790897/paper-ai/compare/v1.9.0...v1.10.0) (2025-12-24)
+
+
+### Features
+
+* add custom model functionality and update translations ([1633159](https://www.github.com/14790897/paper-ai/commit/16331598b2bc7b0793559b34483314b776dc5796))
+* ChatwootWidget ([14fdbf7](https://www.github.com/14790897/paper-ai/commit/14fdbf704a3a7ef9f67587aa1a6cfcf92e0c1d12))
+* vocechat客服聊天 ([03c2ee2](https://www.github.com/14790897/paper-ai/commit/03c2ee2dd513b413badec3d6dfa5fc468656a593))
+* 优化未找到文献的提示 ([6bf8061](https://www.github.com/14790897/paper-ai/commit/6bf8061f0fc9614ebec396f27822f0c347826eb2))
+* 增加commandr模型 ([b3c8dc1](https://www.github.com/14790897/paper-ai/commit/b3c8dc1d4a75fe70261051f52ed7958feb6472d9))
+
+
+### Bug Fixes
+
+* docs网站 ([44ce698](https://www.github.com/14790897/paper-ai/commit/44ce698cfa47276ae8f8fb1c516e116f9f436d44))
+* linuxdo登录环境变量 ([9b31268](https://www.github.com/14790897/paper-ai/commit/9b31268cdae455a847c39cff6e4fb046645476d2))
+* 去除google sigin ([a5ec623](https://www.github.com/14790897/paper-ai/commit/a5ec62320d19cbaf18091522322196d925949502))
+* 商店地址为https://store.paperai.14790897.xyz ([d02cf04](https://www.github.com/14790897/paper-ai/commit/d02cf0413374ffdd02e11a37c3455e68533d63c2))
+* 图片源替换 ([cd4181c](https://www.github.com/14790897/paper-ai/commit/cd4181c89754240fda19dcc3235cb403715324d5))
+* 如果api是旧域名就改为新域名 ([a8c5392](https://www.github.com/14790897/paper-ai/commit/a8c5392616393b48cc8c4945cf56a786cbeb4695))
+* 更新useEffect为14790897.xyz ([dd115c0](https://www.github.com/14790897/paper-ai/commit/dd115c054e1cffb59e67e2f2398fbed3c3500efc))
+* 更新为14790897.xyz ([13b3ffa](https://www.github.com/14790897/paper-ai/commit/13b3ffa9a4b67ba009d03b9bcb2865fd96b81649))
+* 更新为14790897.xyz ([bdacb48](https://www.github.com/14790897/paper-ai/commit/bdacb488cbdf2c93e922d8bcb7e5202e7aa7fa42))
+* 本地开发需要环境变量 ([9ff111e](https://www.github.com/14790897/paper-ai/commit/9ff111edaf3ddd8dd0bf019eff84bba4168736a8))
+
 ## [1.9.0](https://www.github.com/14790897/paper-ai/compare/v1.8.0...v1.9.0) (2024-03-13)
 
 
