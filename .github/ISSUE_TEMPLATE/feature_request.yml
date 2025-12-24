@@ -1,0 +1,52 @@
+name: ✨ Feature Request / 功能请求
+description: Suggest a new feature or enhancement / 建议新功能或增强功能
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! / 感谢您建议新功能！
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Description / 问题描述
+      description: Is your feature request related to a problem? Please describe. / 您的功能请求是否与问题相关？请描述。
+      placeholder: I'm frustrated when... / 我感到困扰的是...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution / 建议的解决方案
+      description: Describe the solution you'd like / 描述您想要的解决方案
+      placeholder: I would like to see... / 我想看到...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered / 考虑的替代方案
+      description: Describe alternatives you've considered / 描述您考虑过的替代方案
+      placeholder: I've also thought about... / 我还考虑过...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context / 其他信息
+      description: Add any other context, mockups, or screenshots about the feature request here. / 在此处添加有关功能请求的任何其他信息、模型或屏幕截图。
+      placeholder: Any other details? / 还有其他细节吗？
+
+  - type: checkboxes
+    id: willing-to-contribute
+    attributes:
+      label: Willing to Contribute / 愿意贡献
+      description: Are you willing to contribute to this feature? / 您愿意为此功能做出贡献吗？
+      options:
+        - label: I'm willing to submit a PR to implement this feature / 我愿意提交 PR 来实现此功能
+          required: false

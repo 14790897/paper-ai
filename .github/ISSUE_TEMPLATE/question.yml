@@ -1,0 +1,34 @@
+name: ❓ Question / 问题
+description: Ask a question or get help / 提问或寻求帮助
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for asking a question! Please check the [documentation](https://docs.paperai.14790897.xyz/) first. / 感谢您提问！请先查看[文档](https://docs.paperai.14790897.xyz/)。
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question / 问题
+      description: What would you like to know? / 您想了解什么？
+      placeholder: I would like to know... / 我想知道...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context / 背景信息
+      description: Please provide any relevant context or what you've already tried. / 请提供任何相关背景或您已经尝试过的内容。
+      placeholder: I'm trying to... / 我正在尝试...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information / 其他信息
+      description: Add any other information, screenshots, or code snippets that might help. / 添加可能有帮助的任何其他信息、屏幕截图或代码片段。
+      placeholder: Any other details? / 还有其他细节吗？

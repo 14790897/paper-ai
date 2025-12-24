@@ -1,9 +1,9 @@
-<a href="https://paperai.14790897.xyz">
 <div align="center">
+  <a href="https://paperai.14790897.xyz">
     <img src="./public/android-chrome-192x192.png" alt="the fastest way to create a paper with real references">
+  </a>
+  <h1>paper-ai</h1>
 </div>
-<h1 align="center">paper-ai</h1>
-</a>
 
 <p align="center">
  The fastest way to write a paper with true references
@@ -37,7 +37,7 @@
 
 ## Demo
 
-You can view a fully working demo at [paperai.life](https://paperai.14790897.xyz).
+You can view a fully working demo at [paperai.14790897.xyz](https://paperai.14790897.xyz).
 
 ## Deploy to Vercel
 

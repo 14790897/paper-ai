@@ -1,0 +1,80 @@
+name: 🐛 Bug Report / 错误报告
+description: Report a bug or issue / 报告一个错误或问题
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! / 感谢您花时间填写此错误报告！
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description / 错误描述
+      description: A clear and concise description of what the bug is. / 清晰简洁地描述错误是什么。
+      placeholder: Tell us what you see! / 告诉我们您看到了什么！
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce / 重现步骤
+      description: Steps to reproduce the behavior / 重现该行为的步骤
+      placeholder: |
+        1. Go to '...' / 前往 '...'
+        2. Click on '...' / 点击 '...'
+        3. Scroll down to '...' / 向下滚动到 '...'
+        4. See error / 看到错误
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior / 预期行为
+      description: A clear and concise description of what you expected to happen. / 清晰简洁地描述您期望发生什么。
+      placeholder: What should happen? / 应该发生什么？
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / 屏幕截图
+      description: If applicable, add screenshots to help explain your problem. / 如适用，添加屏幕截图以帮助解释您的问题。
+      placeholder: Drag and drop images here / 在此处拖放图像
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser / 浏览器
+      description: What browser are you using? / 您使用的是什么浏览器？
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other / 其他
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment / 环境
+      description: Please provide information about your environment / 请提供有关您环境的信息
+      placeholder: |
+        - OS / 操作系统: [e.g. Windows 10, macOS 13.0]
+        - Node version / Node 版本: [e.g. 18.0.0]
+        - npm version / npm 版本: [e.g. 9.0.0]
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context / 其他信息
+      description: Add any other context about the problem here. / 在此处添加有关该问题的任何其他信息。
+      placeholder: Any other details? / 还有其他细节吗？

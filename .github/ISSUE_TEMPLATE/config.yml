@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📖 Documentation / 文档
+    url: https://docs.paperai.14790897.xyz/
+    about: Check the documentation for guides and tutorials / 查看文档以获取指南和教程
+  - name: 🎥 Video Tutorial / 视频教程
+    url: https://www.bilibili.com/video/BV1Ya4y1k75V
+    about: Watch video tutorials on Bilibili / 在 Bilibili 上观看视频教程
+  - name: 🌐 Demo / 演示
+    url: https://paperai.14790897.xyz
+    about: Try out the live demo / 试用在线演示

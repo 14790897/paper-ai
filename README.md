@@ -1,9 +1,9 @@
-<a href="https://paperai.14790897.xyz">
 <div align="center">
+  <a href="https://paperai.14790897.xyz">
     <img src="./public/android-chrome-192x192.png" alt="the fastest way to create a paper with real references">
+  </a>
+  <h1>paper-ai</h1>
 </div>
-<h1 align="center">paper-ai</h1>
-</a>
 
 <p align="center"> <a href="./README_en.md"><b>English Documentation </b></a> </p>
 
@@ -19,7 +19,7 @@
 <p align="center">
   <a href="#功能"><strong>功能</strong></a> ·
   <a href="#演示"><strong>演示</strong></a> ·
-  <a href="#部署到Vercel"><strong>部署到 Vercel</strong></a> ·
+  <a href="#部署到 Vercel"><strong>部署到 Vercel</strong></a> ·
   <a href="#克隆并在本地运行"><strong>克隆并在本地运行</strong></a>
 </p>
 <br/>
@@ -38,7 +38,7 @@
 
 ## 演示
 
-您可以在 [paperai.life](https://paperai.14790897.xyz) 查看完整的工作演示。
+您可以在 [paperai.14790897.xyz](https://paperai.14790897.xyz) 查看完整的工作演示。
 
 ## 部署到 Vercel
 
@@ -97,4 +97,4 @@ npm run dev
 
 ## 许可证
 
-该项目已获得[MIT License](LICENSE)的许可
+该项目为[MIT License](LICENSE)的许可
