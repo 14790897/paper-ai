@@ -39,5 +39,8 @@
     "custom": "Custom"
   },
   "鼠标点击段落中的上标跳转到文献引用？": "Click the superscript in the paragraph to jump to the reference?",
-  "是否检查文献与主题相关性(如果不相关则不会传给AI引用)": "Check the relevance of the literature to the topic (if it is not relevant, it will not be passed to the AI reference)"
+  "是否检查文献与主题相关性(如果不相关则不会传给AI引用)": "Check the relevance of the literature to the topic (if it is not relevant, it will not be passed to the AI reference)",
+  "自定义模型": "Custom Model",
+  "输入自定义模型名称": "Enter custom model name",
+  "输入模型名称": "Enter model name, e.g.: gpt-4o"
 }

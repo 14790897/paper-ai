@@ -112,6 +112,14 @@ const QEditor = ({ lng }) => {
     "gpt语言模型",
     "deepseek-chat"
   ); // 默认选项
+  const [customModel, setCustomModel] = useLocalStorage(
+    "自定义模型",
+    ""
+  ); // 自定义模型名称
+  const [isCustomModel, setIsCustomModel] = useLocalStorage(
+    "使用自定义模型",
+    false
+  ); // 是否使用自定义模型
   const [generatedPaperNumber, setGeneratedPaperNumber] = useLocalStorage(
     "生成次数",
     1
@@ -136,6 +144,12 @@ const QEditor = ({ lng }) => {
   );
   //supabase
   const supabase = createClient();
+
+  // 获取实际使用的模型名称
+  const getActualModel = () => {
+    return isCustomModel && customModel ? customModel : selectedModel;
+  };
+
   useEffect(() => {
     if (!isMounted.current) {
       editor.current = new Quill("#editor", {
@@ -317,7 +331,7 @@ const QEditor = ({ lng }) => {
         await sendMessageToOpenAI(
           userInput,
           quill!,
-          selectedModel!,
+          getActualModel()!,
           apiKey,
           upsreamUrl,
           prompt,
@@ -344,7 +358,7 @@ const QEditor = ({ lng }) => {
             topic = await sendMessageToOpenAI(
               userMessage,
               null,
-              selectedModel!,
+              getActualModel()!,
               apiKey,
               upsreamUrl,
               prompt,
@@ -378,7 +392,7 @@ const QEditor = ({ lng }) => {
                   rawData,
                   apiKey,
                   upsreamUrl,
-                  selectedModel!,
+                  getActualModel()!,
                   topic,
                   newController.signal
                 );
@@ -411,7 +425,7 @@ const QEditor = ({ lng }) => {
                   rawData,
                   apiKey,
                   upsreamUrl,
-                  selectedModel!,
+                  getActualModel()!,
                   topic,
                   newController.signal
                 );
@@ -449,7 +463,7 @@ const QEditor = ({ lng }) => {
                   rawData,
                   apiKey,
                   upsreamUrl,
-                  selectedModel!,
+                  getActualModel()!,
                   topic,
                   newController.signal
                 );
@@ -488,7 +502,7 @@ const QEditor = ({ lng }) => {
           await sendMessageToOpenAI(
             content,
             quill!,
-            selectedModel!,
+            getActualModel()!,
             apiKey,
             upsreamUrl,
             systemPrompt,
@@ -586,8 +600,15 @@ const QEditor = ({ lng }) => {
         {/* AI模型 */}
         <select
           title={t("选择AI模型")}
-          value={selectedModel}
-          onChange={(e) => setSelectedModel(e.target.value)}
+          value={isCustomModel ? "custom" : selectedModel}
+          onChange={(e) => {
+            if (e.target.value === "custom") {
+              setIsCustomModel(true);
+            } else {
+              setIsCustomModel(false);
+              setSelectedModel(e.target.value);
+            }
+          }}
           className=" border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 "
         >
           {/* <option value="gpt-3.5-turbo">gpt-3.5-turbo</option> */}
@@ -596,8 +617,20 @@ const QEditor = ({ lng }) => {
             gemini-2.5-flash-preview-05-20
           </option>
           <option value="deepseek-chat">deepseek-chat</option>
+          <option value="custom">{t("自定义模型")}</option>
           {/* <option value="grok">grok</option> */}
         </select>
+        {/* 自定义模型输入框 */}
+        {isCustomModel && (
+          <input
+            type="text"
+            title={t("输入自定义模型名称")}
+            value={customModel}
+            onChange={(e) => setCustomModel(e.target.value)}
+            placeholder={t("输入模型名称")}
+            className="border border-gray-300 text-gray-700 text-sm py-2 px-3 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+          />
+        )}
         {/* 进行几轮生成 */}
         <input
           type="number"
