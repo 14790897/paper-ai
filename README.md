@@ -97,4 +97,4 @@ npm run dev
 
 ## 许可证
 
-该项目已获得[MIT License](LICENSE)的许可
+该项目为[MIT License](LICENSE)的许可
