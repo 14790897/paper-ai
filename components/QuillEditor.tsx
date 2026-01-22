@@ -613,8 +613,8 @@ const QEditor = ({ lng }) => {
         >
           {/* <option value="gpt-3.5-turbo">gpt-3.5-turbo</option> */}
           <option value="gpt-4.1">gpt-4.1</option>
-          <option value="gemini-2.5-flash-preview-05-20">
-            gemini-2.5-flash-preview-05-20
+          <option value="gemini-flash-latest">
+            gemini-flash-latest
           </option>
           <option value="deepseek-chat">deepseek-chat</option>
           <option value="custom">{t("自定义模型")}</option>
