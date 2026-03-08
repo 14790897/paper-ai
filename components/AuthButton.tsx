@@ -12,7 +12,7 @@ export default async function AuthButton() {
     data,
     data: { user },
   } = await supabase.auth.getUser();
-  //profiles表 插入用户信息
+  //profiles表 插入用户信息 ？？？这里好像不应该写
   await insertUserProfile(data, supabase);
   // console.log("1111 in AuthButton   user:", user);
   const signOut = async () => {

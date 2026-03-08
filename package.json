@@ -59,8 +59,8 @@
     "@types/file-saver": "^2.0.7",
     "@types/negotiator": "^0.6.3",
     "@types/node": "^20.3.1",
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "18.2.5",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
     "@types/react-transition-group": "^4.4.10",
     "@types/redux-logger": "^3.0.12",
     "encoding": "^0.1.13"
