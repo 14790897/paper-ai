@@ -9,7 +9,7 @@ const QEditor = dynamic(() => import("@/components/QuillEditor"), {
   ssr: false,
   loading: () => <LoadingIndicator />,
 });
-export default function QuillWrapper({ lng }) {
+export default function QuillWrapper({ lng }: { lng: string }) {
   return (
     <ReduxProvider>
       <QEditor lng={lng} />

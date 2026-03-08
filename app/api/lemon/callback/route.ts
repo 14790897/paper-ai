@@ -45,6 +45,7 @@ export async function POST(request: Request) {
     const userEmail =
       (payload.data.attributes && payload.data.attributes.user_email) || "";
     // 检查custom里的参数
+    // 未检查 payload.meta.event_name 导致退款也可生效，还有没有设置rls
     if (!userEmail)
       return NextResponse.json(
         { message: "No userEmail provided" },
