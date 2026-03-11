@@ -564,96 +564,101 @@ const QEditor = ({ lng }) => {
     }
   };
   return (
-    <div className="flex   flex-col ">
-      <div id="Qtoolbar" className="space-y-2 flex justify-between">
+    <div className="flex flex-col ">
+      <div
+        id="Qtoolbar"
+        className="flex flex-col md:flex-row md:flex-wrap gap-2 md:items-center justify-between mb-2 p-2 bg-gray-50 rounded"
+      >
         <textarea
           value={userInput}
           onChange={handleInputChange}
-          className="textarea-focus-expand flex-grow shadow appearance-none border rounded py-2 px-3 mr-2 text-grey-darker"
+          className="textarea-focus-expand flex-grow shadow appearance-none border rounded py-2 px-3 lg:mr-2 text-grey-darker w-full md:w-auto"
           placeholder={t(
             "点击AI写作就是正常的对话交流，点击寻找文献会根据输入的主题词去寻找对应论文"
           )}
         />
-        <button
-          onClick={() => handleAIAction(userInput, "write")}
-          className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 mr-2 rounded"
-        >
-          {t("AI写作")}
-        </button>
-        <button
-          onClick={() => handleAIAction(userInput, "paper2AI")}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 mr-2 rounded"
-        >
-          {t("Paper2AI")}
-        </button>
-        {/* 论文网站 */}
-        <select
-          title={t("选择论文来源")}
-          value={selectedSource}
-          onChange={(e) => setSelectedSource(e.target.value)}
-          className=" border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-        >
-          <option value="arxiv">arxiv</option>
-          <option value="semanticScholar">semantic scholar</option>
-          <option value="pubmed">pubmed</option>
-        </select>
-        {/* AI模型 */}
-        <select
-          title={t("选择AI模型")}
-          value={isCustomModel ? "custom" : selectedModel}
-          onChange={(e) => {
-            if (e.target.value === "custom") {
-              setIsCustomModel(true);
-            } else {
-              setIsCustomModel(false);
-              setSelectedModel(e.target.value);
-            }
-          }}
-          className=" border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 "
-        >
-          {/* <option value="gpt-3.5-turbo">gpt-3.5-turbo</option> */}
-          <option value="gpt-4.1">gpt-4.1</option>
-          <option value="gemini-flash-latest">
-            gemini-flash-latest
-          </option>
-          <option value="deepseek-chat">deepseek-chat</option>
-          <option value="custom">{t("自定义模型")}</option>
-          {/* <option value="grok">grok</option> */}
-        </select>
-        {/* 自定义模型输入框 */}
-        {isCustomModel && (
+        
+        <div className="flex flex-wrap gap-2 items-center w-full md:w-auto mt-2 md:mt-0">
+          <button
+            onClick={() => handleAIAction(userInput, "write")}
+            className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+          >
+            {t("AI写作")}
+          </button>
+          <button
+            onClick={() => handleAIAction(userInput, "paper2AI")}
+            className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
+          >
+            {t("Paper2AI")}
+          </button>
+        </div>
+        
+        <div className="flex flex-wrap gap-2 items-center w-full md:w-auto mt-2 md:mt-0">
+          {/* 论文网站 */}
+          <select
+            title={t("选择论文来源")}
+            value={selectedSource}
+            onChange={(e) => setSelectedSource(e.target.value)}
+            className="border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          >
+            <option value="arxiv">arxiv</option>
+            <option value="semanticScholar">semantic scholar</option>
+            <option value="pubmed">pubmed</option>
+          </select>
+          {/* AI模型 */}
+          <select
+            title={t("选择AI模型")}
+            value={isCustomModel ? "custom" : selectedModel}
+            onChange={(e) => {
+              if (e.target.value === "custom") {
+                setIsCustomModel(true);
+              } else {
+                setIsCustomModel(false);
+                setSelectedModel(e.target.value);
+              }
+            }}
+            className="border border-gray-300 bg-white py-2 px-3 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          >
+            <option value="gpt-4.1">gpt-4.1</option>
+            <option value="gemini-flash-latest">gemini-flash-latest</option>
+            <option value="deepseek-chat">deepseek-chat</option>
+            <option value="custom">{t("自定义模型")}</option>
+          </select>
+          {/* 自定义模型输入框 */}
+          {isCustomModel && (
+            <input
+              type="text"
+              title={t("输入自定义模型名称")}
+              value={customModel}
+              onChange={(e) => setCustomModel(e.target.value)}
+              placeholder={t("输入模型名称")}
+              className="border border-gray-300 text-gray-700 text-sm py-2 px-3 rounded focus:outline-none focus:bg-white focus:border-gray-500 w-24 md:w-auto"
+            />
+          )}
+          {/* 进行几轮生成 */}
           <input
-            type="text"
-            title={t("输入自定义模型名称")}
-            value={customModel}
-            onChange={(e) => setCustomModel(e.target.value)}
-            placeholder={t("输入模型名称")}
-            className="border border-gray-300 text-gray-700 text-sm py-2 px-3 rounded focus:outline-none focus:bg-white focus:border-gray-500"
+            type="number"
+            title={t("生成轮数")}
+            value={generatedPaperNumber}
+            onChange={handleGeneratedPaperNumberChange}
+            className="border border-gray-300 text-gray-700 text-sm p-2 rounded w-16"
           />
-        )}
-        {/* 进行几轮生成 */}
-        <input
-          type="number"
-          title={t("生成轮数")}
-          value={generatedPaperNumber}
-          onChange={handleGeneratedPaperNumberChange}
-          className="border border-gray-300 text-gray-700 text-sm p-1 rounded w-16"
-        />
-        {/* 时间范围 */}
-        <input
-          type="number"
-          title={t("时间范围")}
-          value={timeRange}
-          onChange={(e) => setTimeRange(e.target.value)}
-          className="border border-gray-300 text-gray-700 text-sm p-1 rounded w-16"
-        />
-        <button
-          onClick={() => formatTextInEditor(quill)} // 假设 updateIndex 是处理更新操作的函数
-          className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
-          title={t("更新文中的上标，使得数字顺序排列")}
-        >
-          {t("更新索引")}
-        </button>
+          {/* 时间范围 */}
+          <input
+            type="number"
+            title={t("时间范围")}
+            value={timeRange}
+            onChange={(e) => setTimeRange(e.target.value)}
+            className="border border-gray-300 text-gray-700 text-sm p-2 rounded w-20"
+          />
+          <button
+            onClick={() => formatTextInEditor(quill)}
+            className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded whitespace-nowrap"
+            title={t("更新文中的上标，使得数字顺序排列")}
+          >
+            {t("更新索引")}
+          </button>
+        </div>
       </div>
       {openProgressBar ? (
         <ProgressDisplay
