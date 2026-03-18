@@ -136,6 +136,9 @@ export default async function Login({
         >
           Sign Up（注册）
         </button>
+        <p className="text-xs text-foreground/60 mb-2">
+          提示：点击"注册"将使用上方输入的邮箱和密码进行注册，注册成功后请手动点击"登录"按钮登录。
+        </p>
         {/* 重置密码 */}
         <button className="border border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2">
           <Link href="/request-reset">Reset Password（重置密码）</Link>
