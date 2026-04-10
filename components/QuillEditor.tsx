@@ -337,10 +337,17 @@ const QEditor = ({ lng }) => {
           prompt,
           cursorPosition!,
           true,
-          newController.signal // 传递 AbortSignal
+          newController.signal, // 传递 AbortSignal
         );
       } else if (actionType === "paper2AI") {
         // paper2AI 逻辑，根据 actionParam 处理特定任务
+        if (!topic?.trim()) {
+          toast.info("未输入关键词，正在根据当前内容自动提取主题", {
+            position: "top-center",
+            autoClose: 2000,
+            pauseOnHover: true,
+          });
+        }
         let offset = -1;
         if (generatedPaperNumber != 1) offset = 0; //如果生成的数量不为1，则从0开始
         //如果说要评估主题是否匹配的话,就要多获取一些文献
@@ -364,7 +371,7 @@ const QEditor = ({ lng }) => {
               prompt,
               null,
               false,
-              newController.signal // 传递 AbortSignal
+              newController.signal, // 传递 AbortSignal
             );
             console.log("topic in AI before removeSpecialCharacters", topic);
             topic = removeSpecialCharacters(topic);
@@ -380,7 +387,7 @@ const QEditor = ({ lng }) => {
             "offset in paper2AI:",
             offset,
             "limit in paper2AI:",
-            limit
+            limit,
           );
           let rawData, dataString, newReferences;
           if (selectedSource === "arxiv") {
@@ -394,7 +401,7 @@ const QEditor = ({ lng }) => {
                   upsreamUrl,
                   getActualModel()!,
                   topic,
-                  newController.signal
+                  newController.signal,
                 );
               rawData = relevantPapers;
             }
@@ -416,7 +423,7 @@ const QEditor = ({ lng }) => {
               topic,
               `${timeRange}-2024`,
               offset,
-              limit
+              limit,
             );
             //判断返回的文献是否跟用户输入的主题相关
             if (isEvaluateTopicMatch) {
@@ -427,7 +434,7 @@ const QEditor = ({ lng }) => {
                   upsreamUrl,
                   getActualModel()!,
                   topic,
-                  newController.signal
+                  newController.signal,
                 );
               rawData = relevantPapers;
             }
@@ -451,7 +458,7 @@ const QEditor = ({ lng }) => {
               topic,
               Number(timeRange)!,
               offset,
-              limit
+              limit,
             );
             if (!rawData) {
               throw new Error("未搜索到文献 from PubMed.");
@@ -465,7 +472,7 @@ const QEditor = ({ lng }) => {
                   upsreamUrl,
                   getActualModel()!,
                   topic,
-                  newController.signal
+                  newController.signal,
                 );
               rawData = relevantPapers;
             }
@@ -496,7 +503,7 @@ const QEditor = ({ lng }) => {
           // 生成AI PROMPT
           const content = `之前用户已经完成的内容上下文：${getTextBeforeCursor(
             quill!,
-            800
+            800,
           )},搜索到的论文内容:${trimmedMessage},需要完成的论文主题：${topic},请根据搜索到的论文内容完成用户的论文`;
           showExpandableToast(`搜索论文完成，搜索到的论文:${trimmedMessage}`);
           await sendMessageToOpenAI(
@@ -508,7 +515,7 @@ const QEditor = ({ lng }) => {
             systemPrompt,
             cursorPosition!,
             true,
-            newController.signal // 传递 AbortSignal
+            newController.signal, // 传递 AbortSignal
           );
           //在对应的位置添加文献
           const nearestNumber = getNumberBeforeCursor(quill!);
@@ -516,7 +523,7 @@ const QEditor = ({ lng }) => {
             addReferencesRedux({
               references: newReferences,
               position: nearestNumber,
-            })
+            }),
           );
           //修改offset使得按照接下来的顺序进行获取文献
           offset += 2;
@@ -530,7 +537,7 @@ const QEditor = ({ lng }) => {
           position: "top-center",
           autoClose: 2000,
           pauseOnHover: true,
-        }
+        },
       );
     } catch (error) {
       toast.error(`AI写作出现错误(持续无法使用请切换deepseek模型): ${error}`, {
@@ -549,7 +556,7 @@ const QEditor = ({ lng }) => {
           supabase,
           updatedContent,
           references,
-          paperNumberRedux
+          paperNumberRedux,
         );
       }
       setOpenProgressBar(false);
@@ -574,10 +581,10 @@ const QEditor = ({ lng }) => {
           onChange={handleInputChange}
           className="textarea-focus-expand flex-grow shadow appearance-none border rounded py-2 px-3 lg:mr-2 text-grey-darker w-full md:w-auto"
           placeholder={t(
-            "点击AI写作就是正常的对话交流，点击寻找文献会根据输入的主题词去寻找对应论文"
+            "点击AI写作是正常对话；点击寻找文献会按关键词找文献（可留空，系统将自动根据上下文提取主题）",
           )}
         />
-        
+
         <div className="flex flex-wrap gap-2 items-center w-full md:w-auto mt-2 md:mt-0">
           <button
             onClick={() => handleAIAction(userInput, "write")}
@@ -592,7 +599,7 @@ const QEditor = ({ lng }) => {
             {t("Paper2AI")}
           </button>
         </div>
-        
+
         <div className="flex flex-wrap gap-2 items-center w-full md:w-auto mt-2 md:mt-0">
           {/* 论文网站 */}
           <select
