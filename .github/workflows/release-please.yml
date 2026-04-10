@@ -14,6 +14,12 @@ jobs:
     steps:
       - uses: googleapis/release-please-action@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Use a Personal Access Token (RELEASE_TOKEN) when the repository's
+          # "Allow GitHub Actions to create and approve pull requests" setting
+          # is disabled. Falls back to GITHUB_TOKEN if RELEASE_TOKEN is unset.
+          # To fix the permission error, go to Settings > Actions > General >
+          # Workflow permissions and enable "Allow GitHub Actions to create and
+          # approve pull requests", OR add a PAT as the RELEASE_TOKEN secret.
+          token: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
           release-type: node
           package-name: paper-ai
