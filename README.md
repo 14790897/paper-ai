@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://paperai.14790897.xyz">
+  <a href="https://paperai.sixiangjia.de">
     <img src="./public/android-chrome-192x192.png" alt="the fastest way to create a paper with real references">
   </a>
   <h1>paper-ai</h1>
@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-<a href='https://docs.paperai.14790897.xyz/' style='font-size: 20px;'><strong>文档网站(教程比较详细,推荐阅读这里)</strong></a> ·
+<a href='https://docs.paperai.sixiangjia.de/' style='font-size: 20px;'><strong>文档网站(教程比较详细,推荐阅读这里)</strong></a> ·
 <a href='https://www.bilibili.com/video/BV1Ya4y1k75V'><strong>bilibili视频教程</strong></a>
 </p>
 
@@ -38,11 +38,11 @@
 
 ## 演示
 
-您可以在 [paperai.14790897.xyz](https://paperai.14790897.xyz) 查看完整的工作演示。
+您可以在 [paperai.sixiangjia.de](https://paperai.sixiangjia.de) 查看完整的工作演示。
 
 ## 部署到 Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/14790897/paper-ai&project-name=paper-ai&repository-name=paper-ai&demo-title=paper-ai&demo-description=This%20starter%20configures%20Supabase%20Auth%20to%20use%20cookies%2C%20making%20the%20user's%20session%20available%20throughout%20the%20entire%20Next.js%20app%20-%20Client%20Components%2C%20Server%20Components%2C%20Route%20Handlers%2C%20Server%20Actions%20and%20Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2F14790897.xyz%2Fopengraph-image.png)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/14790897/paper-ai&project-name=paper-ai&repository-name=paper-ai&demo-title=paper-ai&demo-description=This%20starter%20configures%20Supabase%20Auth%20to%20use%20cookies%2C%20making%20the%20user's%20session%20available%20throughout%20the%20entire%20Next.js%20app%20-%20Client%20Components%2C%20Server%20Components%2C%20Route%20Handlers%2C%20Server%20Actions%20and%20Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fsixiangjia.de%2Fopengraph-image.png)
 
 上述操作还会将 repo 克隆到 GitHub。
 
