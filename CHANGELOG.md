@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.11.0](https://github.com/14790897/paper-ai/compare/v1.10.0...v1.11.0) (2026-04-11)
+
+
+### Features
+
+* add multilingual support for documentation, privacy policy, and terms of service ([fa80ed4](https://github.com/14790897/paper-ai/commit/fa80ed4d023b4a8d6a49be19ff4bad6bdf860336))
+* add registration instructions to Sign Up button ([62cecf6](https://github.com/14790897/paper-ai/commit/62cecf636d8118e6341fb630b73624ab3a8d5037))
+* enhance Paper2AI functionality with topic extraction and toast notifications ([56aeb6a](https://github.com/14790897/paper-ai/commit/56aeb6a79e2b8683638b8067a442674d7849443f))
+* enhance topic extraction by including surrounding text context in user message ([668d87c](https://github.com/14790897/paper-ai/commit/668d87ca89cd38aefc12b19d136ae5411ebf92f9))
+* enhance UI components with improved button styles and layout adjustments ([dc975bb](https://github.com/14790897/paper-ai/commit/dc975bbe22a0cb8fd8cea8e4fbc63d954911424e))
+* improve UI components with updated styles and layout adjustments ([f7916db](https://github.com/14790897/paper-ai/commit/f7916db30ddeded409e1d133a86ffbd1248b5804))
+* solutions for Quill cursor position issue ([8e57f59](https://github.com/14790897/paper-ai/commit/8e57f595b210356d50a69049cd2eb79cf2fca0b9))
+
 ## [1.10.0](https://www.github.com/14790897/paper-ai/compare/v1.9.0...v1.10.0) (2025-12-24)
 
 
