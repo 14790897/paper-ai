@@ -360,8 +360,15 @@ const QEditor = ({ lng }) => {
           if (!topic) {
             //使用ai提取当前要请求的论文主题
             const prompt =
-              "As a topic extraction assistant, you can help me extract the current discussion of the paper topic, I will enter the content of the paper, you extract the paper topic , no more than two, Hyphenated query terms yield no matches (replace it with space to find matches) return format is: topic1 topic2";
-            const userMessage = getTextBeforeCursor(quill!, 2000);
+              "As a topic extraction assistant, help me extract the current paper topic from the provided context. Return no more than two keywords. Prioritize English academic keywords (translate non-English topic words into standard English terms when possible). Hyphenated query terms yield no matches, so replace hyphens with spaces. Return format: topic1 topic2";
+            const selection = quill!.getSelection();
+            const cursorIndex = selection ? selection.index : quill!.getLength();
+            const beforeLength = 1200;
+            const afterLength = 800;
+            const beforeStart = Math.max(0, cursorIndex - beforeLength);
+            const beforeText = quill!.getText(beforeStart, cursorIndex - beforeStart);
+            const afterText = quill!.getText(cursorIndex, afterLength);
+            const userMessage = `前文:\n${beforeText}\n\n后文:\n${afterText}`;
             topic = await sendMessageToOpenAI(
               userMessage,
               null,
