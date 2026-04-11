@@ -29,7 +29,7 @@
     "i18next-resources-to-backend": "^1.2.0",
     "lodash": "^4.17.21",
     "negotiator": "^0.6.3",
-    "next": "latest",
+    "next": "15.5.8",
     "next-redux-wrapper": "^8.1.0",
     "openai": "^4.24.3",
     "postcss": "8.4.35",
