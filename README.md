@@ -89,6 +89,18 @@ npm run dev
 
 ```
 
+## 开发踩坑记录
+
+### Quill 光标位置回跳到上一次点击位置
+
+- 问题现象：点击编辑器新位置后立即触发 AI 写作/文献功能，光标有概率回到上一次点击位置，而不是当前点击位置。
+- 根因分析：光标位置保存在 React 状态/本地存储中，状态更新是异步的；在快速点击并触发操作时，读取到的是“慢一拍”的旧值。
+- 解决方案：
+  1. 在 `selection-change` 事件中同步维护一个 `ref`（`cursorPositionRef`）保存最新光标位置。
+  2. 执行 AI 操作前，优先读取 `quill.getSelection()` 的实时位置；若为空再回退到 `ref`。（重点）
+  3. 本次操作全流程统一使用同一个解析后的 `targetCursorPosition`，避免中途漂移。
+- 效果：光标恢复位置与用户最后一次点击位置一致，解决“回到上一次位置”的问题。
+
 ## 参考文档
 
 1. semantic scholar api: https://api.semanticscholar.org/api-docs/#tag/Paper-Data/operation/get_graph_paper_relevance_search

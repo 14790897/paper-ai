@@ -98,6 +98,8 @@ const QEditor = ({ lng }) => {
     "光标位置",
     0
   );
+  const cursorPositionRef = useRef<number>(0);
+  
   //
   // 初始化 Quill 编辑器
   const isMounted = useRef(false);
@@ -151,6 +153,21 @@ const QEditor = ({ lng }) => {
   };
 
   useEffect(() => {
+    if (typeof cursorPosition === "number") {
+      cursorPositionRef.current = cursorPosition;
+    }
+  }, [cursorPosition]);
+
+  const getResolvedCursorPosition = () => {
+    const liveSelection = quill?.getSelection();
+    if (liveSelection && typeof liveSelection.index === "number") {
+      cursorPositionRef.current = liveSelection.index;
+      return liveSelection.index;
+    }
+    return cursorPositionRef.current;
+  };
+
+  useEffect(() => {
     if (!isMounted.current) {
       editor.current = new Quill("#editor", {
         modules: {
@@ -175,6 +192,7 @@ const QEditor = ({ lng }) => {
       editor.current.on("selection-change", function (range) {
         if (range) {
           // console.log('User has made a new selection', range);
+          cursorPositionRef.current = range.index;
           setCursorPosition(range.index); // 更新光标位置
         } else {
           console.log("No selection or cursor in the editor.");
@@ -322,7 +340,8 @@ const QEditor = ({ lng }) => {
     // 创建一个新的 AbortController 实例
     const newController = new AbortController();
     setController(newController);
-    quill!.setSelection(cursorPosition!, 0); // 将光标移动到原来的位置
+    const targetCursorPosition = getResolvedCursorPosition();
+    quill!.setSelection(targetCursorPosition, 0); // 将光标移动到原来的位置
     setOpenProgressBar(true); //开启进度条
     try {
       if (actionType === "write") {
@@ -335,7 +354,7 @@ const QEditor = ({ lng }) => {
           apiKey,
           upsreamUrl,
           prompt,
-          cursorPosition!,
+          targetCursorPosition,
           true,
           newController.signal, // 传递 AbortSignal
         );
@@ -520,7 +539,7 @@ const QEditor = ({ lng }) => {
             apiKey,
             upsreamUrl,
             systemPrompt,
-            cursorPosition!,
+            targetCursorPosition,
             true,
             newController.signal, // 传递 AbortSignal
           );
