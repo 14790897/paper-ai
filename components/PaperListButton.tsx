@@ -10,22 +10,15 @@ export default function PaperListButton() {
     dispatch(setShowPaperManagement());
   };
   return (
-    <div
-      className="py-2 px-3 flex rounded-md no-underline hover:bg-btn-background-hover border cursor-pointer"
+    <button
+      type="button"
+      aria-label="VIP"
+      title="VIP"
+      className="inline-flex h-9 items-center justify-center rounded-full border border-amber-400/80 bg-gradient-to-r from-amber-300 to-yellow-200 px-3 text-xs font-bold tracking-wide text-amber-900 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
       onClick={handleClick}
     >
-      <svg
-        aria-label="Menu"
-        role="img"
-        viewBox="0 0 100 80"
-        className="h-4 w-4 mr-2"
-        fill="currentColor"
-      >
-        <rect width="100" height="20"></rect>
-        <rect y="30" width="100" height="20"></rect>
-        <rect y="60" width="100" height="20"></rect>
-      </svg>
-    </div>
+      VIP
+    </button>
   );
 }
 
