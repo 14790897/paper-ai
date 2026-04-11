@@ -596,6 +596,18 @@ const QEditor = ({ lng }) => {
       setController(null); // 重置 controller 状态
     }
   };
+
+  const buttonBaseClass =
+    "inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
+  const secondaryButtonClass =
+    `${buttonBaseClass} border border-slate-300 bg-white text-slate-700 shadow-sm hover:bg-slate-50 hover:border-slate-400 focus-visible:ring-slate-400`;
+  const primaryButtonClass =
+    `${buttonBaseClass} border border-amber-600 bg-amber-500 text-white shadow-md hover:bg-amber-600 hover:shadow-lg focus-visible:ring-amber-500`;
+  const utilityButtonClass =
+    `${buttonBaseClass} whitespace-nowrap border border-slate-300 bg-slate-100 text-slate-800 shadow-sm hover:bg-slate-200 hover:border-slate-400 focus-visible:ring-slate-400`;
+  const dangerButtonClass =
+    `${buttonBaseClass} fixed bottom-4 left-4 border border-red-700 bg-red-600 text-white shadow-lg hover:bg-red-700 hover:shadow-xl focus-visible:ring-red-500`;
+
   return (
     <div className="flex flex-col ">
       <div
@@ -614,13 +626,13 @@ const QEditor = ({ lng }) => {
         <div className="flex flex-wrap gap-2 items-center w-full md:w-auto mt-2 md:mt-0">
           <button
             onClick={() => handleAIAction(userInput, "write")}
-            className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+            className={secondaryButtonClass}
           >
             {t("AI写作")}
           </button>
           <button
             onClick={() => handleAIAction(userInput, "paper2AI")}
-            className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
+            className={primaryButtonClass}
           >
             {t("Paper2AI")}
           </button>
@@ -686,7 +698,7 @@ const QEditor = ({ lng }) => {
           />
           <button
             onClick={() => formatTextInEditor(quill)}
-            className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded whitespace-nowrap"
+            className={utilityButtonClass}
             title={t("更新文中的上标，使得数字顺序排列")}
           >
             {t("更新索引")}
@@ -708,7 +720,7 @@ const QEditor = ({ lng }) => {
       {openProgressBar ? (
         <button
           onClick={handleStop}
-          className="fixed bottom-4 left-4 bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 active:bg-red-700 text-white font-bold py-2 px-4 rounded transition ease-in-out duration-150 shadow-lg hover:shadow-xl"
+          className={dangerButtonClass}
         >
           {t("停止生成")}
         </button>

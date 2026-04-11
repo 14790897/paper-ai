@@ -150,6 +150,19 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
     dispatch(setCitationStyle(event.target.value));
   };
 
+  const buttonBaseClass =
+    "inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
+  const neutralButtonClass =
+    `${buttonBaseClass} border border-slate-300 bg-white text-slate-700 shadow-sm hover:bg-slate-50 hover:border-slate-400 focus-visible:ring-slate-400`;
+  const dangerButtonClass =
+    `${buttonBaseClass} border border-red-700 bg-red-600 text-white shadow-md hover:bg-red-700 hover:shadow-lg focus-visible:ring-red-500`;
+  const miniButtonClass =
+    "inline-flex items-center justify-center rounded-md px-2 py-1 ml-2 border border-slate-300 bg-white text-slate-700 text-xs font-medium shadow-sm transition-colors duration-200 hover:bg-slate-50 hover:border-slate-400";
+  const formInputClass =
+    "border border-slate-300 bg-white p-2 rounded-md text-sm text-slate-700 shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-300 focus:border-slate-400";
+  const selectClass =
+    "block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-300 focus:border-slate-400";
+
   return (
     <div className=" mx-auto p-4">
       {/* 引用列表显示区域 */}
@@ -177,19 +190,19 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
                     </a>
                   )}
                   <button
-                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
+                    className={miniButtonClass}
                     onClick={() => moveReferenceUp(index)}
                   >
                     ↑
                   </button>
                   <button
-                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
+                    className={miniButtonClass}
                     onClick={() => moveReferenceDown(index)}
                   >
                     ↓
                   </button>
                   <button
-                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 ml-2 rounded"
+                    className={miniButtonClass}
                     onClick={() =>
                       copyToClipboard(renderCitation(reference, citationStyle))
                     }
@@ -229,45 +242,45 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
       >
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
           <input
-            className="border p-2 rounded"
+            className={formInputClass}
             type="text"
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
             placeholder={t("Title")}
           />
           <input
-            className="border p-2 rounded"
+            className={formInputClass}
             type="text"
             value={newAuthor}
             onChange={(e) => setNewAuthor(e.target.value)}
             placeholder={t("Author")}
           />
           <input
-            className="border p-2 rounded"
+            className={formInputClass}
             type="text"
             value={newYear}
             onChange={(e) => setNewYear(e.target.value)}
             placeholder={t("Year")}
           />
           <input
-            className="border p-2 rounded"
+            className={formInputClass}
             type="text"
             value={newPublisher}
             onChange={(e) => setNewPublisher(e.target.value)}
             placeholder={t("Publisher")}
           />
           <input
-            className="border p-2 rounded"
+            className={formInputClass}
             type="text"
             value={newUrl}
             onChange={(e) => setNewUrl(e.target.value)}
             placeholder={t("Url")}
           />
         </div>
-        <div className="container mx-auto p-4">
-          <div className="flex justify-between items-center mb-4">
+        <div className="mt-4">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 items-end">
             <button
-              className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded "
+              className={`${neutralButtonClass} w-full`}
               type="submit"
               form="referenceForm"
             >
@@ -275,7 +288,7 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
             </button>
 
             <button
-              className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded "
+              className={`${neutralButtonClass} w-full`}
               type="button"
               onClick={() =>
                 copyToClipboard(getAllFullReferences(references, citationStyle))
@@ -284,7 +297,7 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
               {t("复制所有引用")}
             </button>
             <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded "
+              className={`${dangerButtonClass} w-full`}
               type="button"
               // onClick={() => setReferences([])} // 设置引用列表为空数组
               onClick={() => handleClearReferences()}
@@ -292,16 +305,16 @@ function ReferenceList({ editor, lng }: ReferenceListProps) {
               {t("删除所有引用")}
             </button>
             {/* 下拉框用于更改引用风格 */}
-            <div className="mt-4">
+            <div>
               <label
                 htmlFor="citation-style"
                 className="block text-sm font-medium text-gray-700"
               >
-                选择引用格式:
+                {t("选择引用格式")}
               </label>
               <select
                 id="citation-style"
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                className={selectClass}
                 value={citationStyle}
                 onChange={handleStyleChange}
               >

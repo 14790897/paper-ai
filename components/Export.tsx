@@ -78,7 +78,7 @@ const ExportDocx = ({ editor }: ParaIn) => {
       <div className="flex justify-center items-center">
         <button
           onClick={exportToWord}
-          className="px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded shadow"
+          className="inline-flex items-center justify-center rounded-md border border-blue-700 bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-700 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
         >
           Export to Word
         </button>
