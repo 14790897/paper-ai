@@ -72,23 +72,24 @@ export default async function Index({ params: { lng } }: IndexProps) {
             target="_blank"
             className="font-bold text-blue-500 hover:underline hover:text-blue-700"
           >
-            <strong>使用文档</strong>
+            <strong>{t("使用文档")}</strong>
           </a>
           <a
             href="./privacy"
             target="_blank"
             className="font-bold text-blue-500 hover:underline hover:text-blue-700"
           >
-            <strong>PrivacyPolicy</strong>
+            <strong>{t("隐私政策")}</strong>
           </a>
           <a
             href="./service"
             target="_blank"
             className="font-bold text-blue-500 hover:underline hover:text-blue-700"
           >
-            <strong>Service</strong>
+            <strong>{t("服务条款")}</strong>
           </a>
           <FooterBase t={t} lng={lng} />
+          <span className="text-gray-500">{t("AI服务免费，仅云服务收费")}</span>
         </div>
       </footer>
     </div>
