@@ -3,6 +3,12 @@
     <img src="./public/android-chrome-192x192.png" alt="the fastest way to create a paper with real references">
   </a>
   <h1>paper-ai</h1>
+  
+  <p>
+    <a href="https://gitcode.com/m0_57236802/paper-ai">
+      <img src="https://gitcode.com/m0_57236802/paper-ai/star/badge.svg" alt="GitCode stars">
+    </a>
+  </p>
 </div>
 
 <p align="center"> <a href="./README_en.md"><b>English Documentation </b></a> </p>
