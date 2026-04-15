@@ -3,7 +3,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.5.4",
@@ -63,7 +66,9 @@
     "@types/react-dom": "^18.3.7",
     "@types/react-transition-group": "^4.4.10",
     "@types/redux-logger": "^3.0.12",
-    "encoding": "^0.1.13"
+    "@vitest/coverage-v8": "^4.1.4",
+    "encoding": "^0.1.13",
+    "vitest": "^4.1.4"
   },
   "version": "1.11.0"
 }

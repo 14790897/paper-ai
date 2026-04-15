@@ -64,5 +64,7 @@
       "exclude": ["src/config/**"]
     }
     // ...
-  ]
+  ],
+  "trae.tab.enableRename": false,
+  "trae.tab.enableAutoImport": false
 }
