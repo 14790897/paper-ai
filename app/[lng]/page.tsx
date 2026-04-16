@@ -69,6 +69,14 @@ export default async function Index({ params: { lng } }: IndexProps) {
             {t("give me a star in GitHub")}
           </a>
           <a
+            href="https://gitcode.com/liuweiqing147/paper-ai"
+            target="_blank"
+            className="font-bold text-blue-600 hover:underline hover:text-blue-800"
+            rel="noreferrer"
+          >
+            {t("AtomGit 仓库")}
+          </a>
+          <a
             href="https://docs.paperai.14790897.xyz/"
             target="_blank"
             className="font-bold text-blue-500 hover:underline hover:text-blue-700"

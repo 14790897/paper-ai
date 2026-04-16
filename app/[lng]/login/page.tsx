@@ -172,6 +172,14 @@ export default async function Login({
           >
             {t("give me a star in GitHub")}
           </a>
+          <a
+            href="https://gitcode.com/liuweiqing147/paper-ai"
+            target="_blank"
+            className="font-bold text-blue-600 hover:underline hover:text-blue-800"
+            rel="noreferrer"
+          >
+            {t("AtomGit 仓库")}
+          </a>
           <FooterBase t={t} lng={lng} />
         </div>
       </footer>
