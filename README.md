@@ -5,8 +5,8 @@
   <h1>paper-ai</h1>
   
   <p>
-    <a href="https://gitcode.com/m0_57236802/paper-ai">
-      <img src="https://gitcode.com/m0_57236802/paper-ai/star/badge.svg" alt="GitCode stars">
+    <a href="https://gitcode.com/liuweiqing147/paper-ai">
+      <img src="https://gitcode.com/liuweiqing147/paper-ai/star/badge.svg" alt="GitCode stars">
     </a>
   </p>
 </div>
