@@ -43,15 +43,25 @@ export default async function Index({ params: { lng } }: IndexProps) {
   return (
     <div className="flex-1 w-full flex flex-col gap-5 items-center">
       <nav className="w-full flex justify-center border-b border-b-foreground/10 h-12">
-        <div className="w-full max-w-4xl flex items-center justify-end py-1 px-3 text-sm">
-          <div className="inline-flex items-center gap-1 rounded-xl border border-slate-200/80 bg-white/75 p-1 shadow-sm backdrop-blur-sm">
+        <div className="w-full max-w-4xl flex items-center justify-between py-1 px-3 text-sm gap-3">
+          <a
+            href="https://docs.paperai.sixiangjia.de"
+            target="_blank"
+            className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-3 py-1.5 font-semibold text-blue-700 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-100 hover:text-blue-800 hover:shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+            rel="noreferrer"
+          >
+            <strong>{t("使用文档")}</strong>
+          </a>
+          <div className="flex items-center gap-3">
+            <div className="inline-flex items-center gap-1 rounded-xl border border-slate-200/80 bg-white/75 p-1 shadow-sm backdrop-blur-sm">
             {/* 用来表示是否显示论文列表页 */}
             <PaperListButtonWrapper />
             {isSupabaseConnected && <AuthButton />}
             <SettingsLink />
+            </div>
+            {/* 如果用户没有登录会出现谷歌的sign in按钮登录之后不会出现 */}
+            {!user && <GoogleSignIn />}
           </div>
-          {/* 如果用户没有登录会出现谷歌的sign in按钮登录之后不会出现 */}
-          {!user && <GoogleSignIn />}
         </div>
       </nav>
       <PaperManagementWrapper lng={lng} />
@@ -75,13 +85,6 @@ export default async function Index({ params: { lng } }: IndexProps) {
             rel="noreferrer"
           >
             {t("AtomGit 仓库")}
-          </a>
-          <a
-            href="https://docs.paperai.14790897.xyz/"
-            target="_blank"
-            className="font-bold text-blue-500 hover:underline hover:text-blue-700"
-          >
-            <strong>{t("使用文档")}</strong>
           </a>
           <a
             href="./privacy"
