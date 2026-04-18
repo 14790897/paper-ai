@@ -17,13 +17,14 @@ import { IndexProps } from "@/utils/global";
 import GoogleSignIn from "@/components/GoogleSignIn";
 import LandingPage from "@/components/LandingPage";
 
-// import Error from "@/app/global-error";
-export default async function Index({ params: { lng } }: IndexProps) {
+// import Error from "@/app/app/error";
+export default async function Index({ params: { lng }, searchParams }: IndexProps & { searchParams?: { guest?: string } }) {
   const { t } = await useTranslation(lng);
 
   const cookieStore = cookies();
   let supabase: any, user;
   const canInitSupabaseClient = () => {
+    // This function is just for the interactive tutorial.
     // This function is just for the interactive tutorial.
     // Feel free to remove it once you have Supabase connected.
     try {
@@ -41,8 +42,8 @@ export default async function Index({ params: { lng } }: IndexProps) {
     } = await supabase.auth.getUser());
   }
 
-  // 未登录用户展示落地页，已登录用户直接进入编辑器
-  if (!user) {
+  // 未登录用户：guest=1 参数放行到编辑器体验，否则展示落地页
+  if (!user && searchParams?.guest !== "1") {
     return <LandingPage lng={lng} />;
   }
 

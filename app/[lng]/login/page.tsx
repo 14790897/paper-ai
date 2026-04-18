@@ -6,6 +6,7 @@ import * as Sentry from "@sentry/nextjs";
 //i18n
 import { useTranslation } from "@/app/i18n";
 import { FooterBase } from "@/components/Footer/FooterBase";
+
 //supabase
 import { insertUserProfile } from "@/utils/supabase/supabaseutils";
 // SignInWithProvider
@@ -89,7 +90,7 @@ export default async function Login({
   const errorMessage = searchParams?.message;
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center relative"
+    <div className="min-h-[100dvh] w-full flex flex-col items-center justify-center relative overflow-hidden"
       style={{ background: "linear-gradient(160deg, #f0f0ff 0%, #fafbff 40%, #f5f0ff 100%)" }}>
 
       {/* Background decoration */}
@@ -220,6 +221,20 @@ export default async function Login({
               {isZh ? "忘记密码？" : "Forgot password?"}
             </Link>
           </div>
+        </div>
+
+        {/* Skip login link */}
+        <div className="mt-5 text-center">
+          <Link
+            href={`/${lng}?guest=1`}
+            className="text-sm text-gray-400 hover:text-gray-600 no-underline transition-colors inline-flex items-center gap-1.5"
+          >
+            {isZh ? "暂不登录，直接体验" : "Skip, try without signing in"}
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </Link>
         </div>
 
         {/* Footer */}
