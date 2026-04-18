@@ -15,6 +15,7 @@ import { useTranslation } from "@/app/i18n";
 import { FooterBase } from "@/components/Footer/FooterBase";
 import { IndexProps } from "@/utils/global";
 import GoogleSignIn from "@/components/GoogleSignIn";
+import LandingPage from "@/components/LandingPage";
 
 // import Error from "@/app/global-error";
 export default async function Index({ params: { lng } }: IndexProps) {
@@ -39,6 +40,12 @@ export default async function Index({ params: { lng } }: IndexProps) {
       data: { user },
     } = await supabase.auth.getUser());
   }
+
+  // 未登录用户展示落地页，已登录用户直接进入编辑器
+  if (!user) {
+    return <LandingPage lng={lng} />;
+  }
+
   console.log("user in page", user);
   return (
     <div className="flex-1 w-full flex flex-col gap-5 items-center">
