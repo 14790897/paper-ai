@@ -20,7 +20,7 @@ export default async function WelcomeScreen() {
   //   setIsLoading(false);
   //1秒后跳转到首页
   //   setTimeout(() => {
-  redirect("/");
+  redirect("/?auth=1");
   //   }, 1000);
 
   return (

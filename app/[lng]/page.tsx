@@ -16,6 +16,7 @@ import { FooterBase } from "@/components/Footer/FooterBase";
 import { IndexProps } from "@/utils/global";
 import GoogleSignIn from "@/components/GoogleSignIn";
 import LandingPage from "@/components/LandingPage";
+import { redirect } from "next/navigation";
 
 // import Error from "@/app/app/error";
 export default async function Index({ params: { lng }, searchParams }: IndexProps & { searchParams?: { guest?: string } }) {
@@ -42,9 +43,16 @@ export default async function Index({ params: { lng }, searchParams }: IndexProp
     } = await supabase.auth.getUser());
   }
 
-  // 未登录用户：guest=1 参数放行到编辑器体验，否则展示落地页
-  if (!user && searchParams?.guest !== "1") {
-    return <LandingPage lng={lng} />;
+  // 未登录用户处理
+  if (!user) {
+    // auth=1: 刚完成 OAuth 登录，cookie 已写入但 RSC 还没读到，带时间戳重定向刷新
+    if (searchParams?.auth === "1") {
+      redirect(`/${lng}?t=${Date.now()}`);
+    }
+    // guest=1: 放行到编辑器体验
+    if (searchParams?.guest !== "1") {
+      return <LandingPage lng={lng} />;
+    }
   }
 
   console.log("user in page", user);

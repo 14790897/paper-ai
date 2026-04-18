@@ -47,7 +47,7 @@ export default async function Login({
       return redirect("/login?message=Could not authenticate user");
     }
 
-    return redirect("/");
+    return redirect(`/${lng}?auth=1`);
   };
 
   const signUp = async (formData: FormData) => {
@@ -84,7 +84,7 @@ export default async function Login({
       return redirect("/login?message=Could not authenticate user");
     }
 
-    return redirect("/");
+    return redirect(`/${lng}?auth=1`);
   };
 
   const errorMessage = searchParams?.message;
@@ -203,11 +203,11 @@ export default async function Login({
           <div className="flex flex-col gap-3">
             <SignInWithProvider
               provider="google"
-              redirectTo="https://paperai.sixiangjia.de/welcome"
+              redirectTo={`/${lng}?auth=1`}
             />
             <SignInWithProvider
               provider="github"
-              redirectTo="https://paperai.sixiangjia.de/welcome"
+              redirectTo={`/${lng}?auth=1`}
             />
             <LinuxdoSignin />
           </div>
