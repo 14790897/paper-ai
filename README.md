@@ -100,12 +100,25 @@ npm run dev
 ### Quill 光标位置回跳到上一次点击位置
 
 - 问题现象：点击编辑器新位置后立即触发 AI 写作/文献功能，光标有概率回到上一次点击位置，而不是当前点击位置。
-- 根因分析：光标位置保存在 React 状态/本地存储中，状态更新是异步的；在快速点击并触发操作时，读取到的是“慢一拍”的旧值。
+- 根因分析：光标位置保存在 React 状态/本地存储中，状态更新是异步的；在快速点击并触发操作时，读取到的是"慢一拍"的旧值。
 - 解决方案：
   1. 在 `selection-change` 事件中同步维护一个 `ref`（`cursorPositionRef`）保存最新光标位置。
   2. 执行 AI 操作前，优先读取 `quill.getSelection()` 的实时位置；若为空再回退到 `ref`。（重点）
   3. 本次操作全流程统一使用同一个解析后的 `targetCursorPosition`，避免中途漂移。
-- 效果：光标恢复位置与用户最后一次点击位置一致，解决“回到上一次位置”的问题。
+- 效果：光标恢复位置与用户最后一次点击位置一致，解决"回到上一次位置"的问题。
+
+### OAuth 登录后需要手动刷新才能进入编辑器
+
+- 问题现象：GitHub/Google OAuth 登录成功后，页面跳转到首页但仍显示 LandingPage（落地页），需要手动刷新一次才能进入编辑器。
+- 根因分析：Next.js App Router 使用 React Server Components（RSC），首页在服务端渲染时通过 `supabase.auth.getUser()` 读取 cookie 判断登录状态。Supabase 在 OAuth 回调中通过 `Set-Cookie` 响应头写入 session cookie，但浏览器重定向到首页时，当前这次 RSC 渲染可能已经开始了——此时新 cookie 虽已写入，但服务端在本次请求中未必能立即读到，导致 `getUser()` 返回 `null`，页面走了未登录分支。
+- 解决方案：
+  1. 新增 `AuthRefresher` 客户端组件，全局挂载在 `app/layout.tsx` 中。
+  2. 组件内部监听 Supabase 的 `onAuthStateChange` 事件，当检测到 `SIGNED_IN` 事件时调用 `router.refresh()`。
+  3. `router.refresh()` 会重新请求当前页面的 RSC payload，此时服务端一定能读到最新的 cookie，页面自动切换为已登录的编辑器视图。
+  4. 组件返回 `null`，不渲染任何 UI，也不依赖 URL 参数或重定向。
+- 关键代码（`components/AuthRefresher.tsx`）：
+
+- 效果：OAuth 登录成功后无需手动刷新，自动进入编辑器。
 
 ## 参考文档
 
