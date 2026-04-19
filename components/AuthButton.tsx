@@ -2,7 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { insertUserProfile } from "@/utils/supabase/supabaseutils";
+// import { insertUserProfile } from "@/utils/supabase/supabaseutils";
 
 export default async function AuthButton() {
   const cookieStore = await cookies();
@@ -12,8 +12,8 @@ export default async function AuthButton() {
     data,
     data: { user },
   } = await supabase.auth.getUser();
-  //profiles表 插入用户信息 ？？？这里好像不应该写
-  await insertUserProfile(data, supabase);
+  //profiles表 插入用户信息 ？？？这里好像不应该写 March 8th, 2026 11:14 AM
+  // await insertUserProfile(data, supabase); // April 19th, 2026
   // console.log("1111 in AuthButton   user:", user);
   const signOut = async () => {
     "use server";
