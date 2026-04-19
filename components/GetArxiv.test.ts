@@ -55,7 +55,7 @@ describe("getArxivPapers", () => {
 
     expect(mocks.getRandomOffset).toHaveBeenCalledWith(27);
     expect(mocks.axiosGet).toHaveBeenCalledWith(
-      "https://export.arxiv.org/api/query?search_query=machine learning&start=5&max_results=3&sortBy=submittedDate&sortOrder=descending"
+      "https://proxy.14790897.xyz/proxy/https://export.arxiv.org/api/query?search_query=machine learning&start=5&max_results=3&sortBy=submittedDate&sortOrder=descending"
     );
     expect(result).toEqual([
       {

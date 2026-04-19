@@ -208,7 +208,7 @@ export default function LandingPage({ lng }: { lng: string }) {
                 {isZh ? "免费开始使用" : "Get Started Free"}
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg>
               </a>
-              <a href={`/${lng}?guest=1`} className="landing-btn-outline">
+              <a href={`/${lng}/set-guest`} className="landing-btn-outline">
                 {isZh ? "暂不登录，直接体验" : "Try as Guest"}
               </a>
               <a href="https://github.com/14790897/paper-ai" target="_blank" rel="noreferrer" className="landing-btn-outline" style={{ borderColor: "transparent", padding: "10px 16px" }}>
@@ -438,7 +438,7 @@ export default function LandingPage({ lng }: { lng: string }) {
                 {isZh ? "免费开始使用" : "Get Started Free"}
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg>
               </a>
-              <a href={`/${lng}?guest=1`}
+              <a href={`/${lng}/set-guest`}
                 className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-base cursor-pointer no-underline text-white transition-all hover:-translate-y-0.5"
                 style={{ background: "rgba(255,255,255,0.15)", border: "2px solid rgba(255,255,255,0.3)" }}>
                 {isZh ? "暂不登录，直接体验" : "Try as Guest"}
