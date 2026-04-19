@@ -2,7 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabaseAdmin = createClient(cookieStore);
 
   // 从请求体中提取数据

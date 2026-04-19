@@ -19,10 +19,17 @@ import LandingPage from "@/components/LandingPage";
 import { redirect } from "next/navigation";
 
 // import Error from "@/app/app/error";
-export default async function Index({ params: { lng }, searchParams }: IndexProps & { searchParams?: { guest?: string } }) {
+export default async function Index(props: IndexProps & { searchParams?: { guest?: string } }) {
+  const searchParams = await props.searchParams;
+  const params = await props.params;
+
+  const {
+    lng
+  } = params;
+
   const { t } = await useTranslation(lng);
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   let supabase: any, user;
   const canInitSupabaseClient = () => {
     // This function is just for the interactive tutorial.

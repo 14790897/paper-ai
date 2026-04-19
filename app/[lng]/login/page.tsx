@@ -12,13 +12,19 @@ import { insertUserProfile } from "@/utils/supabase/supabaseutils";
 // SignInWithProvider
 import { SignInWithProvider } from "@/components/SignInWithProvider";
 import LinuxdoSignin from "@/components/LinuxdoSignin";
-export default async function Login({
-  searchParams,
-  params: { lng },
-}: {
-  searchParams: { message: string };
-  params: { lng: string };
-}) {
+export default async function Login(
+  props: {
+    searchParams: Promise<{ message: string }>;
+    params: Promise<{ lng: string }>;
+  }
+) {
+  const params = await props.params;
+
+  const {
+    lng
+  } = params;
+
+  const searchParams = await props.searchParams;
   const { t } = await useTranslation(lng);
   const isZh = lng === "zh-CN";
 
@@ -27,7 +33,7 @@ export default async function Login({
 
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const supabase = createClient(cookieStore);
 
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -53,10 +59,10 @@ export default async function Login({
   const signUp = async (formData: FormData) => {
     "use server";
 
-    const origin = headers().get("origin");
+    const origin = (await headers()).get("origin");
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     const supabase = createClient(cookieStore);
 
     const { data, error } = await supabase.auth.signUp({

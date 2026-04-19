@@ -17,10 +17,16 @@ import { IndexProps } from "@/utils/global";
 import GoogleSignIn from "@/components/GoogleSignIn";
 
 // import Error from "@/app/global-error";
-export default async function Index({ params: { lng } }: IndexProps) {
+export default async function Index(props: IndexProps) {
+  const params = await props.params;
+
+  const {
+    lng
+  } = params;
+
   const { t } = await useTranslation(lng);
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   let supabase: any, user;
   const canInitSupabaseClient = () => {
     // This function is just for the interactive tutorial.

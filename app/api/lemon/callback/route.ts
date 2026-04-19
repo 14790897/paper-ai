@@ -10,11 +10,11 @@ import { cookies } from "next/headers";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 export async function POST(request: Request) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabaseAdmin = createClient(cookieStore);
   console.log("webhook");
   const body = await rawBody(Readable.from(Buffer.from(await request.text())));
-  const headersList = headers();
+  const headersList = await headers();
   const payload = JSON.parse(body.toString());
 
   const sigString = headersList.get("x-signature");

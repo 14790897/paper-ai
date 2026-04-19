@@ -163,11 +163,17 @@ export async function fetchUserVipStatus(userId: string) {
     .from("vip_statuses")
     .select("is_vip")
     .eq("user_id", userId)
-    .single();
+    .maybeSingle();
+
   if (error) {
     console.error("Error fetching VIP status:", error);
     return false;
   }
+
+  if (!data) {
+    return false;
+  }
+
   if ("is_vip" in data) {
     console.log("VIP status:", data.is_vip);
     return data.is_vip;

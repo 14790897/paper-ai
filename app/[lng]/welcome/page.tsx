@@ -8,7 +8,7 @@ import { insertUserProfile } from "@/utils/supabase/supabaseutils";
 import React from "react";
 export default async function WelcomeScreen() {
   //   const [isLoading, setIsLoading] = React.useState(true);
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
 
   const {

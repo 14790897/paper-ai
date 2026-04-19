@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   const lng = pathMatch ? pathMatch[1] : 'en'
 
   if (code) {
-    const cookieStore = cookies()
+    const cookieStore = await cookies()
     const supabase = createClient(cookieStore)
     await supabase.auth.exchangeCodeForSession(code)
   }

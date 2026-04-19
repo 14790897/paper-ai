@@ -74,6 +74,8 @@ const PaperManagement = ({ lng }) => {
       const isVip = await fetchUserVipStatus(user.id);
       return isVip;
     }
+
+    return false;
   }, [supabase]);
 
   // 使用useEffect在组件挂载后立即获取数据

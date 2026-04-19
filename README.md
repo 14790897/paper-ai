@@ -125,6 +125,7 @@ npm run dev
 1. semantic scholar api: https://api.semanticscholar.org/api-docs/#tag/Paper-Data/operation/get_graph_paper_relevance_search
 2. pubmed api: https://www.ncbi.nlm.nih.gov/books/NBK25500/
 3. i18n: https://locize.com/blog/next-app-dir-i18n/
+4. nextjs: https://nextjs.org/docs/app/guides/upgrading/version-15
 
 ## 许可证
 
