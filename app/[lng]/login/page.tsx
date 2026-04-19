@@ -232,7 +232,7 @@ export default async function Login(
         {/* Skip login link */}
         <div className="mt-5 text-center">
           <Link
-            href={`/${lng}?guest=1`}
+            href={`/${lng}/set-guest`}
             className="text-sm text-gray-400 hover:text-gray-600 no-underline transition-colors inline-flex items-center gap-1.5"
           >
             {isZh ? "暂不登录，直接体验" : "Skip, try without signing in"}
