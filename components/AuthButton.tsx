@@ -13,7 +13,7 @@ export default async function AuthButton() {
     data: { user },
   } = await supabase.auth.getUser();
   //profiles表 插入用户信息 ？？？这里好像不应该写 March 8th, 2026 11:14 AM
-  // await insertUserProfile(data, supabase); // April 19th, 2026
+  // await insertUserProfile(data, supabase); // April 19th, 2026移除
   // console.log("1111 in AuthButton   user:", user);
   const signOut = async () => {
     "use server";
