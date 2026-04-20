@@ -145,13 +145,7 @@ export default function LandingPage({ lng }: { lng: string }) {
         <nav className="landing-navbar" id="landing-navbar">
           <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between h-16">
             <a href="#" className="flex items-center gap-2.5 font-bold text-xl no-underline text-gray-900">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <rect width="32" height="32" rx="8" fill="url(#l-logo)" />
-                <path d="M8 10h16M8 16h12M8 22h14" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
-                <circle cx="24" cy="20" r="4" fill="rgba(255,255,255,0.3)" />
-                <path d="M23 20l1 1 2-2" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <defs><linearGradient id="l-logo" x1="0" y1="0" x2="32" y2="32"><stop stopColor="#4f46e5" /><stop offset="1" stopColor="#6366f1" /></linearGradient></defs>
-              </svg>
+              <img src="/android-chrome-192x192.png" alt="Paper AI" width="32" height="32" />
               Paper AI
             </a>
             <div className="flex items-center gap-6">

@@ -54,13 +54,7 @@ const RequestResetPassword = () => {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href={`/${lng}`} className="inline-flex items-center gap-2.5 no-underline">
-            <svg width="40" height="40" viewBox="0 0 32 32" fill="none">
-              <rect width="32" height="32" rx="8" fill="url(#reset-logo-grad)" />
-              <path d="M8 10h16M8 16h12M8 22h14" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
-              <circle cx="24" cy="20" r="4" fill="rgba(255,255,255,0.3)" />
-              <path d="M23 20l1 1 2-2" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              <defs><linearGradient id="reset-logo-grad" x1="0" y1="0" x2="32" y2="32"><stop stopColor="#4f46e5" /><stop offset="1" stopColor="#6366f1" /></linearGradient></defs>
-            </svg>
+            <img src="/android-chrome-192x192.png" alt="Paper AI" width="32" height="32" />
             <span className="text-2xl font-bold text-gray-900">Paper AI</span>
           </Link>
         </div>
