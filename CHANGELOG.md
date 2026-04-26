@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.12.0](https://github.com/14790897/paper-ai/compare/v1.11.0...v1.12.0) (2026-04-26)
+
+
+### Features
+
+* add AuthRefresher component to handle session cookie updates after OAuth sign-in ([d69d721](https://github.com/14790897/paper-ai/commit/d69d721f1faa1042c15c198887bcc78c96a6ac20))
+* add guest login option and update LandingPage links for improved user experience ([01a9ee5](https://github.com/14790897/paper-ai/commit/01a9ee5834eaa9f8b8e9760cf3d67ad9191a130a))
+* add LandingPage component with responsive design and animations for user engagement ([8ef4263](https://github.com/14790897/paper-ai/commit/8ef42637e25d76938df534e75b8ca4d9b07015e8))
+* enhance authentication flow 登录成功后 cookie 写入了，但首页作为 RSC 在服务端渲染时读到的还是旧请求的 cookie（还没包含新的 session），所以 getUser() 返回 null。加了 ?auth=1 带时间戳重定向后，浏览器发起新的请求，服务端这次就能读到最新的 cookie 了 ([280a3a5](https://github.com/14790897/paper-ai/commit/280a3a53af39eb25d4e5dfb388da5b261cfceb7c))
+* implement guest mode functionality with dedicated route and update landing page links ([7b9d33e](https://github.com/14790897/paper-ai/commit/7b9d33e68b71b45b893938b450488c34b54ec15b))
+
+
+### Bug Fixes
+
+* arxiv cors error ([93e748f](https://github.com/14790897/paper-ai/commit/93e748fd20c71bc2f1cfd90cae5eee6f1e36fc33))
+* correct formatting in systemPrompt for citation instructions ([f9593a5](https://github.com/14790897/paper-ai/commit/f9593a542a918b2f8ad36e7edd212655431544b8))
+* login页面guest跳转 ([c5aa212](https://github.com/14790897/paper-ai/commit/c5aa2124f2e5eb911e90dc84eecef341c35ddf2b))
+* next16已不支持pages 且 _error.jsx无实际作用 ([1cb77d4](https://github.com/14790897/paper-ai/commit/1cb77d47e34b0bb4bb49129e247a965749a116e2))
+* update documentation links and improve navigation layout ([29c01df](https://github.com/14790897/paper-ai/commit/29c01dfc4263393770b0fcefe222fa9d5a82b9fc))
+* update GitCode links to point to the correct user ([a5e87a0](https://github.com/14790897/paper-ai/commit/a5e87a0e7f484ee966cc5386bc3d8e3ee2a53df8))
+* update links to point to the correct domain ([9eded26](https://github.com/14790897/paper-ai/commit/9eded2663faa9c2b3774586205f000a6e21a00b1))
+* update redirect URLs and sitemap links to new domain ([78a5cdf](https://github.com/14790897/paper-ai/commit/78a5cdf3c7f5ae1d738f111c624fe3525b031d27))
+* 两年没解决的报错authbutton不应该修改用户表：Failing row contains (null, null, 2026-04-19 13:06:25.209+00) ([18e7806](https://github.com/14790897/paper-ai/commit/18e7806eb5fad196d0083a140c9eb0e79be83777))
+* 更新时间范围结束年份至2026 ([d725d91](https://github.com/14790897/paper-ai/commit/d725d911dff6371b4cf30424113db730608aa996))
+
 ## [1.11.0](https://github.com/14790897/paper-ai/compare/v1.10.0...v1.11.0) (2026-04-11)
 
 
