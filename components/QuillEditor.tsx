@@ -447,7 +447,7 @@ const QEditor = ({ lng }) => {
           } else if (selectedSource === "semanticScholar") {
             rawData = await getSemanticPapers(
               topic,
-              `${timeRange}-2024`,
+              `${timeRange}-2026`,
               offset,
               limit,
             );
